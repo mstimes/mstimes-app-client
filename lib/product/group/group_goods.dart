@@ -193,26 +193,20 @@ class _GroupGoodsState extends State<GroupGoods> {
               backgroundColor: Colors.black26,
               labelStyle: TextStyle(fontSize: 20 * rpx),
               onTap: () => {
-                    if (checkIsLogin(context))
-                      {
-                        RouterHome.flutoRouter
-                            .navigateTo(context, RouterConfig.myPagePath)
-                      }
+                      RouterHome.flutoRouter
+                          .navigateTo(context, RouterConfig.myPagePath)
                   }),
           SpeedDialChild(
             child: Image.asset(
-              'lib/images/new1.png',
+              'lib/images/new.png',
               height: 20 * rpx,
               width: 20 * rpx,
             ),
             backgroundColor: Colors.black26,
             labelStyle: TextStyle(fontSize: 20 * rpx),
             onTap: () => {
-              if (checkIsLogin(context))
-                {
-                  RouterHome.flutoRouter
-                      .navigateTo(context, RouterConfig.newGoodsPath)
-                }
+                RouterHome.flutoRouter
+                    .navigateTo(context, RouterConfig.newGoodsPath)
             },
           ),
         ]);
@@ -507,16 +501,11 @@ class _GroupGoodsState extends State<GroupGoods> {
       List<Widget> listWidget = _todayGoodList.map((val) {
         return InkWell(
             onTap: () {
-              print('detail goodid' + val['goodId'].toString());
-              if (checkIsLogin(context)) {
-                print('detail goodid' + val['goodId'].toString());
-                RouterHome.flutoRouter.navigateTo(
-                  context,
-                  RouterConfig.detailsPath +
-                      "?id=${val['goodId']}&showPay=true",
-                );
-                print('detail goodid' + val['goodId'].toString());
-              }
+              RouterHome.flutoRouter.navigateTo(
+                context,
+                RouterConfig.detailsPath +
+                    "?id=${val['goodId']}&showPay=true",
+              );
             },
             child: _buildSingleProductContainer(val, true));
       }).toList();
@@ -1246,7 +1235,6 @@ class _GroupGoodsState extends State<GroupGoods> {
                 fontWeight: FontWeight.w400),
           ),
           onPressed: () {
-            if (checkIsLogin(context)) {
               _getGoodInfos(context, val['goodId']);
 
               final goodTypeBadgerProvide =
@@ -1261,7 +1249,6 @@ class _GroupGoodsState extends State<GroupGoods> {
               receiverAddressProvide.clear();
 
               showBottomItems(val['goodId'], context);
-            }
           }),
     );
   }

@@ -33,6 +33,10 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
         Provide.value<OrderInfoAddReciverProvide>(context);
     return InkWell(
         onTap: () {
+          if(checkIsLogin(context)){
+            return;
+          }
+
           if (goodTypeBadgerProvide.queryTypeValueMap().isEmpty ||
               goodTypeBadgerProvide.typeSpecNums <= 0) {
             showAlertDialog(context, '请选择后下单', 180.00, rpx);

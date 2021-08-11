@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:mstimes/common/control.dart';
-import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/routers/router_config.dart';
@@ -47,8 +46,9 @@ class _CouponPageState extends State<CouponPage> {
     startDate = DateTime.parse("2021-01-01");
     endDate = DateTime.now().add(new Duration(days: 1));
 
-    // _testServerInterface();
-    _getUserCouponRecords();
+    if(UserInfo().isLogin()){
+      _getUserCouponRecords();
+    }
   }
 
   @override

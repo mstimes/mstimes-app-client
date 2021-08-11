@@ -28,15 +28,13 @@ class GroupGoodsImageSwiper extends StatelessWidget {
           // }
           return InkWell(
             onTap: () {
-              if (checkIsLogin(context)) {
-                RouterHome.flutoRouter.navigateTo(
-                  context,
-                  RouterConfig.detailsPath +
-                      "?id=" +
-                      goodIds[index].toString() +
-                      "&showPay=true",
-                );
-              }
+              RouterHome.flutoRouter.navigateTo(
+                context,
+                RouterConfig.detailsPath +
+                    "?id=" +
+                    goodIds[index].toString() +
+                    "&showPay=true",
+              );
             },
             child: Image.network(
               swiperImageUrl,

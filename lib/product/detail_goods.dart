@@ -75,7 +75,6 @@ class _DetailGoodsState extends State<DetailGoods> {
         );
       }
     } else {
-      print(snapshot.connectionState);
       return Container(
         alignment: Alignment.center,
         child: Text('商品详情加载中...'),
@@ -95,20 +94,18 @@ class _DetailGoodsState extends State<DetailGoods> {
       if (goodInfo != null) {
         return InkWell(
           onTap: () {
-            if (checkIsLogin(context)) {
-              final goodTypeBadgerProvide =
-                  Provide.value<GoodSelectBottomProvide>(context);
-              final orderInfoAddReciverProvide =
-                  Provide.value<OrderInfoAddReciverProvide>(context);
-              final receiverAddressProvide =
-                  Provide.value<ReceiverAddressProvide>(context);
+            final goodTypeBadgerProvide =
+                Provide.value<GoodSelectBottomProvide>(context);
+            final orderInfoAddReciverProvide =
+                Provide.value<OrderInfoAddReciverProvide>(context);
+            final receiverAddressProvide =
+                Provide.value<ReceiverAddressProvide>(context);
 
-              goodTypeBadgerProvide.clear();
-              orderInfoAddReciverProvide.clear();
-              receiverAddressProvide.clear();
+            goodTypeBadgerProvide.clear();
+            orderInfoAddReciverProvide.clear();
+            receiverAddressProvide.clear();
 
-              showBottomItems(goodInfo.goodId, context);
-            }
+            showBottomItems(goodInfo.goodId, context);
           },
           child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
         );
