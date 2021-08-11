@@ -13,7 +13,7 @@ final wechartAppid = "wx8ca4f12e793a8103";
 final wechartSecret = "764a75b41db36ce6c32449d4d502356f";
 final wechartGrandType = "authorization_code";
 
-String _result = '';
+bool isInstalledWx = true;
 
 initFluwx() async {
   print('_initFluwx start...');
@@ -55,12 +55,11 @@ doWechatRepay(groupNumber, goodName, totalFee) {
   });
 }
 
-login() {
-  print('login ...');
-  // fluwx.sendWeChatAuth(scope: "snsapi_userinfo", state: "mstimes").then((data) {
-  //   print('fluwx data ' + data.toString());
-  // });
-  postUserLogin('abc', 'bbb', null);
+wxLogin() {
+  print('wx login ...');
+  fluwx.sendWeChatAuth(scope: "snsapi_userinfo", state: "mstimes").then((data) {
+    print('fluwx data ' + data.toString());
+  });
   print('login finished.');
 }
 
@@ -78,7 +77,7 @@ void getWeChatAccessToken(code, context) {
     print("access_token: " + data['access_token'].toString());
     print("unionid: " + data['unionid'].toString());
 
-    postUserLogin(data['openid'], data['access_token'].toString(), context);
+    postUserLogin( 1, data['openid'], data['access_token'].toString(), context);
   });
 }
 
@@ -110,4 +109,11 @@ void callInviteFriends() {
       hdImagePath: 'https://ghomelifevvip.com/MSTIMES_PLATFORM_SHARE_2.jpg');
 
   fluwx.shareToWeChat(model);
+}
+
+isInstallFluwx() async {
+  return await fluwx.isWeChatInstalled().then((value) => {
+    print('isInstallWx ' + value.toString()),
+    isInstalledWx = value,
+  });
 }

@@ -16,6 +16,7 @@ class UserInfo {
   var userNumber;
   var level;
   var parentAgentName;
+  var loginType;
 
   _UserInfo() {}
 
@@ -32,6 +33,10 @@ class UserInfo {
       _instance = new UserInfo();
     }
     return _instance;
+  }
+
+  void setLoginType(loginType){
+    this.loginType = loginType;
   }
 
   void setParentAgentName(parentAgentName) {

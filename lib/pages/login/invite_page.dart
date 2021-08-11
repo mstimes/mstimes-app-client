@@ -123,7 +123,9 @@ class _InvitePageState extends State<InvitePage> {
     UserInfo userInfo = UserInfo.getUserInfo();
     FormData formData = new FormData.fromMap({
       "userType": userInfo.userType,
-      "unionId": userInfo.unionId,
+      "loginType": userInfo.loginType,
+      "loginId": userInfo.unionId,
+      "phoneNo": userInfo.phone,
       "inviteCode": userInfo.inviteCode,
       "name": userInfo.userName,
       "imageUrl": userInfo.imageUrl
@@ -141,6 +143,7 @@ class _InvitePageState extends State<InvitePage> {
       if (userModel.success) {
         userInfo.setUserId(userModel.dataList[0].id);
         userInfo.setModel(userModel);
+        userInfo.setPhone(userModel.dataList[0].phone);
         userInfo.setLevel(userModel.dataList[0].level);
         userInfo.setUserNumber(userModel.dataList[0].userNumber);
         userInfo.setInviteCode(userModel.dataList[0].inviteCode);

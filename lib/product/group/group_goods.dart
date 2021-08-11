@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:mstimes/common/apple.dart';
+import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/order/product_select.dart';
 import 'package:mstimes/product/group/group_hot_swiper.dart';
@@ -21,6 +23,7 @@ import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
 import 'package:provide/provide.dart';
+import 'package:sign_in_apple/sign_in_apple.dart';
 
 import '../../common/valid.dart';
 
@@ -64,9 +67,19 @@ class _GroupGoodsState extends State<GroupGoods> {
   @override
   void initState() {
     super.initState();
+
+    // init wechat register
+    print('init ...fluxwx');
+    initFluwx();
+    isInstallFluwx();
+
+    // init apple register
+    initApplePlatformState(context);
+
     getTodayGroupGoods();
     getYesterdayGroupGoods();
   }
+
 
   @override
   Widget build(BuildContext context) {

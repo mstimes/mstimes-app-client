@@ -1,6 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/valid.dart';
+import 'package:mstimes/config/service_url.dart';
+import 'package:mstimes/model/local_share/account_info.dart';
+import 'package:dio/dio.dart';
+
 
 class VercodeTimerWidget extends StatefulWidget {
   @override
@@ -9,26 +15,48 @@ class VercodeTimerWidget extends StatefulWidget {
 
 class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
   Timer _timer;
+  double rpx;
 
   //倒计时数值
   var _countdownTime = 0;
   @override
   Widget build(BuildContext context) {
+    rpx = MediaQuery.of(context).size.width / 750;
+
     return OutlineButton(
-        borderSide: new BorderSide(color: Colors.grey[800]),
-        onPressed: _countdownTime == 0 ? btnPress() : null,
-        child: Text(
-          handleCodeAutoSizeText(),
-          style: TextStyle(color: Colors.grey[800], fontSize: 12.0),
-        ));
+          borderSide: new BorderSide(color: Colors.grey[800]),
+          onPressed: _countdownTime == 0 ? btnPress() : null,
+          child: Text(
+              handleCodeAutoSizeText(),
+              style: TextStyle(color: Colors.grey[800], fontSize: 12.0),
+            ),
+          );
+
   }
 
   btnPress() {
     if (_countdownTime == 0) {
       return () {
+        sendPhoneVerify();
         startCountdown();
       };
     }
+  }
+
+  void sendPhoneVerify() {
+    FormData formData = new FormData.fromMap({
+      "phoneNumber": UserInfo.getUserInfo().phone,
+    });
+
+    requestDataByUrl('sendPhoneVerify', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      if(data['success'] == true){
+        print('验证码发送成功');
+      }else {
+        showAlertDialog(context, '验证码发送失败, 请重试！', 100, rpx);
+      }
+
+    });
   }
 
   String handleCodeAutoSizeText() {

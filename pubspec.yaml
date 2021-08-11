@@ -59,6 +59,7 @@ dependencies:
   scroll_text: ^0.0.2
   flutter_speed_dial: ^1.2.4
   city_pickers: ^0.1.18
+  sign_in_apple: ^0.0.1
 
 dev_dependencies:
   flutter_test:

@@ -26,16 +26,14 @@ class _RegistryPageState extends State<RegistryPage> {
     _focusNodePassWord.addListener(_focusNodeListener);
     //监听用户名框的输入改变
     _userNameController.addListener(() {
-      print(_userNameController.text);
 
-      // 监听文本框输入变化，当有内容的时候，显示尾部清除按钮，否则不显示
-      if (_userNameController.text.length > 0) {
-        _isShowClear = true;
-      } else {
-        _isShowClear = false;
-      }
-      setState(() {});
-    });
+    // 监听文本框输入变化，当有内容的时候，显示尾部清除按钮，否则不显示
+    if (_userNameController.text.length > 0) {
+      _isShowClear = true;
+    } else {
+      _isShowClear = false;
+    }});
+
     super.initState();
   }
 
@@ -55,12 +53,12 @@ class _RegistryPageState extends State<RegistryPage> {
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_outlined,
-                    color: Colors.grey,
+                    color: Colors.black,
                     size: 25,
                   )),
             ),
             title: Container(
-              width: 600 * rpx,
+             // margin: EdgeInsets.only(left: 50 * rpx),
               child: Text(
                 '手机注册',
                 style: TextStyle(
@@ -71,38 +69,32 @@ class _RegistryPageState extends State<RegistryPage> {
             )),
         body: Column(
           children: <Widget>[
-            new TextFormField(
-              controller: _userNameController,
-              focusNode: _focusNodeUserName,
-              //设置键盘类型
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: "  请输入手机号",
-                // prefixIcon: Icon(Icons.person),
-                //尾部添加清除按钮
-                suffixIcon: (_isShowClear)
-                    ? IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          // 清空输入框内容
-                          _userNameController.clear();
-                        },
-                      )
-                    : null,
+            Container(
+              margin: EdgeInsets.only(left: 30 * rpx, right: 30 * rpx),
+              child: TextFormField(
+                controller: _userNameController,
+                focusNode: _focusNodeUserName,
+                //设置键盘类型
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: " 请输入手机号",
+                  // prefixIcon: Icon(Icons.person),
+                  //尾部添加清除按钮
+                  suffixIcon: (_isShowClear)
+                      ? IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      // 清空输入框内容
+                      _userNameController.clear();
+                    },
+                  )
+                      : null,
+                ),
+                validator: validateUserName,
+                onChanged: (value) {
+                  UserInfo.getUserInfo().setPhone(value);
+                },
               ),
-              validator: validateUserName,
-              onChanged: (value) {
-                print('onChanged value ' + value.toString());
-                UserInfo userInfo = UserInfo.getUserInfo();
-                userInfo.setPhone(value);
-                // final agentProvide = Provide.value<AgentProvide>(context);
-                // agentProvide.setPhone(value);
-              },
-              //保存手机号
-              onSaved: (String value) {
-                // final agentProvide = Provide.value<AgentProvide>(context);
-                // agentProvide.setPhone(value);
-              },
             ),
             Container(
               margin: EdgeInsets.only(
@@ -110,7 +102,7 @@ class _RegistryPageState extends State<RegistryPage> {
               height: 85.0 * rpx,
               width: 700 * rpx,
               child: new RaisedButton(
-                color: Colors.yellow[800],
+                color: Colors.black,
                 child: Text(
                   "下一步",
                   // style: Theme.of(context).primaryTextTheme.headline,
@@ -128,12 +120,6 @@ class _RegistryPageState extends State<RegistryPage> {
                   _focusNodeUserName.unfocus();
                   RouterHome.flutoRouter
                       .navigateTo(context, RouterConfig.verifyPagePath);
-                  // if (_formKey.currentState.validate()) {
-                  //   //只有输入通过验证，才会执行这里
-                  //   _formKey.currentState.save();
-                  //   //todo 登录操作
-                  //   print("$_username + $_password");
-                  // }
                 },
               ),
             )

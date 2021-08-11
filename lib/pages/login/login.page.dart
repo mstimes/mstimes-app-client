@@ -10,6 +10,7 @@ import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:sign_in_apple/sign_in_apple.dart';
 
 import '../../common/valid.dart';
 import '../../utils/color_util.dart';
@@ -43,10 +44,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // init wechat register
-    print('init ...fluxwx');
-    initFluwx();
-
     fluwx.responseFromAuth.listen((data) {
       if (data is fluwx.WeChatAuthResponse) {
         if (data.errCode == 0) {
@@ -75,6 +72,8 @@ class _LoginPageState extends State<LoginPage> {
     });
     super.initState();
   }
+
+
 
   @override
   void dispose() {
@@ -184,10 +183,10 @@ class _LoginPageState extends State<LoginPage> {
     ));
 
     // 登录按钮区域
-    Widget loginButtonArea = new Container(
-      margin: EdgeInsets.only(left: 60 * rpx, right: 60 * rpx),
-      height: 80 * rpx,
-      width: 300 * rpx,
+    Widget wxLoginArea = new Container(
+      margin: EdgeInsets.only(left: 80 * rpx, right: 80 * rpx),
+      height: 83 * rpx,
+      width: 260 * rpx,
       child: new RaisedButton(
         color: mainColor,
         child: Text(
@@ -202,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
           _focusNodePassWord.unfocus();
           _focusNodeUserName.unfocus();
 
-          login();
+          wxLogin();
 
           // if (_formKey.currentState.validate()) {
           //   //只有输入通过验证，才会执行这里
@@ -213,6 +212,22 @@ class _LoginPageState extends State<LoginPage> {
           //
           //
         },
+      ),
+    );
+
+    Widget appleLoginArea = new GestureDetector(
+      onTap: () {
+        SignInApple.clickAppleSignIn();
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 60 * rpx, right: 60 * rpx, top: 30 * rpx),
+        height: 80 * rpx,
+        width: 300 * rpx,
+        child: Image.asset(
+          "lib/images/apple_login.jpg",
+          width: 56,
+          height: 56,
+        ),
       ),
     );
 
@@ -340,20 +355,8 @@ class _LoginPageState extends State<LoginPage> {
             new SizedBox(
               height: 150 * rpx,
             ),
-            // inputTextArea,
-            // new SizedBox(
-            //   height: 40 * rpx,
-            // ),
-            // showLoginName(),
-            // readServiceText(),
-            // new SizedBox(
-            //   height: 40 * rpx,
-            // ),
-            loginButtonArea,
-            // new SizedBox(
-            //   height: 60 * rpx,
-            // ),
-            // thirdLoginArea,
+            isInstalledWx == true ? wxLoginArea : Container(),
+            appleLoginArea,
             new SizedBox(
               height: 600 * rpx,
             ),
@@ -365,10 +368,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-void postUserLogin(openId, accessToken, context) {
+void postUserLogin(loginType, loginId, accessToken, context) {
   UserInfo userInfo = UserInfo.getUserInfo();
   FormData formData = new FormData.fromMap({
-    "unionId": openId,
+    "loginType": loginType,
+    "loginId": loginId,
   });
 
   requestDataByUrl('login', formData: formData).then((val) {
@@ -376,13 +380,15 @@ void postUserLogin(openId, accessToken, context) {
     print('data ' + data.toString());
 
     var userModel = UserModel.fromJson(data);
-    userInfo.setUnionId(openId);
+    userInfo.setUnionId(loginId);
     userInfo.setLevel(0);
+    userInfo.setLoginType(loginType);
 
     if (userModel.success) {
       print('login success.');
       userInfo.setUserId(userModel.dataList[0].id);
       userInfo.setModel(userModel);
+      userInfo.setPhone(userModel.dataList[0].phone);
       userInfo.setImageUrl(userModel.dataList[0].imageUrl);
       userInfo.setUserName(userModel.dataList[0].name);
       userInfo.setLevel(userModel.dataList[0].level);
@@ -390,13 +396,15 @@ void postUserLogin(openId, accessToken, context) {
       userInfo.setUserType(userModel.dataList[0].userType);
       userInfo.setUserNumber(userModel.dataList[0].userNumber);
       userInfo.setParentAgentName(userModel.dataList[0].parentAgentName);
+
       RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
     } else {
-      print('getWeChatUserInfo.');
-      // getWeChatUserInfo(accessToken, openId);
+      if(loginType == 1){
+        getWeChatUserInfo(accessToken, loginId);
+      }
 
       RouterHome.flutoRouter
-          .navigateTo(context, RouterConfig.verifyPagePath);
+          .navigateTo(context, RouterConfig.registryPagePath);
     }
   });
 }
