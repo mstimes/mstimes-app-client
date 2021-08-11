@@ -443,6 +443,43 @@ class _MyPageState extends State<MyPage> {
 
   Widget _topHeader(context) {
     var userInfo = UserInfo.getUserInfo();
+    if(userInfo.phone == null){
+      return Container(
+        padding: EdgeInsets.only(left: 40 * rpx, top: 30 * rpx),
+        decoration: new BoxDecoration(
+          color: mainColor,
+        ),
+        child: InkWell(
+          onTap: (){
+            checkIsLogin(context);
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                width: 140 * rpx,
+                height: 140 * rpx,
+                // 设置图片为圆形
+                child: Container(
+                  child: ClipOval(
+                      child: Image.asset(
+                        "lib/images/person_default.jpg",
+                        height: 110 * rpx,
+                        width: 110 * rpx,
+                      )
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 40 * rpx, top: 30 * rpx),
+                child: Text('登陆/注册', style: TextStyle(color: Colors.white, fontSize: 28 * rpx, fontWeight: FontWeight.w400),),
+              )
+            ],
+          ),
+        ),
+      );
+    }
     return Container(
         padding:
             EdgeInsets.only(left: 20 * rpx, top: 10 * rpx, bottom: 30 * rpx),
@@ -771,106 +808,6 @@ class _MyPageState extends State<MyPage> {
         );
       }
     }
-  }
-
-  Widget _orderType() {
-    return Container(
-      padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 20),
-      decoration: new BoxDecoration(
-        //背景
-        color: Colors.white,
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(20.0 * rpx)),
-      ),
-      margin: EdgeInsets.only(top: 15),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(left: 15),
-            child: Text('我的订单',
-                textAlign: TextAlign.start,
-                style:
-                    TextStyle(fontSize: 30 * rpx, fontWeight: FontWeight.w500)),
-          ),
-          Divider(
-            color: Colors.grey[400],
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 5),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 170 * rpx,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.payment,
-                        size: 50 * rpx,
-                        color: Colors.yellow[800],
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('待付款'),
-                      ),
-                    ],
-                  ),
-                ),
-                //-----------------
-                Container(
-                  width: 170 * rpx,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.query_builder,
-                        size: 50 * rpx,
-                        color: Colors.yellow[800],
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('待发货'),
-                      ),
-                    ],
-                  ),
-                ),
-                //-----------------
-                Container(
-                  width: 170 * rpx,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.directions_car,
-                        size: 50 * rpx,
-                        color: Colors.yellow[800],
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('待收货'),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: 170 * rpx,
-                  child: Column(
-                    children: <Widget>[
-                      Icon(
-                        Icons.content_paste,
-                        size: 50 * rpx,
-                        color: Colors.yellow[800],
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('待评价'),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 
   Widget _buildAccountInfos() {
@@ -1581,45 +1518,45 @@ class _MyPageState extends State<MyPage> {
     }
   }
 
-  _buildUpgradeImage(context) {
-    if (userInfo.isAgent()) {
-      return Container();
-    } else {
-      return InkWell(
-        onTap: () {
-          RouterHome.flutoRouter
-              .navigateTo(context, RouterConfig.invitePagePath);
-        },
-        child: CustomPaint(
-          child: Container(
-            margin:
-                EdgeInsets.only(top: 30 * rpx, left: 40 * rpx, right: 40 * rpx),
-            height: 60 * rpx,
-            width: 200 * rpx,
-            decoration: new BoxDecoration(
-              //背景
-              color: blackColor9,
-              //设置四周圆角 角度
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15 * rpx),
-                topRight: Radius.circular(15 * rpx),
-              ),
-            ),
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                '成为甄选推荐官',
-                style: TextStyle(
-                    fontSize: 30 * rpx,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-  }
+  // _buildUpgradeImage(context) {
+  //   if (userInfo.isAgent()) {
+  //     return Container();
+  //   } else {
+  //     return InkWell(
+  //       onTap: () {
+  //         RouterHome.flutoRouter
+  //             .navigateTo(context, RouterConfig.invitePagePath);
+  //       },
+  //       child: CustomPaint(
+  //         child: Container(
+  //           margin:
+  //               EdgeInsets.only(top: 30 * rpx, left: 40 * rpx, right: 40 * rpx),
+  //           height: 60 * rpx,
+  //           width: 200 * rpx,
+  //           decoration: new BoxDecoration(
+  //             //背景
+  //             color: blackColor9,
+  //             //设置四周圆角 角度
+  //             borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(15 * rpx),
+  //               topRight: Radius.circular(15 * rpx),
+  //             ),
+  //           ),
+  //           child: Container(
+  //             alignment: Alignment.center,
+  //             child: Text(
+  //               '成为甄选推荐官',
+  //               style: TextStyle(
+  //                   fontSize: 30 * rpx,
+  //                   fontWeight: FontWeight.w700,
+  //                   color: Colors.white),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   Widget _about() {
     if (UserInfo.getUserInfo().level == 80) {

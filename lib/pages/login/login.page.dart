@@ -144,73 +144,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    //输入文本框区域
-    // Widget inputTextArea = new Container(
-    //   margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx),
-    //   decoration: new BoxDecoration(
-    //       borderRadius: BorderRadius.all(Radius.circular(8)),
-    //       color: Colors.white),
-    //   child: new Form(
-    //     key: _formKey,
-    //     child: new Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       children: <Widget>[
-    //         new TextFormField(
-    //           controller: _userNameController,
-    //           focusNode: _focusNodeUserName,
-    //           //设置键盘类型
-    //           keyboardType: TextInputType.number,
-    //           decoration: InputDecoration(
-    //             hintText: "请输入手机号",
-    //             // prefixIcon: Icon(Icons.person),
-    //             //尾部添加清除按钮
-    //             suffixIcon: (_isShowClear)
-    //                 ? IconButton(
-    //                     icon: Icon(Icons.clear),
-    //                     onPressed: () {
-    //                       // 清空输入框内容
-    //                       _userNameController.clear();
-    //                     },
-    //                   )
-    //                 : null,
-    //           ),
-    //           //验证用户名
-    //           validator: validateUserName,
-    //           //保存数据
-    //           onChanged: (String value) {
-    //             _username = value;
-    //           },
-    //         ),
-    //         Stack(
-    //           children: [
-    //             new TextFormField(
-    //               focusNode: _focusNodePassWord,
-    //               decoration: InputDecoration(
-    //                 hintText: "请输入验证码",
-    //               ),
-    //               obscureText: !_isShowPwd,
-    //               //密码验证
-    //               validator: validatePassWord,
-    //               //保存数据
-    //               onChanged: (String value) {
-    //                 _password = value;
-    //               },
-    //             ),
-    //             Positioned(
-    //                 right: 0,
-    //                 bottom: 10 * rpx,
-    //                 child: Container(
-    //                   height: 50 * rpx,
-    //                   width: 185 * rpx,
-    //                   child: VercodeTimerWidget(),
-    //                 ))
-    //           ],
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
-
     Widget readServiceText = new Container(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -460,9 +393,10 @@ void postUserLogin(openId, accessToken, context) {
       RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
     } else {
       print('getWeChatUserInfo.');
-      getWeChatUserInfo(accessToken, openId);
+      // getWeChatUserInfo(accessToken, openId);
+
       RouterHome.flutoRouter
-          .navigateTo(context, RouterConfig.selectAccTypePagePath);
+          .navigateTo(context, RouterConfig.verifyPagePath);
     }
   });
 }

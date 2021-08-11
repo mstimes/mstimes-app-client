@@ -57,9 +57,10 @@ doWechatRepay(groupNumber, goodName, totalFee) {
 
 login() {
   print('login ...');
-  fluwx.sendWeChatAuth(scope: "snsapi_userinfo", state: "mstimes").then((data) {
-    print('fluwx data ' + data.toString());
-  });
+  // fluwx.sendWeChatAuth(scope: "snsapi_userinfo", state: "mstimes").then((data) {
+  //   print('fluwx data ' + data.toString());
+  // });
+  postUserLogin('abc', 'bbb', null);
   print('login finished.');
 }
 

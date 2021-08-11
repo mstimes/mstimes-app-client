@@ -23,6 +23,10 @@ class UserInfo {
     return userType == 1;
   }
 
+  bool isLogin(){
+    return phone != null;
+  }
+
   static UserInfo getUserInfo() {
     if (_instance == null) {
       _instance = new UserInfo();

@@ -15,11 +15,11 @@ class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-        borderSide: new BorderSide(color: Colors.grey[400]),
+        borderSide: new BorderSide(color: Colors.grey[800]),
         onPressed: _countdownTime == 0 ? btnPress() : null,
         child: Text(
           handleCodeAutoSizeText(),
-          style: TextStyle(color: Colors.grey[400], fontSize: 12.0),
+          style: TextStyle(color: Colors.grey[800], fontSize: 12.0),
         ));
   }
 
@@ -47,15 +47,15 @@ class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
         _countdownTime -= 1;
       });
     }
-    print(_countdownTime);
+    // print(_countdownTime);
   }
 
   //倒计时方法
   startCountdown() {
     //倒计时时间
-    _countdownTime = 60;
-    print({_countdownTime: _countdownTime, _timer: _timer == null});
-    print(_timer);
+    _countdownTime = 30;
+    // print({_countdownTime: _countdownTime, _timer: _timer == null});
+    // print(_timer);
     if (_timer == null) {
       // /所以第一次循环是_timer是null,再次点击时_timer == null为false
       _timer = Timer.periodic(Duration(seconds: 1), call);
