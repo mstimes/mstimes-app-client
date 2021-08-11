@@ -49,10 +49,6 @@ Future<void> main() async {
             // child: ScreenShotPage(),
           ),
         ),
-        // home: new SplashScreen(),
-        // routes: <String, WidgetBuilder>{
-        //   '/home': (BuildContext context) => GroupGoods()
-        // },
       ),
       providers: providers));
 }
@@ -78,6 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     startTime();
   }
+
 
   @override
   Widget build(BuildContext context) {

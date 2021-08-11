@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/valid.dart';
+import 'package:mstimes/config/service_url.dart';
+import 'package:mstimes/model/agent.dart';
+import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/pages/login/verify_code.dart';
 import 'package:mstimes/routers/router_config.dart';
+import 'package:dio/dio.dart';
 
 class VerifyPage extends StatefulWidget {
   @override
@@ -9,6 +16,8 @@ class VerifyPage extends StatefulWidget {
 
 class _VerifyPageState extends State<VerifyPage> {
   double rpx;
+  var fillCode;
+
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
@@ -33,9 +42,9 @@ class _VerifyPageState extends State<VerifyPage> {
               child: Text(
                 '填写验证码',
                 style: TextStyle(
-                    fontSize: 36 * rpx,
+                    fontSize: 30 * rpx,
                     color: Colors.black,
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w300),
               ),
             )),
         body: Column(
@@ -48,20 +57,16 @@ class _VerifyPageState extends State<VerifyPage> {
                 style: TextStyle(fontSize: 60 * rpx),
                 cursorColor: Colors.grey,
                 cursorHeight: 60 * rpx,
-                // controller: _userNameController,
-                // focusNode: _focusNodeUserName,
-                //设置键盘类型
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                    // enabledBorder: InputBorder.none,
-                    // focusedBorder: InputBorder.none,
                     hoverColor: Colors.grey,
                     hintText: "请输入四位验证码",
                     hintStyle:
                         TextStyle(fontSize: 50 * rpx, color: Colors.grey[300])),
-                //保存数据
-                onSaved: (String value) {
-                  // _username = value;
+                onChanged: (String value) {
+                  setState(() {
+                    fillCode = value;
+                  });
                 },
               ),
             ),
@@ -75,7 +80,7 @@ class _VerifyPageState extends State<VerifyPage> {
               height: 85.0 * rpx,
               width: 700 * rpx,
               child: new RaisedButton(
-                color: Colors.yellow[800],
+                color: Colors.black,
                 child: Text(
                   "下一步",
                   // style: Theme.of(context).primaryTextTheme.headline,
@@ -88,22 +93,66 @@ class _VerifyPageState extends State<VerifyPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
                 onPressed: () {
-                  RouterHome.flutoRouter
-                      .navigateTo(context, RouterConfig.invitePagePath);
-                  //点击登录按钮，解除焦点，回收键盘
-                  // _focusNodePassWord.unfocus();
-                  // _focusNodeUserName.unfocus();
-
-                  // if (_formKey.currentState.validate()) {
-                  //   //只有输入通过验证，才会执行这里
-                  //   _formKey.currentState.save();
-                  //   //todo 登录操作
-                  //   print("$_username + $_password");
-                  // }
+                  checkPhoneVerify(fillCode);
                 },
               ),
             )
           ],
         ));
+
+
+  }
+
+  void checkPhoneVerify(fillCode) {
+    FormData formData = new FormData.fromMap({
+      "phoneNumber": UserInfo.getUserInfo().phone,
+      "fillCode": fillCode
+    });
+
+    requestDataByUrl('checkPhoneVerify', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+      print('data result ' + data['success'].toString());
+      if(data['success'] == true){
+        print('fillCode ' + fillCode);
+        loginByPhoneNo(fillCode);
+      }else{
+        showAlertDialog(context, '请检查手机号或验证码是否正确！', 100, rpx);
+      }
+    });
+  }
+
+  void loginByPhoneNo(fillCode) {
+    FormData formData = new FormData.fromMap({
+      "loginType": UserInfo.getUserInfo().loginType,
+      "loginId": UserInfo.getUserInfo().unionId,
+      "phoneNo" : UserInfo.getUserInfo().phone,
+      "name" : UserInfo.getUserInfo().userName,
+      "imageUrl": UserInfo.getUserInfo().imageUrl
+    });
+
+    requestDataByUrl('loginByPhoneNo', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+
+      var userModel = UserModel.fromJson(data);
+      if(data['success'] == true){
+        UserInfo.getUserInfo().setUserId(userModel.dataList[0].id);
+        UserInfo.getUserInfo().setModel(userModel);
+        UserInfo.getUserInfo().setPhone(userModel.dataList[0].phone);
+        UserInfo.getUserInfo().setImageUrl(userModel.dataList[0].imageUrl);
+        UserInfo.getUserInfo().setUserName(userModel.dataList[0].name);
+        UserInfo.getUserInfo().setLevel(userModel.dataList[0].level);
+        UserInfo.getUserInfo().setInviteCode(userModel.dataList[0].inviteCode);
+        UserInfo.getUserInfo().setUserType(userModel.dataList[0].userType);
+        UserInfo.getUserInfo().setUserNumber(userModel.dataList[0].userNumber);
+        UserInfo.getUserInfo().setParentAgentName(userModel.dataList[0].parentAgentName);
+
+        RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+      }else{
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.selectAccTypePagePath);
+      }
+    });
   }
 }
