@@ -77,7 +77,7 @@ void getWeChatAccessToken(code, context) {
     print("access_token: " + data['access_token'].toString());
     print("unionid: " + data['unionid'].toString());
 
-    postUserLogin( 1, data['openid'], data['access_token'].toString(), context);
+    postUserLogin( 1, data['unionid'], data['access_token'].toString(), context);
   });
 }
 
