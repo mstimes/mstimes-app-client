@@ -202,15 +202,6 @@ class _LoginPageState extends State<LoginPage> {
           _focusNodeUserName.unfocus();
 
           wxLogin();
-
-          // if (_formKey.currentState.validate()) {
-          //   //只有输入通过验证，才会执行这里
-          //   _formKey.currentState.save();
-          //   //todo 登录操作
-          //   print("$_username + $_password");
-          // }
-          //
-          //
         },
       ),
     );

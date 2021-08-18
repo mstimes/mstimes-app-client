@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/valid.dart';
+import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
+import 'package:mstimes/pages/login/verify_code.dart';
 import 'package:mstimes/routers/router_config.dart';
+import 'package:dio/dio.dart';
+import 'package:mstimes/model/agent.dart';
 
 class RegistryPage extends StatefulWidget {
   @override
@@ -9,6 +16,7 @@ class RegistryPage extends StatefulWidget {
 
 class _RegistryPageState extends State<RegistryPage> {
   double rpx;
+  var fillCode;
 
   //焦点
   FocusNode _focusNodeUserName = new FocusNode();
@@ -60,7 +68,7 @@ class _RegistryPageState extends State<RegistryPage> {
             title: Container(
              // margin: EdgeInsets.only(left: 50 * rpx),
               child: Text(
-                '手机注册',
+                '绑定手机',
                 style: TextStyle(
                     fontSize: 30 * rpx,
                     color: Colors.black,
@@ -70,37 +78,102 @@ class _RegistryPageState extends State<RegistryPage> {
         body: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 30 * rpx, right: 30 * rpx),
-              child: TextFormField(
-                controller: _userNameController,
-                focusNode: _focusNodeUserName,
-                //设置键盘类型
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: " 请输入手机号",
-                  // prefixIcon: Icon(Icons.person),
-                  //尾部添加清除按钮
-                  suffixIcon: (_isShowClear)
-                      ? IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () {
-                      // 清空输入框内容
-                      _userNameController.clear();
-                    },
-                  )
-                      : null,
+              margin: EdgeInsets.only(top: 100 * rpx, bottom: 20 * rpx),
+              alignment: Alignment.topCenter,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  "lib/images/mstimes-logo.png",
+                  height: 160 * rpx,
+                  width: 160 * rpx,
+                  fit: BoxFit.cover,
                 ),
-                validator: validateUserName,
-                onChanged: (value) {
-                  UserInfo.getUserInfo().setPhone(value);
-                },
               ),
             ),
             Container(
+              margin: EdgeInsets.only(top: 10 * rpx, bottom: 120 * rpx),
+              child: Text('手机绑定，账号安全无忧购', style: TextStyle(color: Colors.grey[500], fontSize: 23 * rpx, fontWeight: FontWeight.w400),),
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 50 * rpx),
+                  child: Image.asset(
+                    "lib/images/phone.png",
+                    height: 30 * rpx,
+                    width: 30 * rpx,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20 * rpx, right: 30 * rpx),
+                  width: 530 * rpx,
+                  child: TextFormField(
+                    controller: _userNameController,
+                    focusNode: _focusNodeUserName,
+                    //设置键盘类型
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "请输入手机号",
+                      // prefixIcon: Icon(Icons.person),
+                      //尾部添加清除按钮
+                      suffixIcon: (_isShowClear)
+                          ? IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          // 清空输入框内容
+                          _userNameController.clear();
+                        },
+                      )
+                          : null,
+                    ),
+                    onChanged: (value) {
+                      UserInfo.getUserInfo().setPhone(value);
+                    },
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 50 * rpx),
+                  child: Image.asset(
+                    "lib/images/verify_code.png",
+                    height: 25 * rpx,
+                    width: 25 * rpx,
+                    fit: BoxFit.cover,
+                    ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20 * rpx, right: 30 * rpx),
+                  width: 400 * rpx,
+                  child: TextFormField(
+                    cursorColor: Colors.grey,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        hoverColor: Colors.grey[300],
+                        hintText: "请输入四位验证码",
+                        border: InputBorder.none),
+                    onChanged: (String value) {
+                      setState(() {
+                        fillCode = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20 * rpx, bottom: 20 * rpx, right: 30 * rpx),
+                  child: VercodeTimerWidget(),
+                ),
+              ],
+            ),
+            Container(
               margin: EdgeInsets.only(
-                  left: 20 * rpx, right: 20 * rpx, top: 20 * rpx),
+                  left: 20 * rpx, right: 20 * rpx, top: 40 * rpx),
               height: 85.0 * rpx,
-              width: 700 * rpx,
+              width: 650 * rpx,
               child: new RaisedButton(
                 color: Colors.black,
                 child: Text(
@@ -118,13 +191,78 @@ class _RegistryPageState extends State<RegistryPage> {
                   //点击登录按钮，解除焦点，回收键盘
                   _focusNodePassWord.unfocus();
                   _focusNodeUserName.unfocus();
-                  RouterHome.flutoRouter
-                      .navigateTo(context, RouterConfig.verifyPagePath);
+
+                  String validateResult = validatePhoneNumber(UserInfo.getUserInfo().phone);
+                  if(validateResult != null){
+                    showAlertDialog(context, validateResult, 150, rpx);
+                    return;
+                  }
+
+                  if(fillCode == null || fillCode.toString().length != 4){
+                    showAlertDialog(context, '请输入正确验证码', 150, rpx);
+                    return;
+                  }
+
+                  checkPhoneVerify(fillCode);
                 },
               ),
             )
           ],
         ));
+  }
+
+  void checkPhoneVerify(fillCode) {
+    FormData formData = new FormData.fromMap({
+      "phoneNumber": UserInfo.getUserInfo().phone,
+      "fillCode": fillCode
+    });
+
+    requestDataByUrl('checkPhoneVerify', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+      print('data result ' + data['success'].toString());
+      if(data['success'] == true){
+        print('fillCode ' + fillCode);
+        loginByPhoneNo(fillCode);
+      }else{
+        showAlertDialog(context, '请检查手机号或验证码是否正确！', 100, rpx);
+      }
+    });
+  }
+
+  void loginByPhoneNo(fillCode) {
+    print('UserInfo.getUserInfo().unionId ' + UserInfo.getUserInfo().unionId.toString());
+    FormData formData = new FormData.fromMap({
+      "loginType": UserInfo.getUserInfo().loginType,
+      "loginId": UserInfo.getUserInfo().unionId,
+      "phoneNo" : UserInfo.getUserInfo().phone,
+      "name" : UserInfo.getUserInfo().userName,
+      "imageUrl": UserInfo.getUserInfo().imageUrl
+    });
+
+    requestDataByUrl('loginByPhoneNo', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+
+      var userModel = UserModel.fromJson(data);
+      if(data['success'] == true){
+        UserInfo.getUserInfo().setUserId(userModel.dataList[0].id);
+        UserInfo.getUserInfo().setModel(userModel);
+        UserInfo.getUserInfo().setPhone(userModel.dataList[0].phone);
+        UserInfo.getUserInfo().setImageUrl(userModel.dataList[0].imageUrl);
+        UserInfo.getUserInfo().setUserName(userModel.dataList[0].name);
+        UserInfo.getUserInfo().setLevel(userModel.dataList[0].level);
+        UserInfo.getUserInfo().setInviteCode(userModel.dataList[0].inviteCode);
+        UserInfo.getUserInfo().setUserType(userModel.dataList[0].userType);
+        UserInfo.getUserInfo().setUserNumber(userModel.dataList[0].userNumber);
+        UserInfo.getUserInfo().setParentAgentName(userModel.dataList[0].parentAgentName);
+
+        RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+      }else{
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.selectAccTypePagePath);
+      }
+    });
   }
 
   // 监听焦点
@@ -141,18 +279,4 @@ class _RegistryPageState extends State<RegistryPage> {
     }
   }
 
-  /**
-   * 验证用户名
-   */
-  String validateUserName(value) {
-    // 正则匹配手机号
-    RegExp exp = RegExp(
-        r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
-    if (value.isEmpty) {
-      return '用户名不能为空!';
-    } else if (!exp.hasMatch(value)) {
-      return '请输入正确手机号';
-    }
-    return null;
-  }
 }

@@ -24,11 +24,11 @@ class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
     rpx = MediaQuery.of(context).size.width / 750;
 
     return OutlineButton(
-          borderSide: new BorderSide(color: Colors.grey[800]),
+          borderSide: new BorderSide(color: Colors.grey[600]),
           onPressed: _countdownTime == 0 ? btnPress() : null,
           child: Text(
               handleCodeAutoSizeText(),
-              style: TextStyle(color: Colors.grey[800], fontSize: 12.0),
+              style: TextStyle(color: Colors.grey[600], fontSize: 20 * rpx),
             ),
           );
 
@@ -37,11 +37,19 @@ class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
   btnPress() {
     if (_countdownTime == 0) {
       return () {
+        String validateResult = validatePhoneNumber(UserInfo.getUserInfo().phone);
+        if(validateResult != null){
+          showAlertDialog(context, validateResult, 150, rpx);
+          return;
+        }
+
         sendPhoneVerify();
         startCountdown();
       };
     }
   }
+
+
 
   void sendPhoneVerify() {
     FormData formData = new FormData.fromMap({
