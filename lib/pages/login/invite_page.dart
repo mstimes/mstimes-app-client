@@ -145,6 +145,7 @@ class _InvitePageState extends State<InvitePage> {
         userInfo.setModel(userModel);
         userInfo.setPhone(userModel.dataList[0].phone);
         userInfo.setLevel(userModel.dataList[0].level);
+        userInfo.setUserName(userModel.dataList[0].name);
         userInfo.setUserNumber(userModel.dataList[0].userNumber);
         userInfo.setInviteCode(userModel.dataList[0].inviteCode);
         userInfo.setParentAgentName(userModel.dataList[0].parentAgentName);

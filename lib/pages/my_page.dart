@@ -103,7 +103,7 @@ class _MyPageState extends State<MyPage> {
           _buildMyWalletInfos(),
           _showBackendManage(context),
           _showFinanceManage(context),
-          _addBottom(),
+          // _addBottom(),
           _about()
         ],
       ),
@@ -443,7 +443,7 @@ class _MyPageState extends State<MyPage> {
 
   Widget _topHeader(context) {
     var userInfo = UserInfo.getUserInfo();
-    if(userInfo.phone == null){
+    if(!userInfo.isLogin()){
       return Container(
         padding: EdgeInsets.only(left: 40 * rpx, top: 30 * rpx),
         decoration: new BoxDecoration(
@@ -458,15 +458,15 @@ class _MyPageState extends State<MyPage> {
             children: [
               Container(
                 alignment: Alignment.topCenter,
-                width: 140 * rpx,
-                height: 140 * rpx,
+                width: 120 * rpx,
+                height: 150 * rpx,
                 // 设置图片为圆形
                 child: Container(
                   child: ClipOval(
                       child: Image.asset(
-                        "lib/images/person_default.jpg",
-                        height: 110 * rpx,
-                        width: 110 * rpx,
+                        "lib/images/person_default.png",
+                        width: 120 * rpx,
+                        height: 120 * rpx,
                       )
                   ),
                 ),
@@ -502,13 +502,13 @@ class _MyPageState extends State<MyPage> {
                       child: userInfo.imageUrl == null
                           ? Image.asset(
                               "lib/images/person_default.jpg",
-                              height: 160 * rpx,
-                              width: 160 * rpx,
+                              height: 130 * rpx,
+                              width: 130 * rpx,
                             )
                           : Image.network(
                               userInfo.imageUrl,
-                              height: 160 * rpx,
-                              width: 160 * rpx,
+                              height: 130 * rpx,
+                              width: 130 * rpx,
                             ),
                     ),
                   ),
@@ -560,7 +560,7 @@ class _MyPageState extends State<MyPage> {
                         ),
                         Container(
                           child: Text(
-                              userInfo.parentAgentName == null
+                              userInfo.parentAgentName == null || userInfo.parentAgentName == ''
                                   ? 'MSTIMES'
                                   : userInfo.parentAgentName,
                               style: TextStyle(
@@ -580,7 +580,7 @@ class _MyPageState extends State<MyPage> {
   }
 
   Widget _buildInvideCodeOrUserNumber() {
-    if (userInfo.isAgent() && UserInfo.getUserInfo().level < 10) {
+    if (userInfo.isAgent()) {
       return Container(
         margin: EdgeInsets.only(top: 8 * rpx),
         child: Row(
@@ -671,7 +671,7 @@ class _MyPageState extends State<MyPage> {
     return Container(
       width: widthSize * rpx,
       height: heightSize * rpx,
-      margin: EdgeInsets.only(left: leftSize * rpx, top: 120 * rpx),
+      margin: EdgeInsets.only(left: leftSize * rpx, top: 110 * rpx),
       //边框设置
       decoration: new BoxDecoration(
         //背景
@@ -1559,7 +1559,7 @@ class _MyPageState extends State<MyPage> {
   // }
 
   Widget _about() {
-    if (UserInfo.getUserInfo().level == 80) {
+    // if (UserInfo.getUserInfo().level == 80) {
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         InkWell(
           onTap: () {
@@ -1597,8 +1597,9 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
         ),
-      ]);
-    }
+      ]
+      );
+    // }
 
     return Container();
   }
