@@ -131,6 +131,7 @@ class _InvitePageState extends State<InvitePage> {
       "imageUrl": userInfo.imageUrl
     });
 
+    print('userInfo.unionId ' + userInfo.unionId);
     requestDataByUrl('registerUser', formData: formData).then((val) {
       var data = json.decode(val.toString());
       if (debug) {

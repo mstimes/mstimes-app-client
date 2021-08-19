@@ -56,7 +56,7 @@ class DataList {
   String description;
   int oriPrice;
   int groupPrice;
-  int bonus;
+  int beans;
   int groupNum;
   String mainImage;
   List<String> detailImages;
@@ -89,7 +89,7 @@ class DataList {
       this.description,
       this.oriPrice,
       this.groupPrice,
-      this.bonus,
+      this.beans,
       this.groupNum,
       this.mainImage,
       this.detailImages,
@@ -122,7 +122,7 @@ class DataList {
     description = json['description'];
     oriPrice = json['oriPrice'];
     groupPrice = json['groupPrice'];
-    bonus = json['bonus'];
+    beans = json['beans'];
     groupNum = json['groupNum'];
     mainImage = json['mainImage'];
     detailImages = json['detailImages'].cast<String>();
@@ -157,7 +157,7 @@ class DataList {
     data['description'] = this.description;
     data['oriPrice'] = this.oriPrice;
     data['groupPrice'] = this.groupPrice;
-    data['bonus'] = this.bonus;
+    data['beans'] = this.beans;
     data['groupNum'] = this.groupNum;
     data['mainImage'] = this.mainImage;
     data['detailImages'] = this.detailImages;

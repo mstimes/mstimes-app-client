@@ -24,6 +24,10 @@ class UserInfo {
     return userType == 1;
   }
 
+  bool isOrdinaryAccount(){
+    return (userType == 2 && level == 1) || level == null;
+  }
+
   bool isLogin(){
     return phone != null;
   }
