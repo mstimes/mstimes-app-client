@@ -374,6 +374,7 @@ void postUserLogin(loginType, loginId, accessToken, context) {
     userInfo.setUnionId(loginId);
     userInfo.setLevel(0);
     userInfo.setLoginType(loginType);
+    userInfo.setPhone("0");
 
     if (userModel.success) {
       print('login success.');
@@ -387,7 +388,9 @@ void postUserLogin(loginType, loginId, accessToken, context) {
       userInfo.setUserType(userModel.dataList[0].userType);
       userInfo.setUserNumber(userModel.dataList[0].userNumber);
       userInfo.setParentAgentName(userModel.dataList[0].parentAgentName);
+    }
 
+    if(userInfo.phone != null && userInfo.phone != "0"){
       RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
     } else {
       if(loginType == 1){

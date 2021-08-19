@@ -534,7 +534,7 @@ class _MyPageState extends State<MyPage> {
                           ),
                           Container(
                             child: Text(
-                                userInfo.userName == null
+                                userInfo.userName == null || userInfo.userName == '0'
                                     ? "mstimes"
                                     : userInfo.userName,
                                 style: TextStyle(
@@ -1559,7 +1559,7 @@ class _MyPageState extends State<MyPage> {
   // }
 
   Widget _about() {
-    // if (UserInfo.getUserInfo().level == 80) {
+    if (UserInfo.getUserInfo().level == 80) {
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         InkWell(
           onTap: () {
@@ -1599,7 +1599,7 @@ class _MyPageState extends State<MyPage> {
         ),
       ]
       );
-    // }
+    }
 
     return Container();
   }

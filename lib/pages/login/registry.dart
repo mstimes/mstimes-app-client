@@ -78,7 +78,23 @@ class _RegistryPageState extends State<RegistryPage> {
         body: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 100 * rpx, bottom: 20 * rpx),
+              margin: EdgeInsets.only(top: 20 * rpx, right: 30 * rpx),
+              child: Row(
+                children: [
+                  Expanded(child: Container()),
+                  InkWell(
+                    onTap: (){
+                      _confirmNoPhoneNumber();
+                    },
+                    child: Container(
+                      child: Text('跳过', style: TextStyle(color: Colors.grey[500], fontSize: 26 * rpx),),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 70 * rpx, bottom: 20 * rpx),
               alignment: Alignment.topCenter,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
@@ -222,7 +238,6 @@ class _RegistryPageState extends State<RegistryPage> {
       print('data ' + data.toString());
       print('data result ' + data['success'].toString());
       if(data['success'] == true){
-        print('fillCode ' + fillCode);
         loginByPhoneNo(fillCode);
       }else{
         showAlertDialog(context, '请检查手机号或验证码是否正确！', 100, rpx);
@@ -279,4 +294,52 @@ class _RegistryPageState extends State<RegistryPage> {
     }
   }
 
+  _confirmNoPhoneNumber() {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          backgroundColor: Colors.black54,
+          title: Container(
+            alignment: Alignment.center,
+            child: new Text(
+              '提示信息',
+              style: TextStyle(fontSize: 30 * rpx, color: Colors.white),
+            ),
+          ),
+          content: new SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(top: 10 * rpx),
+              child: Text('为了更好的统计您的下单信息，建议您绑定手机号，以便为您提供更好的购物体验。',
+                  style:
+                  TextStyle(fontSize: 25 * rpx, color: Colors.white)),
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text('仍然跳过',
+                  style: TextStyle(fontSize: 23 * rpx, color: Colors.white)),
+              onPressed: () {
+                if(UserInfo.getUserInfo().userType == null){
+                  RouterHome.flutoRouter
+                      .navigateTo(context, RouterConfig.selectAccTypePagePath);
+                }else{
+                  RouterHome.flutoRouter
+                      .navigateTo(context, RouterConfig.groupGoodsPath);
+                }
+              },
+            ),
+            new FlatButton(
+              child: new Text('继续绑定',
+                  style: TextStyle(fontSize: 23 * rpx, color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

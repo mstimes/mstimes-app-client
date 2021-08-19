@@ -35,7 +35,7 @@ class DetailsGoodTop extends StatelessWidget {
   Widget buildTopContent(goodInfo, context) {
     return Container(
         width: 750 * rpx,
-        height: userInfo.isAgent() ? 260 * rpx : 200 * rpx,
+        height: userInfo.isOrdinaryAccount() ? 200 * rpx : 260 * rpx,
         margin: EdgeInsets.only(
             left: 0 * rpx, top: 10 * rpx, right: 0 * rpx, bottom: 10 * rpx),
         decoration: new BoxDecoration(
@@ -80,20 +80,67 @@ class DetailsGoodTop extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.only(
               left: 30 * rpx, top: 5 * rpx, bottom: 5 * rpx, right: 30 * rpx),
-          child: Row(children: _showProfitList(goodInfo)
-              // Container(
-              //   margin: EdgeInsets.only(left: 60 * rpx),
-              //   child: Text(
-              //     '优惠减免  ' + goodInfo.bonus.toString(),
-              //     style: TextStyle(
-              //         fontWeight: FontWeight.bold, fontSize: 25 * rpx),
-              //   ),
-              // ),
-              ),
+          child: Row(children: _showProfitList(goodInfo)),
         ),
       );
-    } else {
+    } else if (!userInfo.isOrdinaryAccount()){
+      return Container(
+        width: 700 * rpx,
+        height: 50 * rpx,
+        margin: EdgeInsets.only(
+            left: 15 * rpx, top: 10 * rpx, right: 15 * rpx, bottom: 10 * rpx),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
+          border: new Border.all(width: 1 * rpx, color: Colors.white),
+        ),
+        child: Container(
+          padding: EdgeInsets.only(
+              left: 30 * rpx, top: 5 * rpx, bottom: 5 * rpx, right: 30 * rpx),
+          child:
+            Row(children: [
+              Container(
+                margin: EdgeInsets.only(left: 80 * rpx),
+                child: Text(
+                  '蜜豆奖励  ' + getMBeansCount(goodInfo.beans),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 25 * rpx),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 160 * rpx),
+                child: Text(
+                  getMBeansMultiple(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 25 * rpx),
+                ),
+              )
+            ],),
+        ),
+      );
+    }else {
       return Container();
+    }
+  }
+
+  String getMBeansCount(int beans){
+    if(userInfo.level == 0){
+      return (beans / 5).toStringAsFixed(0);
+    } else if(userInfo.level == 1){
+      return (beans / 2).toStringAsFixed(0);
+    } else if(userInfo.level == 2){
+      return beans.toString();
+    }
+  }
+
+  String getMBeansMultiple(){
+    print("userInfo.level " + userInfo.level.toString());
+    if(userInfo.level == 0){
+      return "蜜豆倍数  1";
+    } else if(userInfo.level == 1){
+      return "蜜豆倍数  2";
+    } else if(userInfo.level == 2){
+      return "蜜豆倍数  5";
     }
   }
 
