@@ -14,6 +14,7 @@ import 'package:sign_in_apple/sign_in_apple.dart';
 
 import '../../common/valid.dart';
 import '../../utils/color_util.dart';
+import 'dart:io';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -347,7 +348,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 150 * rpx,
             ),
             isInstalledWx == true ? wxLoginArea : Container(),
-            appleLoginArea,
+            // Platform.isIOS ? appleLoginArea : Container(),
             new SizedBox(
               height: 600 * rpx,
             ),

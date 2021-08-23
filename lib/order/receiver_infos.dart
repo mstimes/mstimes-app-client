@@ -65,19 +65,10 @@ class OrderInfosState extends State<OrderInfos> {
       allReceivers.add(_buildReceiverButton());
     }
 
-    // print('ReceiverInfos build : ' +
-    //     ", widget.deleteIndex : " +
-    //     widget.deleteIndex.toString());
     if (allReceivers.length > 0 && widget.deleteIndex > 0) {
-      // print('_ReceiverInfosState _deleteIndex : ' +
-      //     widget.deleteIndex.toString());
       _deleteReceiverRefresh(widget.deleteIndex);
     } else {
       if (needAddReceiver) {
-        // print('ReceiverInfos needAddReceiver : ' +
-        //     needAddReceiver.toString() +
-        //     ", allReceivers : " +
-        //     allReceivers.toString());
         orderInfoAddReciverProvide.initAddReceiverOrderSelectInfo();
 
         final goodTypeBadgerProvide =
@@ -117,7 +108,7 @@ class OrderInfosState extends State<OrderInfos> {
                 child: Text(
                   '订单信息',
                   style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 30 * rpx,
                       color: Colors.white,
                       fontWeight: FontWeight.w400),
                 ),
@@ -151,8 +142,6 @@ class OrderInfosState extends State<OrderInfos> {
   void _deleteReceiverRefresh(int deleteIndex) {
     final orderInfoAddReciverProvide =
         Provide.value<OrderInfoAddReciverProvide>(context);
-    // print('_deleteReceiverRefresh allReceivers : ' + allReceivers.toString());
-    // print('_deleteReceiverRefresh deleteIndex : ' + deleteIndex.toString());
     setState(() {
       deleteIndexSet.add(deleteIndex);
       for (int i = 0; i < deleteIndex; i++) {
@@ -182,10 +171,6 @@ class OrderInfosState extends State<OrderInfos> {
               setState(() {
                 this.needAddReceiver = true;
                 currentReceiverNum++;
-                print('_buildReceiverButton , allReceivers : ' +
-                    allReceivers.toString() +
-                    ", length : " +
-                    allReceivers.length.toString());
                 allReceivers.removeLast();
               });
             },

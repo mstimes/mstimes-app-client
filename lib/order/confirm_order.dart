@@ -47,7 +47,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                 child: Text(
                   '确认订单',
                   style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 30 * rpx,
                       color: Colors.white,
                       fontWeight: FontWeight.w400),
                 ),
