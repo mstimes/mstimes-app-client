@@ -33,7 +33,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
         Provide.value<OrderInfoAddReciverProvide>(context);
     return InkWell(
         onTap: () {
-          if(checkIsLogin(context)){
+          if(!checkIsLogin(context)){
             return;
           }
 

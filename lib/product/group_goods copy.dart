@@ -17,7 +17,6 @@ import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provide/provide.dart';
 
 import '../common/valid.dart';

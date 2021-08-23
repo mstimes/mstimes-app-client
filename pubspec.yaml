@@ -54,12 +54,13 @@ dependencies:
   path_provider: ^1.6.28
   path: ^1.7.0
   file_picker: ^2.1.7
-  permission_handler: ^5.1.0
+#  permission_handler: ^5.1.0+2
   image_gallery_saver: ^1.6.8
   scroll_text: ^0.0.2
   flutter_speed_dial: ^1.2.4
   city_pickers: ^0.1.18
   sign_in_apple: ^0.0.1
+#  io: ^0.3.3
 
 dev_dependencies:
   flutter_test:
