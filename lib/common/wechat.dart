@@ -100,7 +100,7 @@ void getWeChatUserInfo(accessToken, openId) {
 void callInviteFriends() {
   var model = new WeChatShareMiniProgramModel(
       webPageUrl: '/pages/home/home.wxml',
-      path: '/pages/home/home?openId=abc',
+      path: '/pages/home/home?shareUser=abc',
       userName: 'gh_6482b034b059',
       title: UserInfo.getUserInfo().userName + '想要赠您¥ 100首单购物券',
       description: '甄选天下好物 尽在Ms时代',

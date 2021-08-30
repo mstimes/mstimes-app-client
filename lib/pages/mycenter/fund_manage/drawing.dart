@@ -29,8 +29,8 @@ class _DrawingPageState extends State<DrawingPage> {
   var depositRegion = '';
   var depositRegionLocal = '';
   var lastDrawingRecordData;
-  bool showLastBankType;
-  bool showLastDepositRegion;
+  bool showLastBankType = false;
+  bool showLastDepositRegion = false;
 
   var fundInfoData;
 
@@ -43,9 +43,6 @@ class _DrawingPageState extends State<DrawingPage> {
   @override
   void initState() {
     super.initState();
-    showLastBankType = true;
-    showLastDepositRegion = true;
-
     _getFundSummary(UserInfo.getUserInfo().userId);
   }
 
@@ -71,10 +68,12 @@ class _DrawingPageState extends State<DrawingPage> {
     final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
     List<Map> drawingRecordInfo = drawingRecordProvide.drawingRecordInfo;
     if (drawingRecordInfo != null && drawingRecordInfo[0]['bankType'] != null) {
+      showLastBankType = true;
       bankType = drawingRecordInfo[0]['bankType'];
     }
     if (drawingRecordInfo != null &&
         drawingRecordInfo[0]['depositRegion'] != null) {
+      showLastDepositRegion = true;
       depositRegion = drawingRecordInfo[0]['depositRegion'];
     }
 
@@ -260,6 +259,7 @@ class _DrawingPageState extends State<DrawingPage> {
                 textInputAction: TextInputAction.done,
                 validator: needStringCommonValid,
                 enableInteractiveSelection: false,
+                autofocus: false,
                 decoration: InputDecoration.collapsed(
                     hintStyle:
                         TextStyle(fontSize: 15.0, color: Colors.grey[400]),
@@ -304,6 +304,7 @@ class _DrawingPageState extends State<DrawingPage> {
                 },
                 textInputAction: TextInputAction.done,
                 validator: needStringCommonValid,
+                autofocus: false,
                 decoration: InputDecoration.collapsed(
                     hintStyle:
                         TextStyle(fontSize: 15.0, color: Colors.grey[400]),

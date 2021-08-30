@@ -1,20 +1,20 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:mstimes/mycenter/account_page/coupon_page.dart';
-import 'package:mstimes/mycenter/account_page/invite_friends.dart';
-import 'package:mstimes/mycenter/account_page/my_mbeans.dart';
-import 'package:mstimes/mycenter/account_page/vip_category.dart';
-import 'package:mstimes/mycenter/fund_manage/drawing.dart';
-import 'package:mstimes/mycenter/fund_manage/drawing_audit.dart';
-import 'package:mstimes/mycenter/fund_manage/drawing_audit_records.dart';
-import 'package:mstimes/mycenter/fund_manage/drawing_records.dart';
-import 'package:mstimes/mycenter/fund_manage/fund.dart';
-import 'package:mstimes/mycenter/my_funs.dart';
-import 'package:mstimes/mycenter/my_group.dart';
-import 'package:mstimes/mycenter/my_income.dart';
-import 'package:mstimes/mycenter/passivity_income.dart';
-import 'package:mstimes/order/confirm_order.dart';
-import 'package:mstimes/order/order_info.dart';
+import 'package:mstimes/pages/mycenter/account_page/coupon_page.dart';
+import 'package:mstimes/pages/mycenter/account_page/invite_friends.dart';
+import 'package:mstimes/pages/mycenter/account_page/my_mbeans.dart';
+import 'package:mstimes/pages/mycenter/account_page/vip_category.dart';
+import 'package:mstimes/pages/mycenter/fund_manage/drawing.dart';
+import 'package:mstimes/pages/mycenter/fund_manage/drawing_audit.dart';
+import 'package:mstimes/pages/mycenter/fund_manage/drawing_audit_records.dart';
+import 'package:mstimes/pages/mycenter/fund_manage/drawing_records.dart';
+import 'package:mstimes/pages/mycenter/fund_manage/fund.dart';
+import 'package:mstimes/pages/mycenter/my_funs.dart';
+import 'package:mstimes/pages/mycenter/my_group.dart';
+import 'package:mstimes/pages/mycenter/my_income.dart';
+import 'package:mstimes/pages/mycenter/passivity_income.dart';
+import 'package:mstimes/pages/order/confirm_order.dart';
+import 'package:mstimes/pages/order/order_info.dart';
 import 'package:mstimes/pages/goods_page.dart';
 import 'package:mstimes/pages/index.dart';
 import 'package:mstimes/pages/login/invite_page.dart';
@@ -24,14 +24,14 @@ import 'package:mstimes/pages/login/select_acc_type.dart';
 import 'package:mstimes/pages/login/service_text_page.dart';
 import 'package:mstimes/pages/login/verify_page.dart';
 import 'package:mstimes/pages/my_page.dart';
-import 'package:mstimes/product/detail_goods.dart';
-import 'package:mstimes/product/group/group_goods.dart';
-import 'package:mstimes/product/group/new_goods.dart';
+import 'package:mstimes/pages/product/detail_goods.dart';
+import 'package:mstimes/pages/product/group/group_goods.dart';
+import 'package:mstimes/pages/product/group/new_goods.dart';
 import 'package:mstimes/result_pages/drawing_result.dart';
 import 'package:mstimes/result_pages/pay_result.dart';
-import 'package:mstimes/upload/release_good_infos.dart';
-import 'package:mstimes/upload/release_detail_image.dart';
-import 'package:mstimes/upload/release_upload.dart';
+import 'package:mstimes/pages/upload/release_good_infos.dart';
+import 'package:mstimes/pages/upload/release_detail_image.dart';
+import 'package:mstimes/pages/upload/release_upload.dart';
 
 import '../pages/login/login.page.dart';
 
@@ -44,7 +44,7 @@ Handler detailsHandler = Handler(
 
 Handler setOrderInfosHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return SetOrderInfos();
+    return SetOrderInfos(goodId: int.parse(params['goodId'].first));
   },
 );
 
@@ -166,7 +166,7 @@ Handler selectAccTypePageHandler = Handler(
 
 Handler confirmOrderPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return ConfirmOrderPage();
+    return ConfirmOrderPage(goodId: int.parse(params['goodId'].first));
   },
 );
 

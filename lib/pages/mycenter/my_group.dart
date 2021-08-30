@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mstimes/mycenter/group_info.dart';
+import 'package:mstimes/pages/mycenter/group_info.dart';
 import 'package:mstimes/utils/color_util.dart';
 
 class MyGroupPage extends StatefulWidget {

@@ -7,6 +7,11 @@ import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 
 class GoodSelectBottom extends StatefulWidget {
+  final int goodId;
+
+  const GoodSelectBottom({Key key, @required this.goodId})
+      : super(key: key);
+
   @override
   _GoodSelectBottomState createState() => _GoodSelectBottomState();
 }
@@ -50,7 +55,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
           if (!goodTypeBadgerProvide.fromOrderInfo) {
             RouterHome.flutoRouter.navigateTo(
               context,
-              RouterConfig.setOrderInfosPath,
+              RouterConfig.setOrderInfosPath + "?goodId=${widget.goodId}",
             );
           } else {
             Navigator.pop(context);

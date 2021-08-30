@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:provide/provide.dart';
-import 'package:mstimes/order/receiver_widgets/receiver_address.dart';
-import 'package:mstimes/order/receiver_widgets/receiver_select.dart';
+import 'package:mstimes/pages/order/receiver_widgets/receiver_address.dart';
+import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
-import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/utils/color_util.dart';
+import 'package:mstimes/model/good_details.dart';
 
 class OrderInfos extends StatefulWidget {
   int deleteIndex = -1;
+  int goodId;
   ScrollController controller;
-  OrderInfos({Key key, this.deleteIndex, this.controller}) : super(key: key);
+  OrderInfos({Key key, this.deleteIndex, this.goodId, this.controller}) : super(key: key);
 
   @override
   OrderInfosState createState() => OrderInfosState();
 }
 
 class OrderInfosState extends State<OrderInfos> {
-  ScrollController _controller = new ScrollController();
   List<Widget> showReceiverOrderSelect = List();
   List<Widget> allReceivers = List();
   bool needAddReceiver = false;
@@ -42,45 +44,15 @@ class OrderInfosState extends State<OrderInfos> {
 
   @override
   void initState() {
+    print('receiver_infos ... ' + widget.goodId.toString());
+
+    getGoodInfosById(widget.goodId, context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    final orderInfoAddReciverProvide =
-        Provide.value<OrderInfoAddReciverProvide>(context);
-
-    // print('_ReceiverInfosState build allReceivers.length : ' +
-    //     allReceivers.length.toString());
-    if (allReceivers.length < 1) {
-      allReceivers.add(buildOrderInfoTop());
-      // print('_ReceiverInfosState build orderInfoAddReciverProvide:' +
-      //     orderInfoAddReciverProvide.receiverOrderInfos[currentReceiverNum - 1]
-      // .toString());
-      allReceivers.add(ReceiverAddress(index: currentReceiverNum));
-      allReceivers.add(ReceiverSelectInfo(
-        index: currentReceiverNum,
-      ));
-      allReceivers.add(_buildReceiverButton());
-    }
-
-    if (allReceivers.length > 0 && widget.deleteIndex > 0) {
-      _deleteReceiverRefresh(widget.deleteIndex);
-    } else {
-      if (needAddReceiver) {
-        orderInfoAddReciverProvide.initAddReceiverOrderSelectInfo();
-
-        final goodTypeBadgerProvide =
-            Provide.value<GoodSelectBottomProvide>(context);
-        goodTypeBadgerProvide.initValueByIndex(currentReceiverNum);
-
-        allReceivers.add(ReceiverAddress(index: currentReceiverNum));
-        allReceivers.add(ReceiverSelectInfo(index: currentReceiverNum));
-        allReceivers.add(_buildReceiverButton());
-        needAddReceiver = false;
-      }
-    }
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -117,13 +89,16 @@ class OrderInfosState extends State<OrderInfos> {
           )),
       body: Stack(
         children: [
-          ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              padding:
-                  EdgeInsets.only(left: 5 * rpx, right: 5 * rpx, top: 10 * rpx),
-              itemCount: currentReceiverNum * 2 + 2,
-              itemBuilder: _itemBuilder),
+          Column(
+            children: [
+              buildOrderInfoTop(),
+              ReceiverAddress(index: 1),
+              ReceiverSelectInfo(
+                index: 1,
+              ),
+            ],
+          ),
+
           Expanded(child: Container()),
           Positioned(
             bottom: 0,
@@ -131,53 +106,6 @@ class OrderInfosState extends State<OrderInfos> {
             child: _buildOrderInfoBottom(),
           )
         ],
-      ),
-    );
-  }
-
-  Widget _itemBuilder(BuildContext context, int index) {
-    return allReceivers[index];
-  }
-
-  void _deleteReceiverRefresh(int deleteIndex) {
-    final orderInfoAddReciverProvide =
-        Provide.value<OrderInfoAddReciverProvide>(context);
-    setState(() {
-      deleteIndexSet.add(deleteIndex);
-      for (int i = 0; i < deleteIndex; i++) {
-        // 兼容ReceiverAddress和ReceiverSelectInfo中收件人编号不变的情况
-        if (deleteIndexSet.contains(i)) {
-          deleteIndex--;
-        }
-      }
-      allReceivers.removeAt(2 * deleteIndex - 1);
-      allReceivers.removeAt(2 * deleteIndex - 2);
-      widget.deleteIndex = -1;
-      orderInfoAddReciverProvide.resetDeleteIndex(-1);
-      currentReceiverNum--;
-    });
-  }
-
-  Widget _buildReceiverButton() {
-    return Container(
-      margin: EdgeInsets.only(top: 10.0 * rpx, bottom: 180 * rpx),
-      width: 130 * rpx,
-      height: 60 * rpx,
-      color: Colors.white,
-      child: Container(
-        child: OutlineButton(
-            borderSide: new BorderSide(color: buttonColor),
-            onPressed: () {
-              setState(() {
-                this.needAddReceiver = true;
-                currentReceiverNum++;
-                allReceivers.removeLast();
-              });
-            },
-            child: Text(
-              '添加新收件人',
-              style: TextStyle(color: buttonColor, fontSize: 14.0),
-            )),
       ),
     );
   }
@@ -191,15 +119,17 @@ class OrderInfosState extends State<OrderInfos> {
   }
 
   Widget buildOrderInfoTop() {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // print('buildOrderInfoTop goodInfo ' +  goodInfo.goodId.toString());
     return Container(
         child: Container(
       width: 730 * rpx,
       height: 220 * rpx,
       margin: EdgeInsets.only(
-          left: 0 * rpx, top: 0 * rpx, right: 0 * rpx, bottom: 10 * rpx),
+          left: 10 * rpx, top: 10 * rpx, right: 0 * rpx, bottom: 10 * rpx),
       //设置 child 居中
       alignment: Alignment(0, 0),
       //边框设置
@@ -227,10 +157,13 @@ class OrderInfosState extends State<OrderInfos> {
             ),
             Column(
               children: <Widget>[
-                Text(
-                  '${goodInfo.title}',
-                  style: TextStyle(
-                      color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
+                Container(
+                  margin: EdgeInsets.only(top: 20 * rpx),
+                  child: Text(
+                    '${goodInfo.title}',
+                    style: TextStyle(
+                        color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
+                  ),
                 ),
               ],
             )
@@ -263,7 +196,7 @@ class OrderInfosState extends State<OrderInfos> {
                       // 重置校验开关
                       validReceiverInfo = true;
                       // 校验收件人信息
-                      _checkReceiverInfos(receiverAddressProvide);
+                      // _checkReceiverInfos(receiverAddressProvide);
 
                       if (!validReceiverInfo) {
                         showAlertDialog(
@@ -272,7 +205,7 @@ class OrderInfosState extends State<OrderInfos> {
                       }
 
                       RouterHome.flutoRouter.navigateTo(
-                          context, RouterConfig.confirmOrderPagePath);
+                          context, RouterConfig.confirmOrderPagePath + '?goodId=${widget.goodId}');
                     },
                     child: buildSingleSummitButton('确认下单', 600, 80, 10, rpx))
               ],

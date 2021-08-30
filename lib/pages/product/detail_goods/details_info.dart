@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:provide/provide.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
+import 'package:mstimes/model/good_details.dart';
 
 class DetailsGoodInfo extends StatelessWidget {
   double rpx;
@@ -9,9 +11,11 @@ class DetailsGoodInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
     return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-          .goodDetailModel
-          .dataList[0];
+      // var goodInfo = Provide.value<OrderingInfosProvide>(context)
+      //     .goodDetailModel
+      //     .dataList[0];
+      // var goodInfo = val.goodDetailModel.dataList[0];
+      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
       if (goodInfo != null) {
         List<dynamic> detailImages = goodInfo.detailImages;
         return Container(

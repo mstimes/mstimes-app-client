@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mstimes/product/good_list.dart';
+import 'package:mstimes/pages/product/good_list.dart';
 import 'package:mstimes/routers/router_config.dart';
 
 class GoodsPage extends StatelessWidget {

@@ -10,10 +10,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mstimes/common/apple.dart';
+import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
-import 'package:mstimes/order/product_select.dart';
-import 'package:mstimes/product/group/group_hot_swiper.dart';
+import 'package:mstimes/model/good_details.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
+import 'package:mstimes/pages/order/product_select.dart';
+import 'package:mstimes/pages/product/group/group_hot_swiper.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
@@ -23,9 +26,7 @@ import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
 import 'package:provide/provide.dart';
-import 'package:sign_in_apple/sign_in_apple.dart';
-
-import '../../common/valid.dart';
+import '../../../common/valid.dart';
 
 class GroupGoods extends StatefulWidget {
   @override
@@ -604,7 +605,9 @@ class _GroupGoodsState extends State<GroupGoods> {
       child: GestureDetector(
         onLongPress: _showSingleImage,
         onLongPressStart: (details) {
-          _getGoodInfos(context, val['goodId']);
+          print('group_goods ... ' + val['goodId'].toString());
+
+          getGoodInfosById(val['goodId'], context);
           if (!today) {
             downloadStartDate =
                 formatDate(DateTime.now().add(Duration(days: -1)), mdFormat);
@@ -1248,7 +1251,7 @@ class _GroupGoodsState extends State<GroupGoods> {
                 fontWeight: FontWeight.w400),
           ),
           onPressed: () {
-              _getGoodInfos(context, val['goodId']);
+              _getGoodInfosById(val['goodId']);
 
               final goodTypeBadgerProvide =
                   Provide.value<GoodSelectBottomProvide>(context);
@@ -1266,10 +1269,24 @@ class _GroupGoodsState extends State<GroupGoods> {
     );
   }
 
-  Future _getGoodInfos(BuildContext context, int goodId) async {
-    return Provide.value<DetailGoodInfoProvide>(context)
-        .getGoodInfosById(goodId);
+  Future _getGoodInfosById(int goodId) async {
+    FormData formData = new FormData.fromMap({
+      "goodId": goodId,
+    });
+    print("getGoodInfosById : " + goodId.toString());
+    await requestDataByUrl('queryGoodById', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('queryGoodById ' + data.toString());
+      GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
+      LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
+      return data;
+    });
   }
+
+  // Future _getGoodInfos(BuildContext context, int goodId) async {
+  //   return Provide.value<OrderingInfosProvide>(context)
+  //       .getGoodInfosById(goodId);
+  // }
 
   Widget _buildWillOrderContainer(val) {
     return Container(

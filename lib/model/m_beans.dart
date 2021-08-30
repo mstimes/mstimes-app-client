@@ -54,21 +54,25 @@ class MBeans {
 class MBeansDataList {
   int sumCounts;
   int usedCounts;
+  int unusedCounts;
 
   MBeansDataList({
     this.sumCounts,
     this.usedCounts,
+    this.unusedCounts,
   });
 
   MBeansDataList.fromJson(Map<String, dynamic> json) {
     sumCounts = json['sumCounts'];
     usedCounts = json['usedCounts'];
+    unusedCounts = json['unusedCounts'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sumCounts'] = this.sumCounts;
     data['usedCounts'] = this.usedCounts;
+    data['unusedCounts'] = this.unusedCounts;
     return data;
   }
 }

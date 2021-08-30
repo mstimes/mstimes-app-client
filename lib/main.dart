@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
+import 'package:mstimes/provide/select_discount.dart';
 import 'package:provide/provide.dart';
-import 'package:mstimes/product/group/group_goods.dart';
+import 'package:mstimes/pages/product/group/group_goods.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
@@ -27,6 +28,7 @@ Future<void> main() async {
   var uploadGoodInfosProvide = UploadGoodInfosProvide();
   var uploadOrderProvide = UploadOrderProvide();
   var drawingRecordProvide = DrawingRecordProvide();
+  var selectDiscountProvide = SelectDiscountProvide();
 
   var providers = Providers();
   providers
@@ -37,7 +39,8 @@ Future<void> main() async {
     ..provide(Provider<ReceiverAddressProvide>.value(receiverAddressProvide))
     ..provide(Provider<UploadOrderProvide>.value(uploadOrderProvide))
     ..provide(Provider<DrawingRecordProvide>.value(drawingRecordProvide))
-    ..provide(Provider<UploadGoodInfosProvide>.value(uploadGoodInfosProvide));
+    ..provide(Provider<UploadGoodInfosProvide>.value(uploadGoodInfosProvide))
+    ..provide(Provider<SelectDiscountProvide>.value(selectDiscountProvide));
 
   runApp(ProviderNode(
       child: MaterialApp(

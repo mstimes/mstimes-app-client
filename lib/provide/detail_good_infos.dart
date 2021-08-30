@@ -12,11 +12,12 @@ class DetailGoodInfoProvide with ChangeNotifier {
     FormData formData = new FormData.fromMap({
       "goodId": goodId,
     });
+    print("getGoodInfosById : " + goodId.toString());
     await requestDataByUrl('queryGoodById', formData: formData).then((val) {
       var data = json.decode(val.toString());
       print('queryGoodById ' + data.toString());
       goodDetailModel = GoodDetailModel.fromJson(data);
-      notifyListeners();
+      // notifyListeners();
       return data;
     });
   }
