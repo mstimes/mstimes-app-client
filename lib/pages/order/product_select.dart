@@ -4,15 +4,18 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mstimes/common/provider_call.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:provide/provide.dart';
 import 'package:mstimes/config/service_url.dart';
-import 'package:mstimes/order/product_select_bottom.dart';
+import 'package:mstimes/pages/order/product_select_bottom.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/tools/number_change.dart';
 import 'package:mstimes/utils/color_util.dart';
+import 'package:mstimes/model/good_details.dart';
 
 class ProductSelectItemPage extends StatefulWidget {
   final int goodId;
@@ -40,8 +43,10 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
 
+    print('product_select ... ' + widget.goodId.toString());
     return FutureBuilder(
-        future: _getGoodInfos(widget.goodId, context), builder: _buildFuture);
+        future: getGoodInfosById(widget.goodId, context),
+        builder: _buildFuture);
   }
 
   Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
@@ -68,24 +73,25 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _createItems(BuildContext context, AsyncSnapshot snapshot) {
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
     return Stack(
       children: <Widget>[
         SingleChildScrollView(
           controller: controller,
           child: Column(
             children: <Widget>[
-              _buildTopRow(context),
+              _buildTopRow(goodInfo, context),
               _showTypeTitle(),
-              _buildGoodTypes(),
+              _buildGoodTypes(goodInfo),
               _showSpecificationTitle(),
-              _buildSpecification(controller),
+              _buildSpecification(goodInfo, controller),
             ],
           ),
         ),
         Positioned(
           bottom: 0,
           left: 0,
-          child: GoodSelectBottom(),
+          child: GoodSelectBottom(goodId: widget.goodId),
         )
       ],
     );
@@ -104,10 +110,10 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     );
   }
 
-  Widget _buildGoodTypes() {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+  Widget _buildGoodTypes(goodInfo) {
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<Widget> _listWidgets = List<Widget>();
     if (categories.length != 0) {
@@ -198,10 +204,10 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     );
   }
 
-  Widget _buildSpecification(ScrollController controller) {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+  Widget _buildSpecification(goodInfo, ScrollController controller) {
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
     List<dynamic> specfications = jsonDecode(goodInfo.specifics);
     return SingleChildScrollView(
       controller: controller,
@@ -252,10 +258,10 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     );
   }
 
-  Widget _buildTopRow(context) {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+  Widget _buildTopRow(goodInfo, context) {
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
     return Row(
       children: [
         Container(
@@ -330,6 +336,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   final receiverAddressProvide =
                       Provide.value<ReceiverAddressProvide>(context);
 
+                  LocalOrderInfo.getLocalOrderInfo().clear();
                   if (!goodTypeBadgerProvide.fromOrderInfo) {
                     Navigator.pop(context);
                     goodTypeBadgerProvide.clear();
@@ -358,25 +365,19 @@ showBottomItems(goodId, context) {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.circular(15)),
       context: context,
+      isDismissible: false,
       isScrollControlled: true,
       builder: (_) {
         return SizedBox(
-          height: 600,
-          child: Container(
-              child: GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                  },
-                  child: ProductSelectItemPage(
-                    goodId: goodId,
-                  ))),
-        );
+            height: 600,
+            child: Container(
+                child: GestureDetector(
+                    onTap: () {
+                      return false;
+                    },
+                    child: ProductSelectItemPage(
+                      goodId: goodId,
+                    ))),
+          );
       });
-}
-
-Future _getGoodInfos(int goodId, BuildContext context) async {
-  if (goodId == null) {
-    return;
-  }
-  return Provide.value<DetailGoodInfoProvide>(context).getGoodInfosById(goodId);
 }

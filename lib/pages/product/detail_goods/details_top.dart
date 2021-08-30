@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:provide/provide.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
+import 'package:mstimes/model/good_details.dart';
 
 import 'details_swiper.dart';
 
@@ -12,9 +14,8 @@ class DetailsGoodTop extends StatelessWidget {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
     return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-          .goodDetailModel
-          .dataList[0];
+      // var goodInfo = val.goodDetailModel.dataList[0];
+      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
       if (goodInfo != null) {
         return Container(
           color: Colors.grey[200],

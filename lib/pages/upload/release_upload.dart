@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mstimes/model/local_share/release_images.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
-import 'package:mstimes/upload/release_detail_image.dart';
-import 'package:mstimes/upload/release_good_details.dart';
-import 'package:mstimes/upload/release_good_infos.dart';
-import 'package:mstimes/upload/release_main_images.dart';
+import 'package:mstimes/pages/upload/release_detail_image.dart';
+import 'package:mstimes/pages/upload/release_good_details.dart';
+import 'package:mstimes/pages/upload/release_good_infos.dart';
+import 'package:mstimes/pages/upload/release_main_images.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:provide/provide.dart';
 

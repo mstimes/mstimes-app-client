@@ -348,9 +348,9 @@ class _LoginPageState extends State<LoginPage> {
               height: 150 * rpx,
             ),
             isInstalledWx == true ? wxLoginArea : Container(),
-            // Platform.isIOS ? appleLoginArea : Container(),
+            Platform.isIOS ? appleLoginArea : Container(),
             new SizedBox(
-              height: 600 * rpx,
+              height: 500 * rpx,
             ),
             readServiceText,
           ],

@@ -1,14 +1,17 @@
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:mstimes/common/valid.dart';
+import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
-import 'package:mstimes/order/product_select.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
+import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:provide/provide.dart';
-import 'package:mstimes/product/detail_goods/details_info.dart';
-import 'package:mstimes/product/detail_goods/details_top.dart';
+import 'package:mstimes/pages/product/detail_goods/details_info.dart';
+import 'package:mstimes/pages/product/detail_goods/details_top.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 
 class DetailGoods extends StatefulWidget {
@@ -33,6 +36,7 @@ class _DetailGoodsState extends State<DetailGoods> {
           color: Colors.black,
           icon: Icon(Icons.arrow_back_ios_outlined),
           onPressed: () {
+            LocalOrderInfo.getLocalOrderInfo().clear();
             Navigator.pop(context);
           },
         ),
@@ -41,7 +45,7 @@ class _DetailGoodsState extends State<DetailGoods> {
         backgroundColor: Colors.white,
       ),
       body: FutureBuilder(
-        future: _getGoodInfos(context),
+        future: _getGoodInfosById(widget.goodId),
         builder: _buildFuture,
       ),
     );
@@ -88,9 +92,10 @@ class _DetailGoodsState extends State<DetailGoods> {
     }
 
     return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      DataList goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-          .goodDetailModel
-          .dataList[0];
+      // DataList goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+      //     .goodDetailModel
+      //     .dataList[0];
+      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
       if (goodInfo != null) {
         return InkWell(
           onTap: () {
@@ -101,11 +106,13 @@ class _DetailGoodsState extends State<DetailGoods> {
             final receiverAddressProvide =
                 Provide.value<ReceiverAddressProvide>(context);
 
+            _getGoodInfosById(widget.goodId);
+
             goodTypeBadgerProvide.clear();
             orderInfoAddReciverProvide.clear();
             receiverAddressProvide.clear();
 
-            showBottomItems(goodInfo.goodId, context);
+            showBottomItems(widget.goodId, context);
           },
           child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
         );
@@ -115,8 +122,18 @@ class _DetailGoodsState extends State<DetailGoods> {
     });
   }
 
-  Future _getGoodInfos(BuildContext context) async {
-    return Provide.value<DetailGoodInfoProvide>(context)
-        .getGoodInfosById(this.widget.goodId);
+  Future _getGoodInfosById(int goodId) async {
+    FormData formData = new FormData.fromMap({
+      "goodId": goodId,
+    });
+    print("getGoodInfosById : " + goodId.toString());
+    await requestDataByUrl('queryGoodById', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('queryGoodById ' + data.toString());
+      GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
+      LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
+      return data;
+    });
   }
+
 }

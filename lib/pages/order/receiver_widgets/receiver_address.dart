@@ -20,11 +20,12 @@ class ReceiverAddress extends StatefulWidget {
 }
 
 class ReceiverAddressState extends State<ReceiverAddress> {
-  ScrollController _controller;
+  // ScrollController _controller;
   double rpx;
   var _keyword;
   Timer _getBaiduTokenTimer;
   String _access_token;
+  bool autoIdenfify = false;
 
   void initTimer() {
     if (_getBaiduTokenTimer == null) {
@@ -70,7 +71,7 @@ class ReceiverAddressState extends State<ReceiverAddress> {
     return Container(
       width: 730 * rpx,
       height: 400 * rpx,
-      margin: EdgeInsets.only(left: 0, top: 0 * rpx, right: 0),
+      margin: EdgeInsets.only(left: 10 * rpx, top: 10 * rpx, right: 0),
       alignment: Alignment(0, 0),
       decoration: new BoxDecoration(
         color: Colors.white,
@@ -146,6 +147,14 @@ class ReceiverAddressState extends State<ReceiverAddress> {
     });
   }
 
+  // Widget _buildReceiverInfo() {
+  //     if (!autoIdenfify) {
+  //       return _buildTextFieldInput();
+  //     } else {
+  //       return _buildIdentifyResult();
+  //     }
+  // }
+
   Widget _buildTextFieldInput() {
     return TextField(
       autofocus: false,
@@ -179,7 +188,9 @@ class ReceiverAddressState extends State<ReceiverAddress> {
     IdentifyAddressModel addressInfo =
         identifyAddressModel.identifyAddressMap[widget.index.toString()];
 
+
     TextEditingController _personController;
+
     return Container(
       height: 220 * rpx,
       child: Column(
@@ -190,19 +201,19 @@ class ReceiverAddressState extends State<ReceiverAddress> {
               children: <Widget>[
                 Expanded(
                     child: Form(
-                  child: TextFormField(
-                    controller: _personController,
-                    textAlign: TextAlign.center,
-                    initialValue: addressInfo.person,
-                    decoration: InputDecoration(labelText: '收件人'),
-                    onChanged: (String value) {
-                      addressInfo.person = value;
-                      receiverAddressProvide
+                      child: TextFormField(
+                        controller: _personController,
+                        textAlign: TextAlign.center,
+                        initialValue: addressInfo.person,
+                        decoration: InputDecoration(labelText: '收件人'),
+                        onChanged: (String value) {
+                          addressInfo.person = value;
+                          receiverAddressProvide
                               .identifyAddressMap[widget.index.toString()] =
                           addressInfo;
-                    },
-                  ),
-                )),
+                        },
+                      ),
+                    )),
               ],
             ),
           ),
@@ -231,7 +242,7 @@ class ReceiverAddressState extends State<ReceiverAddress> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(labelText: '省份区域'),
               initialValue:
-                  addressInfo.province + addressInfo.city + addressInfo.town,
+              addressInfo.province + addressInfo.city + addressInfo.town,
               onChanged: (String value) {
                 addressInfo.province = value;
                 receiverAddressProvide
@@ -280,10 +291,10 @@ class ReceiverAddressState extends State<ReceiverAddress> {
                 if (debug) {
                   print('smart adjust... index: ' + widget.index.toString());
                 }
-                if (this._keyword == null) {
-                  showAlertDialog(context, "请填写收件人信息", 140.00, rpx);
-                  return;
-                }
+                // if (this._keyword == null) {
+                //   showAlertDialog(context, "请填写收件人信息", 140.00, rpx);
+                //   return;
+                // }
 
                 Map<String, dynamic> map = Map();
                 map['text'] = this._keyword;

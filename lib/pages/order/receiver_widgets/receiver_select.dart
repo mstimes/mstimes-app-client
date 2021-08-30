@@ -50,6 +50,7 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
   Widget _genSelectGoodsList(controller) {
     return Container(
         width: 730 * rpx,
+        margin: EdgeInsets.only(left: 10 * rpx, top: 10 * rpx),
         decoration: new BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.grey, width: 0.5),
