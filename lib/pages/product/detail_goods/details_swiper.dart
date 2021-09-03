@@ -9,11 +9,12 @@ class GoodsImageSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double rpx = MediaQuery.of(context).size.width / 750;
     List<dynamic> totateImages = swiperImageUrls;
     return Container(
       color: Colors.white,
-      height: 430,
-      width: 750,
+      height: 700 * rpx,
+      width: 750 * rpx,
       child: Swiper(
         autoplay: true,
         itemCount: totateImages.length,

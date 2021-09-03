@@ -5,6 +5,7 @@ import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
+import 'dart:io';
 
 class GoodSelectBottom extends StatefulWidget {
   final int goodId;
@@ -23,7 +24,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
     rpx = MediaQuery.of(context).size.width / 750;
     return Container(
       padding: EdgeInsets.only(
-          left: 0 * rpx, right: 0, top: 15 * rpx, bottom: 40 * rpx),
+          left: 0 * rpx, right: 0, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx : 3 * rpx),
       width: 750 * rpx,
       color: Colors.white,
       alignment: Alignment.center,

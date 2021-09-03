@@ -170,15 +170,15 @@ Widget buildInviteFriendsContainer(rpx) {
               fontWeight: FontWeight.w400),
         ),
       ),
-      Container(
-        margin: EdgeInsets.only(top: 100 * rpx),
-        child: InkWell(
-          onTap: () {
-            callInviteFriends();
-          },
-          child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
-        ),
-      )
+      // Container(
+      //   margin: EdgeInsets.only(top: 100 * rpx),
+      //   child: InkWell(
+      //     onTap: () {
+      //       callInviteFriends();
+      //     },
+      //     child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
+      //   ),
+      // )
     ],
   );
 }

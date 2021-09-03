@@ -36,7 +36,7 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
         goodTypeBadgerProvide.setFromOrderInfo(true);
         goodTypeBadgerProvide.resetCurrentReceiverIndex(widget.index);
         orderInfoAddReciverProvide.resetCurrentSelectIndex(widget.index);
-        showBottomItems(null, context);
+        showBottomItems(null, context, rpx);
       },
       child: SingleChildScrollView(
         controller: controller,

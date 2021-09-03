@@ -4,8 +4,6 @@ import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
-import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:provide/provide.dart';
@@ -14,6 +12,8 @@ import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'dart:io';
+
 
 class OrderInfos extends StatefulWidget {
   int deleteIndex = -1;
@@ -119,11 +119,7 @@ class OrderInfosState extends State<OrderInfos> {
   }
 
   Widget buildOrderInfoTop() {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    // print('buildOrderInfoTop goodInfo ' +  goodInfo.goodId.toString());
     return Container(
         child: Container(
       width: 730 * rpx,
@@ -157,14 +153,14 @@ class OrderInfosState extends State<OrderInfos> {
             ),
             Column(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 20 * rpx),
-                  child: Text(
-                    '${goodInfo.title}',
-                    style: TextStyle(
-                        color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
-                  ),
-                ),
+                    Expanded(child: Container(
+                      margin: EdgeInsets.only(top: 20 * rpx),
+                      child: Text(
+                        '${goodInfo.title}',
+                        style: TextStyle(
+                            color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
+                      ),
+                    )),
               ],
             )
           ],
@@ -174,17 +170,9 @@ class OrderInfosState extends State<OrderInfos> {
   }
 
   Widget _buildOrderInfoBottom() {
-    // final orderInfoAddReciverProvide =
-    //     Provide.value<OrderInfoAddReciverProvide>(context);
-    final receiverAddressProvide =
-        Provide.value<ReceiverAddressProvide>(context);
-    // final uploadOrderProvide = Provide.value<UploadOrderProvide>(context);
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     return Container(
         padding: EdgeInsets.only(
-            left: 80 * rpx, right: 0, top: 15 * rpx, bottom: 40 * rpx),
+            left: 80 * rpx, right: 0, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx : 3 * rpx),
         width: 750 * rpx,
         color: Colors.white,
         child: Column(

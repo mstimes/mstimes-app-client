@@ -26,6 +26,7 @@ import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
 import 'package:provide/provide.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/valid.dart';
 
 class GroupGoods extends StatefulWidget {
@@ -65,6 +66,8 @@ class _GroupGoodsState extends State<GroupGoods> {
   String downloadEndDate =
       formatDate(DateTime.now().add(Duration(days: 1)), mdFormat);
 
+
+
   @override
   void initState() {
     super.initState();
@@ -81,7 +84,6 @@ class _GroupGoodsState extends State<GroupGoods> {
     getYesterdayGroupGoods();
   }
 
-
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
@@ -94,6 +96,7 @@ class _GroupGoodsState extends State<GroupGoods> {
           backgroundColor: Colors.white,
           toolbarHeight: 80 * rpx,
           elevation: 0,
+          centerTitle: true,
           title: Text(
             '甄选天下好物 · 尽在Ms时代',
             style: TextStyle(
@@ -124,6 +127,7 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildBody() {
+
     if (_needSaveSingeImage()) {
       return Stack(
         children: [
@@ -481,6 +485,8 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   List<Widget> _getTodayWrapList() {
+
+
     if (_todayGoodList.length != 0) {
       todayTotalWrapList.clear();
       if (!_needSaveLongImage()) {
@@ -515,6 +521,11 @@ class _GroupGoodsState extends State<GroupGoods> {
       List<Widget> listWidget = _todayGoodList.map((val) {
         return InkWell(
             onTap: () {
+              // if(!checkIsLogin(context)){
+              //   // 腾讯应用上架前置登陆
+              //   return;
+              // }
+
               RouterHome.flutoRouter.navigateTo(
                 context,
                 RouterConfig.detailsPath +
@@ -535,6 +546,13 @@ class _GroupGoodsState extends State<GroupGoods> {
         List<Widget> yesterdayListWidget = _yesterdayGoodList.map((val) {
           return InkWell(
               onTap: () {
+
+
+                // if(!checkIsLogin(context)){
+                //   // 腾讯应用上架前置登陆
+                //   return;
+                // }
+
                 RouterHome.flutoRouter.navigateTo(
                   context,
                   RouterConfig.detailsPath +
@@ -551,6 +569,7 @@ class _GroupGoodsState extends State<GroupGoods> {
         _needSaveLongImageForBlack() ? Colors.white : backgroundFontColor,
         rpx,
       ));
+      
       return todayTotalWrapList;
     } else {
       return List();
@@ -1251,7 +1270,12 @@ class _GroupGoodsState extends State<GroupGoods> {
                 fontWeight: FontWeight.w400),
           ),
           onPressed: () {
-              _getGoodInfosById(val['goodId']);
+            // if(!checkIsLogin(context)){
+            //   // 腾讯应用上架前置登陆
+            //   return;
+            // }
+
+            _getGoodInfosById(val['goodId']);
 
               final goodTypeBadgerProvide =
                   Provide.value<GoodSelectBottomProvide>(context);
@@ -1264,7 +1288,7 @@ class _GroupGoodsState extends State<GroupGoods> {
               orderInfoAddReciverProvide.clear();
               receiverAddressProvide.clear();
 
-              showBottomItems(val['goodId'], context);
+              showBottomItems(val['goodId'], context, rpx);
           }),
     );
   }

@@ -13,6 +13,7 @@ import 'package:provide/provide.dart';
 import 'package:mstimes/pages/product/detail_goods/details_info.dart';
 import 'package:mstimes/pages/product/detail_goods/details_top.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
+import 'dart:io';
 
 class DetailGoods extends StatefulWidget {
   final int goodId;
@@ -70,7 +71,7 @@ class _DetailGoodsState extends State<DetailGoods> {
               ],
             ),
             Positioned(
-              bottom: 30 * rpx,
+              bottom: Platform.isIOS ? 30 * rpx : 3 * rpx,
               left: 70 * rpx,
               child: _buildOrderingContainer(),
             )
@@ -92,9 +93,6 @@ class _DetailGoodsState extends State<DetailGoods> {
     }
 
     return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      // DataList goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-      //     .goodDetailModel
-      //     .dataList[0];
       DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
       if (goodInfo != null) {
         return InkWell(
@@ -112,7 +110,7 @@ class _DetailGoodsState extends State<DetailGoods> {
             orderInfoAddReciverProvide.clear();
             receiverAddressProvide.clear();
 
-            showBottomItems(widget.goodId, context);
+            showBottomItems(widget.goodId, context, rpx);
           },
           child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
         );

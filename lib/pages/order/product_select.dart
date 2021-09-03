@@ -10,12 +10,12 @@ import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:provide/provide.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/pages/order/product_select_bottom.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/tools/number_change.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'dart:io';
 
 class ProductSelectItemPage extends StatefulWidget {
   final int goodId;
@@ -360,7 +360,7 @@ Widget _showNumChangeContainer(index) {
   });
 }
 
-showBottomItems(goodId, context) {
+showBottomItems(goodId, context, rpx) {
   showModalBottomSheet(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.circular(15)),
@@ -369,7 +369,7 @@ showBottomItems(goodId, context) {
       isScrollControlled: true,
       builder: (_) {
         return SizedBox(
-            height: 600,
+            height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
             child: Container(
                 child: GestureDetector(
                     onTap: () {

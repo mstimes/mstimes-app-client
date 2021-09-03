@@ -11,11 +11,9 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/pages/order/product_select.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:provide/provide.dart';
 
 import '../../../common/valid.dart';
 
@@ -450,7 +448,7 @@ class _NewGoodsState extends State<NewGoods> {
             if (checkIsLogin(context)) {
               print('new_goods ... ' + val['goodId'].toString());
               getGoodInfosById(val['goodId'], context);
-              showBottomItems(val['goodId'], context);
+              showBottomItems(val['goodId'], context, rpx);
             }
           }),
     );

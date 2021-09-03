@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:mstimes/pages/login/home_alert.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:provide/provide.dart';
@@ -12,6 +13,7 @@ import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'provide/good_select_type.dart';
 
 Future<void> main() async {
@@ -19,6 +21,7 @@ Future<void> main() async {
   final FluroRouter fluroRouter = FluroRouter();
   RouterConfig.defineRouters(fluroRouter);
   RouterHome.flutoRouter = fluroRouter;
+
 
   // init provider
   var detailInfoProvider = DetailGoodInfoProvide();
@@ -48,13 +51,22 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Center(
-            child: GroupGoods(),
-            // child: ScreenShotPage(),
+            // child: GroupGoods(),
+            child: SplashScreen(),
           ),
         ),
+        routes: <String, WidgetBuilder>{
+          '/GroupGoodsPage': (BuildContext context) => new GroupGoods(),
+          '/HomeAlertPage': (BuildContext context) => new HomeAlertPage(),
+        },
       ),
       providers: providers));
+
+
 }
+
+
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -62,29 +74,42 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  double rpx;
+  bool notFirst = true;
+
   startTime() async {
     //设置启动图生效时间
-    var _duration = new Duration(seconds: 6);
+    var _duration = new Duration(seconds: 60);
     return new Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed('/GroupGoodsPage');
   }
 
   @override
   void initState() {
     super.initState();
-    startTime();
+    // startTime();
+    get().then((value) => {});
   }
-
 
   @override
   Widget build(BuildContext context) {
+    rpx = MediaQuery.of(context).size.width / 750;
+
     return new Scaffold(
-      body: new Center(
-        child: new Image.asset('lib/images/Default~iphone.png'),
-      ),
+      body: (notFirst == null || !notFirst) ? HomeAlertPage() : GroupGoods(),
     );
   }
+
+  Future get() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      notFirst = prefs.getBool("not_first_open");
+    });
+    return prefs.getBool("not_first_open");
+  }
+
 }
