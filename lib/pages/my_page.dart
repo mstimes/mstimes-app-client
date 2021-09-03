@@ -104,7 +104,7 @@ class _MyPageState extends State<MyPage> {
           _showBackendManage(context),
           _showFinanceManage(context),
           // _addBottom(),
-          _about()
+          about()
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -813,7 +813,7 @@ class _MyPageState extends State<MyPage> {
   Widget _buildAccountInfos() {
     if (!userInfo.isAgent()) {
       return Container(
-          width: 720 * rpx,
+          width: 750 * rpx,
           height: 260 * rpx,
           padding:
               EdgeInsets.only(left: 10 * rpx, right: 10 * rpx, top: 20 * rpx),
@@ -858,21 +858,21 @@ class _MyPageState extends State<MyPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: 30 * rpx,
-                                top: 10 * rpx,
+                                left: 20 * rpx,
+                                top: 13 * rpx,
                                 bottom: 10 * rpx,
                                 right: 30 * rpx),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 8 * rpx),
+                                  margin: EdgeInsets.only(bottom: 15 * rpx),
                                   child: Image.asset(
                                     "lib/images/my_order.png",
                                     height: 40 * rpx,
                                     width: 40 * rpx,
                                   ),
                                 ),
-                                Text('我的订单')
+                                Text('我的订单', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -898,7 +898,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 55 * rpx,
                                   ),
                                 ),
-                                Text('我的蜜豆')
+                                Text('我的蜜豆', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -911,20 +911,20 @@ class _MyPageState extends State<MyPage> {
                           child: Container(
                             margin: EdgeInsets.only(
                                 left: 40 * rpx,
-                                top: 10 * rpx,
+                                top: 12 * rpx,
                                 bottom: 10 * rpx,
                                 right: 30 * rpx),
                             child: Column(
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 10 * rpx),
+                                  margin: EdgeInsets.only(bottom: 13 * rpx),
                                   child: Image.asset(
                                     "lib/images/coupon.png",
                                     height: 40 * rpx,
                                     width: 40 * rpx,
                                   ),
                                 ),
-                                Text('代金券')
+                                Text('代金券', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -950,7 +950,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 55 * rpx,
                                   ),
                                 ),
-                                Text('我的邀请')
+                                Text('我的邀请', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -968,15 +968,12 @@ class _MyPageState extends State<MyPage> {
   Widget _buildIncomeInfos() {
     if (userInfo.isAgent()) {
       return Container(
-          width: 720 * rpx,
+          width: 750 * rpx,
           height: 260 * rpx,
           padding:
-              EdgeInsets.only(left: 10 * rpx, right: 10 * rpx, top: 20 * rpx),
+              EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
           decoration: new BoxDecoration(
-            //背景
             color: Colors.white,
-            //设置四周圆角 角度
-            // borderRadius: BorderRadius.all(Radius.circular(20.0 * rpx)),
           ),
           margin:
               EdgeInsets.only(top: 15 * rpx, left: 10 * rpx, right: 10 * rpx),
@@ -1002,12 +999,12 @@ class _MyPageState extends State<MyPage> {
                 Container(
                     padding: EdgeInsets.only(
                         left: 10 * rpx,
-                        right: 10 * rpx,
+                        right: 0 * rpx,
                         top: 10 * rpx,
                         bottom: 10 * rpx),
                     color: Colors.white,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         InkWell(
                           onTap: () {
@@ -1030,7 +1027,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 55 * rpx,
                                   ),
                                 ),
-                                Text('零售收益')
+                                Text('零售收益', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1042,7 +1039,7 @@ class _MyPageState extends State<MyPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: 40 * rpx,
+                                left: 35 * rpx,
                                 top: 10 * rpx,
                                 bottom: 10 * rpx,
                                 right: 30 * rpx),
@@ -1056,7 +1053,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 55 * rpx,
                                   ),
                                 ),
-                                Text('被动收益')
+                                Text('被动收益', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1068,7 +1065,7 @@ class _MyPageState extends State<MyPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: 40 * rpx,
+                                left: 35 * rpx,
                                 top: 16 * rpx,
                                 bottom: 10 * rpx,
                                 right: 30 * rpx),
@@ -1082,7 +1079,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 45 * rpx,
                                   ),
                                 ),
-                                Text('我的团队')
+                                Text('我的团队', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1094,7 +1091,7 @@ class _MyPageState extends State<MyPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: 40 * rpx,
+                                left: 35 * rpx,
                                 top: 21 * rpx,
                                 bottom: 10 * rpx,
                                 right: 30 * rpx),
@@ -1108,7 +1105,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 40 * rpx,
                                   ),
                                 ),
-                                Text('我的粉丝')
+                                Text('我的粉丝', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1128,10 +1125,10 @@ class _MyPageState extends State<MyPage> {
     //     UserInfo.getUserInfo().level >= 70) {
     if (userInfo.isAgent()) {
       return Container(
-          width: 720 * rpx,
+          width: 750 * rpx,
           height: 260 * rpx,
           padding:
-              EdgeInsets.only(left: 10 * rpx, right: 10 * rpx, top: 20 * rpx),
+              EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
           decoration: new BoxDecoration(
             //背景
             color: Colors.white,
@@ -1162,7 +1159,7 @@ class _MyPageState extends State<MyPage> {
                 Container(
                     padding: EdgeInsets.only(
                         left: 10 * rpx,
-                        right: 10 * rpx,
+                        right: 0 * rpx,
                         top: 10 * rpx,
                         bottom: 10 * rpx),
                     color: Colors.white,
@@ -1176,7 +1173,7 @@ class _MyPageState extends State<MyPage> {
                           },
                           child: Container(
                             margin: EdgeInsets.only(
-                                left: 40 * rpx,
+                                left: 30 * rpx,
                                 top: 18 * rpx,
                                 bottom: 10 * rpx,
                                 right: 50 * rpx),
@@ -1190,7 +1187,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 40 * rpx,
                                   ),
                                 ),
-                                Text('账户余额')
+                                Text('账户余额', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1216,7 +1213,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 55 * rpx,
                                   ),
                                 ),
-                                Text('提现')
+                                Text('提现', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1242,7 +1239,7 @@ class _MyPageState extends State<MyPage> {
                                     width: 50 * rpx,
                                   ),
                                 ),
-                                Text('提现记录')
+                                Text('提现记录', style: TextStyle(fontSize: 25 * rpx))
                               ],
                             ),
                           ),
@@ -1260,7 +1257,7 @@ class _MyPageState extends State<MyPage> {
   Widget _myIncomeOrOrders(context) {
     return Container(
         width: 720 * rpx,
-        height: userInfo.isAgent() ? 440 * rpx : 360 * rpx,
+        height: userInfo.isAgent() ? 460 * rpx : 360 * rpx,
         padding: EdgeInsets.only(
             left: 10 * rpx,
             right: 10 * rpx,
@@ -1558,8 +1555,8 @@ class _MyPageState extends State<MyPage> {
   //   }
   // }
 
-  Widget _about() {
-    if (UserInfo.getUserInfo().level == 80) {
+  Widget about() {
+    // if (UserInfo.getUserInfo().level == 80) {
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         InkWell(
           onTap: () {
@@ -1599,7 +1596,7 @@ class _MyPageState extends State<MyPage> {
         ),
       ]
       );
-    }
+    // }
 
     return Container();
   }

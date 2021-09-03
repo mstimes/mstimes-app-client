@@ -442,7 +442,7 @@ class _VipCategoryState extends State<VipCategory> {
           Container(
               margin: EdgeInsets.only(
                   top: textTopSize * rpx, left: textLeftSize * rpx),
-              child: Text(cronText))
+              child: Text(cronText, style: TextStyle(fontSize: 25 * rpx),))
         ],
       ),
     );
@@ -467,7 +467,7 @@ class _VipCategoryState extends State<VipCategory> {
           ),
           Container(
               margin: EdgeInsets.only(top: 80 * rpx, left: 20 * rpx),
-              child: Text('首升礼'))
+              child: Text('首升礼', style: TextStyle(fontSize: 25 * rpx)))
         ],
       ),
     );
@@ -495,7 +495,7 @@ class _VipCategoryState extends State<VipCategory> {
           _getVipDayCornerMark(),
           Container(
               margin: EdgeInsets.only(top: 80 * rpx, left: 20 * rpx),
-              child: Text('会员日'))
+              child: Text('会员日', style: TextStyle(fontSize: 25 * rpx)))
         ],
       ),
     );

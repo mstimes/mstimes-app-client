@@ -12,11 +12,12 @@ class GroupGoodsImageSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double rpx = MediaQuery.of(context).size.width / 750;
     List<dynamic> totateImages = swiperImageUrls;
     return Container(
       color: Colors.white,
-      height: 430,
-      width: 750,
+      height: 750 * rpx,
+      width: 750 * rpx,
       child: Swiper(
         autoplay: true,
         itemCount: totateImages.length,
@@ -28,6 +29,11 @@ class GroupGoodsImageSwiper extends StatelessWidget {
           // }
           return InkWell(
             onTap: () {
+              // if(!checkIsLogin(context)){
+              //   // 腾讯应用上架前置登陆
+              //   return;
+              // }
+
               RouterHome.flutoRouter.navigateTo(
                 context,
                 RouterConfig.detailsPath +

@@ -16,6 +16,7 @@ import 'package:mstimes/utils/color_util.dart';
 import 'package:provide/provide.dart';
 import 'coupon_select.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'dart:io';
 
 
 class ConfirmOrderPage extends StatefulWidget {
@@ -532,7 +533,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
 
       return Container(
           padding: EdgeInsets.only(
-              left: 50 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: 40 * rpx),
+              left: 50 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 3 * rpx),
           width: 750 * rpx,
           color: Colors.white,
           child: Column(

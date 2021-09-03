@@ -33,7 +33,7 @@ class LocalOrderInfo {
   }
 
   void clear(){
-    print('LocalOrderInfo clear : ' + goodInfo.goodId.toString());
+    // print('LocalOrderInfo clear : ' + goodInfo.goodId.toString());
     goodInfo = null;
   }
 }

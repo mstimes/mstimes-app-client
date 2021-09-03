@@ -14,7 +14,6 @@ class DetailsGoodTop extends StatelessWidget {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
     return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      // var goodInfo = val.goodDetailModel.dataList[0];
       DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
       if (goodInfo != null) {
         return Container(
@@ -67,7 +66,7 @@ class DetailsGoodTop extends StatelessWidget {
   }
 
   Widget _showDiscountInfos(goodInfo) {
-    if (userInfo.isAgent()) {
+    if (userInfo.isAgent() && userInfo.level != 80) {
       return Container(
         width: 700 * rpx,
         height: 50 * rpx,

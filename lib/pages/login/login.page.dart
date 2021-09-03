@@ -341,7 +341,7 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             closeLoginPage,
             new SizedBox(
-              height: 400 * rpx,
+              height: Platform.isIOS ? 400 * rpx : 300 * rpx,
             ),
             logoImageArea,
             new SizedBox(
@@ -350,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
             isInstalledWx == true ? wxLoginArea : Container(),
             Platform.isIOS ? appleLoginArea : Container(),
             new SizedBox(
-              height: 500 * rpx,
+              height: Platform.isIOS ? 500 * rpx : 400 * rpx,
             ),
             readServiceText,
           ],
