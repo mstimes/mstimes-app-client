@@ -13,7 +13,9 @@ class RouterConfig {
   static String productBottomItemPath = '/product/bottomItem';
 
   // 订单管理
-  static String setOrderInfosPath = '/order/setOrderInfos';
+  // static String setOrderInfosPath = '/order/setOrderInfos';
+  static String orderInfosPath = '/order/orderInfos';
+  static String orderInfoPagePath = '/order/orderInfoPage';
   static String queryOrderInfosPath = '/order/queryOrders';
   static String confirmOrderPagePath = '/order/confirmOrder';
 
@@ -73,7 +75,8 @@ class RouterConfig {
   // define all router configs
   static void defineRouters(FluroRouter fluroRouter) {
     fluroRouter.define(detailsPath, handler: detailsHandler);
-    fluroRouter.define(setOrderInfosPath, handler: setOrderInfosHandler);
+    fluroRouter.define(orderInfosPath, handler: orderInfosHandler);
+    fluroRouter.define(orderInfoPagePath, handler: orderInfoPageHandler);
     fluroRouter.define(uploadProductPath, handler: uploadProductHandler);
     fluroRouter.define(uploadDetailImagePath,
         handler: uploadDetailImageHandler);

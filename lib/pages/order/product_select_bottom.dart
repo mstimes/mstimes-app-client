@@ -43,8 +43,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
             return;
           }
 
-          if (goodTypeBadgerProvide.queryTypeValueMap().isEmpty ||
-              goodTypeBadgerProvide.typeSpecNums <= 0) {
+          if (goodTypeBadgerProvide.queryTypeValueMap().isEmpty || goodTypeBadgerProvide.typeSpecNums <= 0) {
             showAlertDialog(context, '请选择后下单', 180.00, rpx);
             return;
           }
@@ -56,7 +55,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
           if (!goodTypeBadgerProvide.fromOrderInfo) {
             RouterHome.flutoRouter.navigateTo(
               context,
-              RouterConfig.setOrderInfosPath + "?goodId=${widget.goodId}",
+              RouterConfig.orderInfosPath,
             );
           } else {
             Navigator.pop(context);

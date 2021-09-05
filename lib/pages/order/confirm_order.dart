@@ -20,8 +20,7 @@ import 'dart:io';
 
 
 class ConfirmOrderPage extends StatefulWidget {
-  final int goodId;
-  const ConfirmOrderPage({Key key, @required this.goodId}) : super(key: key);
+  const ConfirmOrderPage({Key key}) : super(key: key);
 
   @override
   _ConfirmOrderPageState createState() => _ConfirmOrderPageState();
@@ -42,7 +41,6 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   @override
   void initState() {
     super.initState();
-    print('confirm_order ... ' + widget.goodId.toString());
 
     // getGoodInfosById(widget.goodId, context);
     _getUserCouponRecords();
@@ -66,18 +64,12 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                   size: 25,
                 )),
           ),
-          title: Row(
-            children: <Widget>[
-              Container(
-                child: Text(
-                  '确认订单',
-                  style: TextStyle(
-                      fontSize: 30 * rpx,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-            ],
+          title: Text(
+            '确认订单',
+            style: TextStyle(
+                fontSize: 30 * rpx,
+                color: Colors.white,
+                fontWeight: FontWeight.w400),
           )),
       body: Stack(
         children: [

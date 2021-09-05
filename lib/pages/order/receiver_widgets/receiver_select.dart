@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:provide/provide.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -70,9 +71,10 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
   }
 
   List<Widget> buildSelectInfos(infos) {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
+    var goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<dynamic> specifics = jsonDecode(goodInfo.specifics);
     print('SelectInfos->buildSelectInfos()->_infos:' + infos.toString());
