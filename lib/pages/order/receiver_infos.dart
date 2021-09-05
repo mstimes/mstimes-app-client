@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
+import 'package:mstimes/pages/order/receiver_widgets/receiver_address.dart';
+import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:provide/provide.dart';
-import 'package:mstimes/pages/order/receiver_widgets/receiver_address.dart';
-import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'dart:io';
 
 
 class OrderInfos extends StatefulWidget {
-  int deleteIndex = -1;
-  int goodId;
   ScrollController controller;
-  OrderInfos({Key key, this.deleteIndex, this.goodId, this.controller}) : super(key: key);
+  OrderInfos({Key key, this.controller}) : super(key: key);
 
   @override
   OrderInfosState createState() => OrderInfosState();
@@ -44,9 +42,24 @@ class OrderInfosState extends State<OrderInfos> {
 
   @override
   void initState() {
-    print('receiver_infos ... ' + widget.goodId.toString());
 
-    getGoodInfosById(widget.goodId, context);
+    // getGoodInfosById(widget.goodId, context);
+
+    fluwx.responseFromPayment.listen((data) {
+      print(data.errCode);
+
+      if (data.errCode == 0) {
+        print("微信支付成功");
+        print('responseFromPayment : ' + data.toString());
+
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.paySuccessPagePath);
+      } else {
+        print("微信支付失败");
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.payFailedPagePath);
+      }
+    });
     super.initState();
   }
 
@@ -98,8 +111,6 @@ class OrderInfosState extends State<OrderInfos> {
               ),
             ],
           ),
-
-          Expanded(child: Container()),
           Positioned(
             bottom: 0,
             left: 0,
@@ -120,53 +131,55 @@ class OrderInfosState extends State<OrderInfos> {
 
   Widget buildOrderInfoTop() {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+
     return Container(
-        child: Container(
-      width: 730 * rpx,
-      height: 220 * rpx,
-      margin: EdgeInsets.only(
-          left: 10 * rpx, top: 10 * rpx, right: 0 * rpx, bottom: 10 * rpx),
-      //设置 child 居中
-      alignment: Alignment(0, 0),
-      //边框设置
-      decoration: new BoxDecoration(
-        //背景
-        color: Colors.white,
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        //设置四周边框
-        border: new Border.all(width: 1, color: Colors.white),
-      ),
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Container(
-              height: 200 * rpx,
-              width: 200 * rpx,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        QINIU_OBJECT_STORAGE_URL + goodInfo.mainImage),
-                    fit: BoxFit.cover,
-                  )),
+          child: Container(
+            width: 730 * rpx,
+            height: 220 * rpx,
+            margin: EdgeInsets.only(
+                left: 10 * rpx, top: 10 * rpx, right: 0 * rpx, bottom: 10 * rpx),
+            //设置 child 居中
+            alignment: Alignment(0, 0),
+            //边框设置
+            decoration: new BoxDecoration(
+              //背景
+              color: Colors.white,
+              //设置四周圆角 角度
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              //设置四周边框
+              border: new Border.all(width: 1, color: Colors.white),
             ),
-            Column(
-              children: <Widget>[
-                    Expanded(child: Container(
-                      margin: EdgeInsets.only(top: 20 * rpx),
-                      child: Text(
-                        '${goodInfo.title}',
-                        style: TextStyle(
-                            color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
-                      ),
-                    )),
-              ],
-            )
-          ],
-        ),
-      ),
-    ));
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 200 * rpx,
+                    width: 200 * rpx,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              QINIU_OBJECT_STORAGE_URL + goodInfo.mainImage),
+                          fit: BoxFit.cover,
+                        )),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Expanded(child: Container(
+                        margin: EdgeInsets.only(top: 20 * rpx),
+                        child: Text(
+                          '${goodInfo.title}',
+                          style: TextStyle(
+                              color: Color.fromRGBO(77, 99, 104, 1), fontSize: 16),
+                        ),
+                      )),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+    );
   }
 
   Widget _buildOrderInfoBottom() {
@@ -193,7 +206,7 @@ class OrderInfosState extends State<OrderInfos> {
                       }
 
                       RouterHome.flutoRouter.navigateTo(
-                          context, RouterConfig.confirmOrderPagePath + '?goodId=${widget.goodId}');
+                          context, RouterConfig.confirmOrderPagePath);
                     },
                     child: buildSingleSummitButton('确认下单', 600, 80, 10, rpx))
               ],
@@ -202,46 +215,46 @@ class OrderInfosState extends State<OrderInfos> {
         ));
   }
 
-  _checkReceiverInfos(receiverAddressProvide) {
-    receiversIterable = receiverAddressProvide.identifyAddressMap.keys;
-    if (receiversIterable.isEmpty) {
-      validReceiverInfo = false;
-      remindContent = '请正确填写收件人信息';
-      alertLeftPadding = 140.00;
-      return;
-    }
-
-    for (String receiver in receiversIterable) {
-      IdentifyAddressModel identifyAddressModel =
-          receiverAddressProvide.identifyAddressMap[receiver];
-
-      receiverRegionInfo = identifyAddressModel.province +
-          identifyAddressModel.city +
-          identifyAddressModel.town;
-      if (receiverRegionInfo.isEmpty) {
-        validReceiverInfo = false;
-        remindContent = '请填写第' + receiver + "收件人省份区域信息";
-        alertLeftPadding = 100.00;
-        break;
-      }
-      if (identifyAddressModel.phonenum.isEmpty) {
-        validReceiverInfo = false;
-        remindContent = '请填写第' + receiver + "收件人联系方式";
-        alertLeftPadding = 120.00;
-        break;
-      }
-      if (identifyAddressModel.person.isEmpty) {
-        validReceiverInfo = false;
-        remindContent = '请填写第' + receiver + "收件人信息";
-        alertLeftPadding = 140.00;
-        break;
-      }
-      if (identifyAddressModel.detail.isEmpty) {
-        validReceiverInfo = false;
-        remindContent = '请填写第' + receiver + "收件人详细地址";
-        alertLeftPadding = 120.00;
-        break;
-      }
-    }
-  }
+  // _checkReceiverInfos(receiverAddressProvide) {
+  //   receiversIterable = receiverAddressProvide.identifyAddressMap.keys;
+  //   if (receiversIterable.isEmpty) {
+  //     validReceiverInfo = false;
+  //     remindContent = '请正确填写收件人信息';
+  //     alertLeftPadding = 140.00;
+  //     return;
+  //   }
+  //
+  //   for (String receiver in receiversIterable) {
+  //     IdentifyAddressModel identifyAddressModel =
+  //         receiverAddressProvide.identifyAddressMap[receiver];
+  //
+  //     receiverRegionInfo = identifyAddressModel.province +
+  //         identifyAddressModel.city +
+  //         identifyAddressModel.town;
+  //     if (receiverRegionInfo.isEmpty) {
+  //       validReceiverInfo = false;
+  //       remindContent = '请填写第' + receiver + "收件人省份区域信息";
+  //       alertLeftPadding = 100.00;
+  //       break;
+  //     }
+  //     if (identifyAddressModel.phonenum.isEmpty) {
+  //       validReceiverInfo = false;
+  //       remindContent = '请填写第' + receiver + "收件人联系方式";
+  //       alertLeftPadding = 120.00;
+  //       break;
+  //     }
+  //     if (identifyAddressModel.person.isEmpty) {
+  //       validReceiverInfo = false;
+  //       remindContent = '请填写第' + receiver + "收件人信息";
+  //       alertLeftPadding = 140.00;
+  //       break;
+  //     }
+  //     if (identifyAddressModel.detail.isEmpty) {
+  //       validReceiverInfo = false;
+  //       remindContent = '请填写第' + receiver + "收件人详细地址";
+  //       alertLeftPadding = 120.00;
+  //       break;
+  //     }
+  //   }
+  // }
 }

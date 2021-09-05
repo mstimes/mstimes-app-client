@@ -46,4 +46,8 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
 </manifest>

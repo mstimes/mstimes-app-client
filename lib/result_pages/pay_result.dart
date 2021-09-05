@@ -131,21 +131,21 @@ class PayResultPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: EdgeInsets.only(
-                    left: 20 * rpx, right: 50 * rpx, top: 70 * rpx),
-                height: 60 * rpx,
-                width: 260 * rpx,
-                color: Colors.red[900],
-                child: OutlineButton(
-                    onPressed: () {
-                      RouterHome.flutoRouter
-                          .navigateTo(context, RouterConfig.groupGoodsPath);
-                    },
-                    child: Text('查看订单',
-                        style: TextStyle(
-                            fontSize: 25 * rpx, color: Colors.white))),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(
+              //       left: 20 * rpx, right: 50 * rpx, top: 70 * rpx),
+              //   height: 60 * rpx,
+              //   width: 260 * rpx,
+              //   color: Colors.red[900],
+              //   child: OutlineButton(
+              //       onPressed: () {
+              //         RouterHome.flutoRouter
+              //             .navigateTo(context, RouterConfig.groupGoodsPath);
+              //       },
+              //       child: Text('查看订单',
+              //           style: TextStyle(
+              //               fontSize: 25 * rpx, color: Colors.white))),
+              // ),
               Container(
                 margin: EdgeInsets.only(top: 70 * rpx),
                 height: 60 * rpx,

@@ -33,6 +33,7 @@ class DetailsGoodTop extends StatelessWidget {
   }
 
   Widget buildTopContent(goodInfo, context) {
+    print('userInfo aaaa ' + userInfo.toString());
     return Container(
         width: 750 * rpx,
         height: userInfo.isOrdinaryAccount() ? 200 * rpx : 260 * rpx,
@@ -66,6 +67,9 @@ class DetailsGoodTop extends StatelessWidget {
   }
 
   Widget _showDiscountInfos(goodInfo) {
+    if(userInfo == null){
+      return Container();
+    }
     if (userInfo.isAgent() && userInfo.level != 80) {
       return Container(
         width: 700 * rpx,
@@ -83,7 +87,7 @@ class DetailsGoodTop extends StatelessWidget {
           child: Row(children: _showProfitList(goodInfo)),
         ),
       );
-    } else if (!userInfo.isOrdinaryAccount()){
+    } else if (!userInfo.isOrdinaryAccount() && userInfo.level != 80){
       return Container(
         width: 700 * rpx,
         height: 50 * rpx,
@@ -130,6 +134,8 @@ class DetailsGoodTop extends StatelessWidget {
       return (beans / 2).toStringAsFixed(0);
     } else if(userInfo.level == 2){
       return beans.toString();
+    }else {
+      return '0';
     }
   }
 

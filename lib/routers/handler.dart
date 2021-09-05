@@ -24,6 +24,7 @@ import 'package:mstimes/pages/login/select_acc_type.dart';
 import 'package:mstimes/pages/login/service_text_page.dart';
 import 'package:mstimes/pages/login/verify_page.dart';
 import 'package:mstimes/pages/my_page.dart';
+import 'package:mstimes/pages/order/receiver_infos.dart';
 import 'package:mstimes/pages/product/detail_goods.dart';
 import 'package:mstimes/pages/product/group/group_goods.dart';
 import 'package:mstimes/pages/product/group/new_goods.dart';
@@ -42,9 +43,21 @@ Handler detailsHandler = Handler(
   },
 );
 
-Handler setOrderInfosHandler = Handler(
+// Handler setOrderInfosHandler = Handler(
+//   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//     return SetOrderInfos();
+//   },
+// );
+
+Handler orderInfosHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return SetOrderInfos(goodId: int.parse(params['goodId'].first));
+    return OrderInfos();
+  },
+);
+
+Handler orderInfoPageHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    return OrderInfoPage();
   },
 );
 
@@ -166,7 +179,7 @@ Handler selectAccTypePageHandler = Handler(
 
 Handler confirmOrderPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return ConfirmOrderPage(goodId: int.parse(params['goodId'].first));
+    return ConfirmOrderPage();
   },
 );
 

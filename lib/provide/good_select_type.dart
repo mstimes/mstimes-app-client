@@ -69,17 +69,17 @@ class GoodSelectBottomProvide with ChangeNotifier {
       return '0';
     }
 
-    print('getCurrentTypeNumberChangeSize _currentReceiverIndex : ' +
-        currentReceiverNum.toString() +
-        ", _typeIndex : " +
-        typeIndex.toString() +
-        ", index : " +
-        specIndex.toString());
+    // print('getCurrentTypeNumberChangeSize _currentReceiverIndex : ' +
+    //     currentReceiverNum.toString() +
+    //     ", _typeIndex : " +
+    //     typeIndex.toString() +
+    //     ", index : " +
+    //     specIndex.toString());
     int val = typeNumChangeKV[currentReceiverNum - 1][typeIndex][specIndex];
-    print('getCurrentTypeNumberChangeSize, val: ' +
-        val.toString() +
-        ",index: " +
-        specIndex.toString());
+    // print('getCurrentTypeNumberChangeSize, val: ' +
+    //     val.toString() +
+    //     ",index: " +
+    //     specIndex.toString());
     return val.toString();
   }
 

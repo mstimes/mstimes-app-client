@@ -15,6 +15,7 @@ import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/tools/number_change.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:dio/dio.dart';
 import 'dart:io';
 
 class ProductSelectItemPage extends StatefulWidget {
@@ -43,9 +44,9 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
 
-    print('product_select ... ' + widget.goodId.toString());
+    // print('product_select ... ' + widget.goodId.toString());
     return FutureBuilder(
-        future: getGoodInfosById(widget.goodId, context),
+        future: getGoodInfos(widget.goodId, context),
         builder: _buildFuture);
   }
 
@@ -217,6 +218,19 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     );
   }
 
+  Future getGoodInfos(int goodId, context) async {
+    FormData formData = new FormData.fromMap({
+      "goodId": goodId,
+    });
+    await requestDataByUrl('queryGoodById', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      // print('queryGoodById ' + data.toString());
+      GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
+      LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
+      return data;
+    });
+  }
+
   Widget _genSpecificationList(
       List<dynamic> specs, ScrollController controller) {
     return ListView.builder(
@@ -380,4 +394,6 @@ showBottomItems(goodId, context, rpx) {
                     ))),
           );
       });
+
+
 }

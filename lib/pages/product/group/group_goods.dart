@@ -26,7 +26,6 @@ import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
 import 'package:provide/provide.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../common/valid.dart';
 
 class GroupGoods extends StatefulWidget {
@@ -1270,12 +1269,8 @@ class _GroupGoodsState extends State<GroupGoods> {
                 fontWeight: FontWeight.w400),
           ),
           onPressed: () {
-            // if(!checkIsLogin(context)){
-            //   // 腾讯应用上架前置登陆
-            //   return;
-            // }
 
-            _getGoodInfosById(val['goodId']);
+            // _getGoodInfosById(val['goodId']);
 
               final goodTypeBadgerProvide =
                   Provide.value<GoodSelectBottomProvide>(context);
