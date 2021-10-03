@@ -4,10 +4,9 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
-import 'package:provide/provide.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/pages/order/product_select_bottom.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -15,6 +14,7 @@ import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/tools/number_change.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
@@ -44,7 +44,28 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
 
-    // print('product_select ... ' + widget.goodId.toString());
+    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
+    // return Stack(
+    //   children: <Widget>[
+    //     SingleChildScrollView(
+    //       controller: controller,
+    //       child: Column(
+    //         children: <Widget>[
+    //           _buildTopRow(goodInfo, context),
+    //           _showTypeTitle(),
+    //           _buildGoodTypes(goodInfo),
+    //           _showSpecificationTitle(),
+    //           _buildSpecification(goodInfo, controller),
+    //         ],
+    //       ),
+    //     ),
+    //     Positioned(
+    //       bottom: 0,
+    //       left: 0,
+    //       child: GoodSelectBottom(goodId: widget.goodId),
+    //     )
+    //   ],
+    // );
     return FutureBuilder(
         future: getGoodInfos(widget.goodId, context),
         builder: _buildFuture);
@@ -75,6 +96,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
 
   Widget _createItems(BuildContext context, AsyncSnapshot snapshot) {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     return Stack(
       children: <Widget>[
         SingleChildScrollView(
@@ -112,9 +134,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _buildGoodTypes(goodInfo) {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<Widget> _listWidgets = List<Widget>();
     if (categories.length != 0) {
@@ -131,13 +150,15 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _buildTypeButton(bool select, int index, String value) {
-    return Provide<GoodSelectBottomProvide>(
-      builder: (context, child, counter) {
+    // return Provide<GoodSelectBottomProvide>(
+    //   builder: (context, child, counter) {
         // print(
         //     'counter.queryTypeValueMap().toString() : ${counter.queryTypeValueMap().toString()}');
         // print('${counter.queryTypeNumChangeMap().toString()}');
 
-        Map typeValueMap = counter.queryTypeValueMap();
+
+        // Map typeValueMap = counter.queryTypeValueMap();
+        Map typeValueMap = context.watch<GoodSelectBottomProvide>().queryTypeValueMap();
         if (select) {
           return Badge(
             badgeColor: Colors.black,
@@ -152,7 +173,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
               borderSide: new BorderSide(color: Colors.black),
               onPressed: () {
                 updateTypeValue(index);
-                counter.updateTypeIndex(index);
+                context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
               },
               child: Text(value, style: TextStyle(color: Colors.black)),
             ),
@@ -168,7 +189,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
             )),
             child: OutlineButton(
               onPressed: () {
-                counter.updateTypeIndex(index);
+                context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
                 updateTypeValue(index);
               },
               child: Text(
@@ -176,9 +197,9 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
               ),
             ),
           );
-        }
-      },
-    );
+        };
+      // },
+    // );
   }
 
   Widget _listItem(index, value) {
@@ -206,9 +227,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _buildSpecification(goodInfo, ScrollController controller) {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     List<dynamic> specfications = jsonDecode(goodInfo.specifics);
     return SingleChildScrollView(
       controller: controller,
@@ -226,6 +244,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       var data = json.decode(val.toString());
       // print('queryGoodById ' + data.toString());
       GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
+      // Provider.of<SelectedGoodInfoProvide>(context, listen: false).setGoodInfo(goodDetailModel.dataList[0]);
       LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
       return data;
     });
@@ -264,7 +283,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
               Expanded(
                 child: Container(),
               ),
-              _showNumChangeContainer(index)
+              _showNumChangeContainer(context, index)
             ],
           ),
         );
@@ -273,9 +292,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _buildTopRow(goodInfo, context) {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     return Row(
       children: [
         Container(
@@ -343,19 +359,20 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   size: 65 * rpx,
                 ),
                 onPressed: () {
-                  final goodTypeBadgerProvide =
-                      Provide.value<GoodSelectBottomProvide>(context);
-                  final orderInfoAddReciverProvide =
-                      Provide.value<OrderInfoAddReciverProvide>(context);
-                  final receiverAddressProvide =
-                      Provide.value<ReceiverAddressProvide>(context);
+                  // final goodTypeBadgerProvide =
+                  //     Provide.value<GoodSelectBottomProvide>(context);
+                  // final orderInfoAddReciverProvide =
+                  //     Provide.value<OrderInfoAddReciverProvide>(context);
+                  // final receiverAddressProvide =
+                  //     Provide.value<ReceiverAddressProvide>(context);
 
                   LocalOrderInfo.getLocalOrderInfo().clear();
-                  if (!goodTypeBadgerProvide.fromOrderInfo) {
+
+                  if (!Provider.of<GoodSelectBottomProvide>(context, listen: false).fromOrderInfo) {
                     Navigator.pop(context);
-                    goodTypeBadgerProvide.clear();
-                    orderInfoAddReciverProvide.clear();
-                    receiverAddressProvide.clear();
+                    Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
+                    Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
+                    Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
                   } else {
                     Navigator.pop(context);
                   }
@@ -365,13 +382,12 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 }
 
-Widget _showNumChangeContainer(index) {
-  return Provide<GoodSelectBottomProvide>(builder: (context, child, counter) {
+Widget _showNumChangeContainer(context, index) {
+    final goodSelectBottomProvide = Provider.of<GoodSelectBottomProvide>(context, listen: false);
     return NumChangeWidget(
-        currentReceiverNum: counter.currentReceiverIndex,
-        typeIndex: counter.typeIndex,
+        currentReceiverNum: goodSelectBottomProvide.currentReceiverIndex,
+        typeIndex: goodSelectBottomProvide.typeIndex,
         specIndex: index);
-  });
 }
 
 showBottomItems(goodId, context, rpx) {
@@ -394,6 +410,4 @@ showBottomItems(goodId, context, rpx) {
                     ))),
           );
       });
-
-
 }

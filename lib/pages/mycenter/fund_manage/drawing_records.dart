@@ -11,7 +11,6 @@ import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import "package:intl/intl.dart";
 
 class DrawingRecordsPage extends StatefulWidget {
   DrawingRecordsPage({Key key}) : super(key: key);
@@ -26,14 +25,15 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
   DateTime startDate = null;
   DateTime endDate = null;
   List<Map> _drawingRecordsList = [];
-  List<DataList> fundSummary = new List<DataList>();
-  List<DataList> fundTodaySummary = new List<DataList>();
-  List<DataList> fundMonthSummary = new List<DataList>();
+  // List<DataList> fundSummary = new List<DataList>();
+  // List<DataList> fundTodaySummary = new List<DataList>();
+  // List<DataList> fundMonthSummary = new List<DataList>();
   int myOrderCounts = 0;
   int funsOrderCounts = 0;
   var userInfo;
   int totalOrderCounts = 0;
   int queryStatus = 0;
+  var fundInfoData;
 
   @override
   void initState() {
@@ -44,14 +44,31 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
     userInfo = UserInfo.getUserInfo();
 
     if (userInfo.isAgent()) {
-      _getFundSummary(userInfo.userId);
-      _getFundTodaySummary(userInfo.userId);
-      _getFundMonthSummary(userInfo.userId);
+      // _getFundSummary(userInfo.userId);
+      // _getFundTodaySummary(userInfo.userId);
+      // _getFundMonthSummary(userInfo.userId);
       _getMyOrderCounts(userInfo.userId);
       _getFunsOrderCounts(userInfo.userId);
     }
 
+    _getFundSummary(UserInfo.getUserInfo().userId);
     _getDrawingRecords();
+  }
+
+  void _getFundSummary(agentId) {
+    FormData formData = new FormData.fromMap({
+      "agentId": agentId,
+    });
+    requestDataByUrl('queryFund', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      if (debug) {
+        print("queryFund data " + data.toString());
+      }
+
+      setState(() {
+        fundInfoData = (data['dataList'] as List).cast();
+      });
+    });
   }
 
   @override
@@ -99,59 +116,61 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
     );
   }
 
-  void _getFundSummary(userId) {
-    if (debug) {
-      print('_getFundSummary startTime : ' +
-          formatDate(startDate, ymdFormat) +
-          ", endTime : " +
-          formatDate(endDate, ymdFormat));
-    }
-    FormData formData = new FormData.fromMap({
-      "agentId": userId,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate)
-    });
-    requestDataByUrl('queryFundSummary', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-      if (debug) {
-        print("_getFundSummary : " + data.toString());
-      }
+  // void _getFundSummary(userId) {
+  //   if (debug) {
+  //     print('_getFundSummary startTime : ' +
+  //         formatDate(startDate, ymdFormat) +
+  //         ", endTime : " +
+  //         formatDate(endDate, ymdFormat));
+  //   }
+  //   FormData formData = new FormData.fromMap({
+  //     "agentId": userId,
+  //     "startDate": formatDate(startDate, ymdFormat),
+  //     "endDate": formatDate(endDate, ymdFormat),
+  //     // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+  //     // "endDate": DateFormat("yyyy-MM-dd").format(endDate)
+  //   });
+  //   requestDataByUrl('queryFundSummary', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //     if (debug) {
+  //       print("_getFundSummary : " + data.toString());
+  //     }
+  //
+  //     setState(() {
+  //       fundSummary = FundSummary.fromJson(data).dataList;
+  //     });
+  //   });
+  // }
 
-      setState(() {
-        fundSummary = FundSummary.fromJson(data).dataList;
-      });
-    });
-  }
+  // void _getFundTodaySummary(agentId) {
+  //   FormData formData = new FormData.fromMap({
+  //     "agentId": agentId,
+  //     "startDate": DateTime.now(),
+  //     "endDate": DateTime.now().add(new Duration(days: 1)),
+  //   });
+  //   requestDataByUrl('queryFundSummary', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //
+  //     setState(() {
+  //       fundTodaySummary = FundSummary.fromJson(data).dataList;
+  //     });
+  //   });
+  // }
 
-  void _getFundTodaySummary(agentId) {
-    FormData formData = new FormData.fromMap({
-      "agentId": agentId,
-      "startDate": DateTime.now(),
-      "endDate": DateTime.now().add(new Duration(days: 1)),
-    });
-    requestDataByUrl('queryFundSummary', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-
-      setState(() {
-        fundTodaySummary = FundSummary.fromJson(data).dataList;
-      });
-    });
-  }
-
-  void _getFundMonthSummary(agentId) {
-    FormData formData = new FormData.fromMap({
-      "agentId": agentId,
-      "startDate": new DateTime(DateTime.now().year, DateTime.now().month, 1),
-      "endDate": DateTime.now().add(new Duration(days: 1)),
-    });
-    requestDataByUrl('queryFundSummary', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-
-      setState(() {
-        fundMonthSummary = FundSummary.fromJson(data).dataList;
-      });
-    });
-  }
+  // void _getFundMonthSummary(agentId) {
+  //   FormData formData = new FormData.fromMap({
+  //     "agentId": agentId,
+  //     "startDate": new DateTime(DateTime.now().year, DateTime.now().month, 1),
+  //     "endDate": DateTime.now().add(new Duration(days: 1)),
+  //   });
+  //   requestDataByUrl('queryFundSummary', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //
+  //     setState(() {
+  //       fundMonthSummary = FundSummary.fromJson(data).dataList;
+  //     });
+  //   });
+  // }
 
   void _getDrawingRecords() {
     if (debug) {
@@ -164,8 +183,10 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
     FormData formData = new FormData.fromMap({
       "agentId": userInfo.userId,
       "status": queryStatus,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -190,8 +211,10 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
       'queryType': 1,
       "userId": UserInfo.getUserInfo().userId,
       "userNumber": UserInfo.getUserInfo().userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
     });
     requestDataByUrl('queryOrderCounts', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -213,8 +236,10 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
       'queryType': 3,
       "userId": UserInfo.getUserInfo().userId,
       "userNumber": UserInfo.getUserInfo().userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
     });
     requestDataByUrl('queryOrderCounts', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -238,76 +263,104 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
         decoration: new BoxDecoration(
           color: mainColor,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(
+        child: Container(
               width: 680 * rpx,
               height: 200 * rpx,
-              child: Row(
+              child: Column(
                 children: <Widget>[
                   Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 50 * rpx,
-                                top: 30 * rpx,
-                                bottom: 20 * rpx),
-                            child: Text('待提金额',
-                                style: TextStyle(
-                                  fontSize: 23 * rpx,
-                                  color: Colors.white,
-                                )),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 20 * rpx),
-                            child: Text(
-                                fundSummary.isEmpty
-                                    ? '0.00'
-                                    : fundSummary[0].myIncome,
-                                style: TextStyle(
-                                    fontSize: 30 * rpx,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
-                          )
-                        ],
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 50 * rpx,
+                            top: 30 * rpx,
+                            bottom: 20 * rpx),
+                        child: Text('待提金额',
+                            style: TextStyle(
+                              fontSize: 23 * rpx,
+                              color: Colors.white,
+                            )),
                       ),
+                      Container(
+                        margin: EdgeInsets.only(left: 20 * rpx),
+                        child: Text(
+                            fundInfoData == null ||
+                                fundInfoData[0]['totalRemain'] == null
+                                ? '0.00'
+                                : (fundInfoData[0]['totalRemain'] -
+                                fundInfoData[0]['drawingAmount'] -
+                                fundInfoData[0]['freezeAmount'])
+                                .toString() +
+                                "0",
+                            style: TextStyle(
+                                fontSize: 30 * rpx,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      )
                     ],
                   ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding:
-                                EdgeInsets.only(left: 50 * rpx, top: 10 * rpx),
-                            child: Text('已提金额',
-                                style: TextStyle(
-                                  fontSize: 23 * rpx,
-                                  color: Colors.white,
-                                )),
+                  Container(
+                    margin: EdgeInsets.only(top: 30 * rpx),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding:
+                              EdgeInsets.only(left: 50 * rpx),
+                              child: Text('已提金额',
+                                  style: TextStyle(
+                                    fontSize: 23 * rpx,
+                                    color: Colors.white,
+                                  )),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20 * rpx),
+                              child: Text(
+                                  fundInfoData == null ||
+                                      fundInfoData[0]['drawingAmount'] == null
+                                      ? '0.00'
+                                      : fundInfoData[0]['drawingAmount'].toString() + "0",
+                                  style: TextStyle(
+                                      fontSize: 30 * rpx,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 50 * rpx),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding:
+                                EdgeInsets.only(left: 30 * rpx),
+                                child: Text('未到账金额',
+                                    style: TextStyle(
+                                      fontSize: 23 * rpx,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20 * rpx),
+                                child: Text(
+                                    fundInfoData == null ||
+                                        fundInfoData[0]['freezeAmount'] == null
+                                        ? '0.00'
+                                        : fundInfoData[0]['freezeAmount'].toString() + "0",
+                                    style: TextStyle(
+                                        fontSize: 30 * rpx,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white)),
+                              ),
+                            ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(left: 20 * rpx),
-                            child: Text(
-                                fundSummary.isEmpty
-                                    ? '0.00'
-                                    : fundSummary[0].myIncome,
-                                style: TextStyle(
-                                    fontSize: 30 * rpx,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ],
         ));
   }
 
@@ -831,7 +884,8 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+           formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,
@@ -863,7 +917,8 @@ class _DrawingRecordsPageState extends State<DrawingRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+          formatDate(endDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,

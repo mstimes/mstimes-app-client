@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:provide/provide.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
@@ -29,15 +30,15 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
     rpx = MediaQuery.of(context).size.width / 750;
     return InkWell(
       onTap: () {
-        final goodTypeBadgerProvide =
-            Provide.value<GoodSelectBottomProvide>(context);
-        final orderInfoAddReciverProvide =
-            Provide.value<OrderInfoAddReciverProvide>(context);
+        // final goodTypeBadgerProvide =
+        //     Provide.value<GoodSelectBottomProvide>(context);
+        // final orderInfoAddReciverProvide =
+        //     Provide.value<OrderInfoAddReciverProvide>(context);
 
-        goodTypeBadgerProvide.setFromOrderInfo(true);
-        goodTypeBadgerProvide.resetCurrentReceiverIndex(widget.index);
-        orderInfoAddReciverProvide.resetCurrentSelectIndex(widget.index);
-        showBottomItems(null, context, rpx);
+        // context.read<GoodSelectBottomProvide>().setFromOrderInfo(true);
+        // context.read<GoodSelectBottomProvide>().resetCurrentReceiverIndex(widget.index);
+        // context.read<OrderInfoAddReciverProvide>().resetCurrentSelectIndex(widget.index);
+        // showBottomItems(null, context, rpx);
       },
       child: SingleChildScrollView(
         controller: controller,
@@ -56,18 +57,20 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
           color: Colors.white,
           border: Border.all(color: Colors.grey, width: 0.5),
         ),
-        child: Provide<OrderInfoAddReciverProvide>(
-            builder: (context, child, receiver) {
-          print('[ReceiverSelectInfo] _genSelectGoodsList ,widget.index : ' +
-              widget.index.toString() +
-              ' , receiver.receiverOrderInfos : ' +
-              receiver.receiverOrderInfos.toString());
+        child:
+        // Provide<OrderInfoAddReciverProvide>(
+        //     builder: (context, child, receiver) {
+        //   print('[ReceiverSelectInfo] _genSelectGoodsList ,widget.index : ' +
+        //       widget.index.toString() +
+        //       ' , receiver.receiverOrderInfos : ' +
+        //       receiver.receiverOrderInfos.toString());
 
-          return Column(
+          Column(
             children:
-                buildSelectInfos(receiver.receiverOrderInfos[widget.index - 1]),
-          );
-        }));
+                buildSelectInfos(context.watch<OrderInfoAddReciverProvide>().receiverOrderInfos[widget.index - 1]),
+          )
+        // })
+  );
   }
 
   List<Widget> buildSelectInfos(infos) {
@@ -75,6 +78,7 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
     //     .goodDetailModel
     //     .dataList[0];
     var goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // var goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<dynamic> specifics = jsonDecode(goodInfo.specifics);
     print('SelectInfos->buildSelectInfos()->_infos:' + infos.toString());

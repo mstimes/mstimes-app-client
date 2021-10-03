@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import "package:intl/intl.dart";
-import 'package:mstimes/common/wechat.dart';
 
-var moneyFormat = NumberFormat('0,000');
+// var moneyFormat = NumberFormat('0,000');
 
 Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
     mainAxisAlignment, remainDecimal) {
@@ -53,8 +51,10 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
           ),
           Text(
             int.parse(price.substring(0, price.length - 3)) > 1000
-                ? moneyFormat
-                    .format(int.parse(price.substring(0, price.length - 3)))
+                // ? moneyFormat
+                //     .format(int.parse(price.substring(0, price.length - 3)))
+
+              ? price.substring(0, price.length - 3)
                 : price.substring(0, price.length - 3),
             style: TextStyle(
                 fontSize: largeSize * rpx,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/routers/router_config.dart';
+import 'package:provider/provider.dart';
 
 class GroupGoodsImageSwiper extends StatelessWidget {
   final List<dynamic> swiperImageUrls;
@@ -33,6 +34,7 @@ class GroupGoodsImageSwiper extends StatelessWidget {
               //   // 腾讯应用上架前置登陆
               //   return;
               // }
+              context.read<SelectedGoodInfoProvide>().getGoodInfosById(int.parse(goodIds[index]));
 
               RouterHome.flutoRouter.navigateTo(
                 context,

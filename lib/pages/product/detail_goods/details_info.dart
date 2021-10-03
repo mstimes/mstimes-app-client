@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:provide/provide.dart';
 import 'package:mstimes/config/service_url.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 
 class DetailsGoodInfo extends StatelessWidget {
   double rpx;
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      // var goodInfo = Provide.value<OrderingInfosProvide>(context)
-      //     .goodDetailModel
-      //     .dataList[0];
-      // var goodInfo = val.goodDetailModel.dataList[0];
-      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-      if (goodInfo != null) {
-        List<dynamic> detailImages = goodInfo.detailImages;
-        return Container(
-          color: Colors.grey[200],
-          padding: EdgeInsets.all(2.0),
-          child: Column(
-            children: <Widget>[
-              getImageDetailTitle(),
-              _buildDetailImages(detailImages),
-            ],
-          ),
-        );
-      } else {
-        return Text("商品详情信息不存在！");
-      }
-    });
+
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
+    if (goodInfo != null) {
+      List<dynamic> detailImages = goodInfo.detailImages;
+      return Container(
+        color: Colors.grey[200],
+        padding: EdgeInsets.all(2.0),
+        child: Column(
+          children: <Widget>[
+            getImageDetailTitle(),
+            _buildDetailImages(detailImages),
+          ],
+        ),
+      );
+    } else {
+      return Text("商品详情信息不存在！");
+    }
   }
 
   Widget getImageDetailTitle() {

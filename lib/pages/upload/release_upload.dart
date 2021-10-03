@@ -6,7 +6,7 @@ import 'package:mstimes/pages/upload/release_good_details.dart';
 import 'package:mstimes/pages/upload/release_good_infos.dart';
 import 'package:mstimes/pages/upload/release_main_images.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 const bucketName = 'ghome-bucket';
 
@@ -68,8 +68,7 @@ class _UploadReleaseImagesState extends State<UploadReleaseImages>
 
   @override
   Widget build(BuildContext context) {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
 
     return DefaultTabController(
         length: choiceTabs.length,

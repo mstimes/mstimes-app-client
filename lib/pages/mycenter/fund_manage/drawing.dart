@@ -12,7 +12,7 @@ import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 class DrawingPage extends StatefulWidget {
   const DrawingPage({Key key}) : super(key: key);
@@ -65,8 +65,8 @@ class _DrawingPageState extends State<DrawingPage> {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
-    List<Map> drawingRecordInfo = drawingRecordProvide.drawingRecordInfo;
+    // final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
+    List<Map> drawingRecordInfo = context.read<DrawingRecordProvide>().drawingRecordInfo;
     if (drawingRecordInfo != null && drawingRecordInfo[0]['bankType'] != null) {
       showLastBankType = true;
       bankType = drawingRecordInfo[0]['bankType'];
@@ -227,7 +227,8 @@ class _DrawingPageState extends State<DrawingPage> {
   }
 
   Widget _buildUserNameRow() {
-    return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    // return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    var counter = context.watch<DrawingRecordProvide>();
       return Form(
         key: _userNameFormKey,
         child: Row(
@@ -269,11 +270,12 @@ class _DrawingPageState extends State<DrawingPage> {
           ],
         ),
       );
-    });
+    // });
   }
 
   _buildIdentityCardRow() {
-    return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    // return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    var counter = context.watch<DrawingRecordProvide>();
       return Form(
         key: _identityCardFormKey,
         child: Row(
@@ -314,7 +316,7 @@ class _DrawingPageState extends State<DrawingPage> {
           ],
         ),
       );
-    });
+    // });
   }
 
   _buildBankCardTypeRow() {
@@ -335,7 +337,8 @@ class _DrawingPageState extends State<DrawingPage> {
   }
 
   _buildBankCardNumberRow() {
-    return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    // return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    var counter = context.watch<DrawingRecordProvide>();
       return Form(
         key: _bankNumberFormKey,
         child: Row(
@@ -375,7 +378,7 @@ class _DrawingPageState extends State<DrawingPage> {
           ],
         ),
       );
-    });
+    // });
   }
 
   _buildDepositBankRegionRow() {
@@ -430,7 +433,8 @@ class _DrawingPageState extends State<DrawingPage> {
       );
     }
 
-    return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    // return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    var counter = context.watch<DrawingRecordProvide>();
       return Row(
         children: [
           Container(
@@ -468,11 +472,12 @@ class _DrawingPageState extends State<DrawingPage> {
           ),
         ],
       );
-    });
+    // });
   }
 
   _buildDepositBankRow() {
-    return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
+    var counter = context.watch<DrawingRecordProvide>();
+    // return Provide<DrawingRecordProvide>(builder: (context, child, counter) {
       return Form(
         key: _depositBankFormKey,
         child: Row(
@@ -512,7 +517,7 @@ class _DrawingPageState extends State<DrawingPage> {
           ],
         ),
       );
-    });
+    // });
   }
 
   List<DropdownMenuItem<dynamic>> _buildDropdownMenuItems() {
@@ -887,9 +892,9 @@ class _DrawingPageState extends State<DrawingPage> {
               child: new Text('确定',
                   style: TextStyle(fontSize: 25 * rpx, color: Colors.white)),
               onPressed: () {
-                final drawingRecordProvide =
-                    Provide.value<DrawingRecordProvide>(context);
-                drawingRecordProvide.setNewDrawingInfos(_uploadDrawingInfos);
+                // final drawingRecordProvide =
+                //     Provide.value<DrawingRecordProvide>(context);
+                context.read<DrawingRecordProvide>().setNewDrawingInfos(_uploadDrawingInfos);
 
                 postUploadDrawingInfos(jsonEncode(_uploadDrawingInfos));
                 RouterHome.flutoRouter

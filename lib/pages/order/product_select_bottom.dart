@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
@@ -33,26 +33,29 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
   }
 
   Widget createOrderingButton() {
-    final goodTypeBadgerProvide =
-        Provide.value<GoodSelectBottomProvide>(context);
-    final orderInfoAddReciverProvide =
-        Provide.value<OrderInfoAddReciverProvide>(context);
+    Map typeValueMap = context.watch<GoodSelectBottomProvide>().queryTypeValueMap();
+    Map queryTypeNumChangeMap = context.watch<GoodSelectBottomProvide>().queryTypeNumChangeMap();
+    int typeSpecNums = context.watch<GoodSelectBottomProvide>().typeSpecNums;
+    // final goodTypeBadgerProvide =
+    //     Provide.value<GoodSelectBottomProvide>(context);
+    // final orderInfoAddReciverProvide =
+    //     Provide.value<OrderInfoAddReciverProvide>(context);
     return InkWell(
         onTap: () {
           if(!checkIsLogin(context)){
             return;
           }
 
-          if (goodTypeBadgerProvide.queryTypeValueMap().isEmpty || goodTypeBadgerProvide.typeSpecNums <= 0) {
+          if (typeValueMap.isEmpty || typeSpecNums <= 0) {
             showAlertDialog(context, '请选择后下单', 180.00, rpx);
             return;
           }
 
-          orderInfoAddReciverProvide.addReceiverOrderSelectInfo(
-              goodTypeBadgerProvide.queryTypeNumChangeMap(),
-              goodTypeBadgerProvide.queryTypeValueMap());
+          context.read<OrderInfoAddReciverProvide>().addReceiverOrderSelectInfo(
+              queryTypeNumChangeMap,
+              typeValueMap);
 
-          if (!goodTypeBadgerProvide.fromOrderInfo) {
+          if (!context.read<GoodSelectBottomProvide>().fromOrderInfo) {
             RouterHome.flutoRouter.navigateTo(
               context,
               RouterConfig.orderInfosPath,

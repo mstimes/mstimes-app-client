@@ -10,7 +10,6 @@ import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:intl/intl.dart';
 
 class DrawingAuditPage extends StatefulWidget {
   DrawingAuditPage({Key key}) : super(key: key);
@@ -99,8 +98,10 @@ class _DrawingAuditPageState extends State<DrawingAuditPage> {
 
     FormData formData = new FormData.fromMap({
       "status": queryStatus,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -777,7 +778,8 @@ class _DrawingAuditPageState extends State<DrawingAuditPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+          formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,
@@ -809,7 +811,8 @@ class _DrawingAuditPageState extends State<DrawingAuditPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+         formatDate(endDate, ymdFormat),
+        // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,

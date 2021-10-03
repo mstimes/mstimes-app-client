@@ -4,12 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:mstimes/common/control.dart';
+import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:intl/intl.dart';
+import 'package:date_format/date_format.dart';
+import 'package:mstimes/utils/date_utils.dart';
 
 class CouponPage extends StatefulWidget {
   const CouponPage({Key key}) : super(key: key);
@@ -242,42 +244,43 @@ class _CouponPageState extends State<CouponPage> {
     );
   }
 
-  // Widget buildInviteFriendsContainer() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.center,
-  //     children: [
-  //       Container(
-  //         margin: EdgeInsets.only(top: 300 * rpx),
-  //         child: Text(
-  //           '这里空空如也',
-  //           style: TextStyle(
-  //               color: Colors.black,
-  //               fontSize: 30 * rpx,
-  //               fontWeight: FontWeight.bold),
-  //         ),
-  //       ),
-  //       Container(
-  //         margin: EdgeInsets.only(top: 40 * rpx),
-  //         child: Text(
-  //           '邀请好友下单可获取升级奖励，快去邀请吧',
-  //           style: TextStyle(
-  //               color: Colors.black,
-  //               fontSize: 26 * rpx,
-  //               fontWeight: FontWeight.w400),
-  //         ),
-  //       ),
-  //       // Container(
-  //       //   margin: EdgeInsets.only(top: 100 * rpx),
-  //       //   child: InkWell(
-  //       //     onTap: () {
-  //       //       callInviteFriends();
-  //       //     },
-  //       //     child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
-  //       //   ),
-  //       // )
-  //     ],
-  //   );
-  // }
+  Widget buildInviteFriendsContainer(rpx) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: 300 * rpx),
+          child: Text(
+            '这里空空如也',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 30 * rpx,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 40 * rpx),
+          child: Text(
+            '邀请好友下单可获取升级奖励，快去邀请吧',
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 26 * rpx,
+                fontWeight: FontWeight.w400),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 100 * rpx),
+          child: InkWell(
+            onTap: () {
+
+              callInviteFriends(context, rpx);
+            },
+            child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
+          ),
+        )
+      ],
+    );
+  }
 
   Widget _buildCouponStatus() {
     return Container(
@@ -382,8 +385,10 @@ class _CouponPageState extends State<CouponPage> {
     FormData formData = new FormData.fromMap({
       "userNumber": UserInfo.getUserInfo().userNumber,
       "status": queryStatus,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate),
+      "startDate": formatDate(startDate, ymdFormat),
+      "endDate": formatDate(endDate, ymdFormat),
+      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endDate": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });

@@ -36,7 +36,7 @@ class RouterConfig {
   static String invitePagePath = '/login/invite';
   static String serviceTextPagePath = '/login/serviceTextPage';
   static String privateTextPagePath = '/login/privateTextPage';
-  static String selectAccTypePagePath = '/login/selectAccTypePage';
+  // static String selectAccTypePagePath = '/login/selectAccTypePage';
 
   // 导航
   static String indexPagePath = '/page/index';
@@ -97,8 +97,8 @@ class RouterConfig {
     fluroRouter.define(loginPagePath, handler: loginPageHandler);
     fluroRouter.define(paySuccessPagePath, handler: paySuccessPageHandler);
     fluroRouter.define(payFailedPagePath, handler: payFailedPageHandler);
-    fluroRouter.define(selectAccTypePagePath,
-        handler: selectAccTypePageHandler);
+    // fluroRouter.define(selectAccTypePagePath,
+    //     handler: selectAccTypePageHandler);
     fluroRouter.define(confirmOrderPagePath, handler: confirmOrderPageHandler);
     fluroRouter.define(newGoodsPath, handler: newGoodsHandler);
     fluroRouter.define(myFunsPath, handler: myFunsPageHandler);

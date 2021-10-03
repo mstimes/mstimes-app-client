@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
@@ -8,11 +7,13 @@ import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/tools/common_container.dart';
-import 'package:provide/provide.dart';
 import 'package:mstimes/pages/product/detail_goods/details_info.dart';
 import 'package:mstimes/pages/product/detail_goods/details_top.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
+import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 import 'dart:io';
 
 class DetailGoods extends StatefulWidget {
@@ -26,6 +27,12 @@ class DetailGoods extends StatefulWidget {
 
 class _DetailGoodsState extends State<DetailGoods> {
   double rpx;
+
+  @override
+  void initState() {
+    super.initState();
+    _getGoodInfosById(widget.goodId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +52,22 @@ class _DetailGoodsState extends State<DetailGoods> {
         elevation: 0,
         backgroundColor: Colors.white,
       ),
+      // body: Stack(
+      //   children: <Widget>[
+      //     ListView(
+      //       children: <Widget>[
+      //         DetailsGoodTop(),
+      //         DetailsGoodInfo(),
+      //       ],
+      //     ),
+      //     Positioned(
+      //       bottom: Platform.isIOS ? 30 * rpx : 3 * rpx,
+      //       left: 70 * rpx,
+      //       child: _buildOrderingContainer(),
+      //     )
+      //     // Positioned(bottom: 0, left: 0, child: DetailsGoodBottom())
+      //   ],
+      // )
       body: FutureBuilder(
         future: _getGoodInfosById(widget.goodId),
         builder: _buildFuture,
@@ -92,32 +115,30 @@ class _DetailGoodsState extends State<DetailGoods> {
       return Container();
     }
 
-    return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-      if (goodInfo != null) {
-        return InkWell(
-          onTap: () {
-            final goodTypeBadgerProvide =
-                Provide.value<GoodSelectBottomProvide>(context);
-            final orderInfoAddReciverProvide =
-                Provide.value<OrderInfoAddReciverProvide>(context);
-            final receiverAddressProvide =
-                Provide.value<ReceiverAddressProvide>(context);
+    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    if (goodInfo != null) {
+      return InkWell(
+        onTap: () {
+          // final goodTypeBadgerProvide =
+          //     Provide.value<GoodSelectBottomProvide>(context);
+          // final orderInfoAddReciverProvide =
+          //     Provide.value<OrderInfoAddReciverProvide>(context);
+          // final receiverAddressProvide =
+          //     Provide.value<ReceiverAddressProvide>(context);
+          //
 
-            _getGoodInfosById(widget.goodId);
+          context.read<GoodSelectBottomProvide>().clear();
+          context.read<OrderInfoAddReciverProvide>().clear();
+          context.read<ReceiverAddressProvide>().clear();
 
-            goodTypeBadgerProvide.clear();
-            orderInfoAddReciverProvide.clear();
-            receiverAddressProvide.clear();
-
-            showBottomItems(widget.goodId, context, rpx);
-          },
-          child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
-        );
-      } else {
-        return Text("商品详情信息不存在！");
-      }
-    });
+          showBottomItems(widget.goodId, context, rpx);
+        },
+        child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
+      );
+    } else {
+      return Text("商品详情信息不存在！");
+    }
   }
 
   Future _getGoodInfosById(int goodId) async {

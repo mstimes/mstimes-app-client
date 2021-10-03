@@ -10,7 +10,6 @@ import 'package:mstimes/model/fund_summary.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:intl/intl.dart';
 import 'package:mstimes/utils/date_utils.dart';
 
 class GroupInfoPage extends StatefulWidget {
@@ -56,8 +55,8 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
           header: ClassicalHeader(
             showInfo: false,
             textColor: mainColor,
-            refreshingText: "Ms·时代",
-            refreshedText: "Ms·时代",
+            refreshingText: "Ms时代",
+            refreshedText: "Ms时代",
             refreshText: "",
             refreshReadyText: "",
             noMoreText: "",
@@ -631,7 +630,7 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
           },
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 23 * rpx),
           ),
         ),
       );
@@ -655,7 +654,7 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
           },
           child: Text(
             text,
-            style: TextStyle(color: buttonColor),
+            style: TextStyle(color: buttonColor, fontSize: 23 * rpx),
           ),
         ),
       );
@@ -724,8 +723,10 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
       "agentId": UserInfo.getUserInfo().userId,
       "mType": -1,
       "relationType": -1,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate),
+      "startDate": formatDate(startDate, ymdFormat),
+      "endDate": formatDate(endDate, ymdFormat),
+      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endDate": DateFormat("yyyy-MM-dd").format(endDate),
     });
 
     requestDataByUrl('countAgentRelations', formData: formData).then((val) {
@@ -745,8 +746,10 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
       "agentId": UserInfo.getUserInfo().userId,
       "mType": -1,
       "relationType": 1,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate),
+      "startDate": formatDate(startDate, ymdFormat),
+      "endDate": formatDate(endDate, ymdFormat),
+      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endDate": DateFormat("yyyy-MM-dd").format(endDate),
     });
 
     requestDataByUrl('countAgentRelations', formData: formData).then((val) {
@@ -777,8 +780,10 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
       "agentId": UserInfo.getUserInfo().userId,
       "mType": mType,
       "relationType": relationType,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate),
+      "startDate": formatDate(startDate, ymdFormat),
+      "endDate": formatDate(endDate, ymdFormat),
+      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endDate": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -815,7 +820,8 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+          formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],
@@ -847,7 +853,8 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+          formatDate(endDate, ymdFormat),
+        // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],

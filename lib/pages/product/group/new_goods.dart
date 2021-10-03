@@ -447,7 +447,7 @@ class _NewGoodsState extends State<NewGoods> {
           onPressed: () {
             if (checkIsLogin(context)) {
               print('new_goods ... ' + val['goodId'].toString());
-              getGoodInfosById(val['goodId'], context);
+              // getGoodInfosById(val['goodId'], context);
               showBottomItems(val['goodId'], context, rpx);
             }
           }),

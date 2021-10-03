@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/common/control.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/utils/color_util.dart';
@@ -16,8 +16,9 @@ class AddReceiverButton extends StatelessWidget {
         child: OutlineButton(
             borderSide: new BorderSide(color: buttonColor),
             onPressed: () {
-              final orderInfoAddReciverProvide =
-                  Provide.value<OrderInfoAddReciverProvide>(context);
+              // final orderInfoAddReciverProvide =
+              //     Provide.value<OrderInfoAddReciverProvide>(context);
+              final orderInfoAddReciverProvide = context.read<OrderInfoAddReciverProvide>();
               orderInfoAddReciverProvide.initAddReceiverOrderSelectInfo();
               if (debug) {
                 print('add receiver..._receiverOrderInfos: ' +

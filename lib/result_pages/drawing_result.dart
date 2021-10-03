@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
-import 'package:provide/provide.dart';
-
+import 'package:provider/provider.dart';
 import '../routers/router_config.dart';
 
 class DrawingResultPage extends StatelessWidget {
@@ -11,8 +10,8 @@ class DrawingResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
-    Map drawingRecordInfo = drawingRecordProvide.getNewDrawingInfos();
+    // final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
+    Map drawingRecordInfo = context.read<DrawingRecordProvide>().getNewDrawingInfos();
     rpx = MediaQuery.of(context).size.width / 750;
     return Scaffold(
       appBar: AppBar(

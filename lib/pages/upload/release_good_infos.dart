@@ -1,7 +1,8 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provide/provide.dart';
+import 'package:mstimes/utils/date_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/common/valid.dart';
@@ -74,8 +75,9 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildTitleInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
       child: Form(
         key: _goodTitleFormKey,
@@ -140,8 +142,9 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _selectHotSaleType() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return DropdownButton(
         value: _selectHotSaleValue,
         icon: Icon(Icons.arrow_right),
@@ -191,8 +194,10 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _showDropdownList() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return DropdownButton(
         value: _selectGoodTypeValue,
         icon: Icon(Icons.arrow_right),
@@ -318,8 +323,9 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildPrice() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
       margin: EdgeInsets.only(
           left: 10 * rpx, top: 8 * rpx, right: 10 * rpx, bottom: 5 * rpx),
@@ -434,8 +440,10 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildProfitShare() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
+
     return Container(
       margin: EdgeInsets.only(left: 3, top: 3, right: 10, bottom: 5),
       child: Form(
@@ -710,8 +718,9 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildCategoryContainter() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
       margin: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
       child: Row(
@@ -775,8 +784,10 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildSpecificContainter() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
+
     return Container(
       margin: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
       child: Row(
@@ -914,8 +925,10 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildGroupStartDate() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
+
     return Container(
       height: 70 * rpx,
       width: 680 * rpx,
@@ -924,7 +937,8 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
         child: Text(
           groupStartDate == null
               ? '请选择上架日期'
-              : DateFormat("yyyy-MM-dd").format(groupStartDate),
+              // : DateFormat("yyyy-MM-dd").format(groupStartDate),
+          : formatDate(groupStartDate, ymdFormat),
           style: TextStyle(color: Colors.grey[500], fontSize: 13),
         ),
         color: Colors.white,
@@ -951,8 +965,10 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
   }
 
   Widget _buildNextBottom(context) {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
         padding: EdgeInsets.only(left: 0, right: 0, top: 6, bottom: 10),
         width: 750 * rpx,
