@@ -34,17 +34,17 @@ class _HomeAlertPageState extends State<HomeAlertPage> {
 
     timer = Timer(const Duration(milliseconds: 0), (){
       try{
-        showDialog<Null>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return new AlertDialog(
-              backgroundColor: Colors.black45,
-              title: Center(child: Text('用户协议 & 隐私声明', style: TextStyle(fontSize: 25 * rpx, color: Colors.white))),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                     Container(
+          showDialog<Null>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new AlertDialog(
+                backgroundColor: Colors.black45,
+                title: Center(child: Text('服务协议和隐私政策', style: TextStyle(fontSize: 25 * rpx, color: Colors.white))),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      Container(
                         margin: EdgeInsets.only(top: 20 * rpx),
                         child: RichText(
                           text: TextSpan(children: <InlineSpan>[
@@ -61,54 +61,56 @@ class _HomeAlertPageState extends State<HomeAlertPage> {
                           ]),
                         ),
                       ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20 * rpx),
-                      child: RichText(
-                        text: TextSpan(children: <InlineSpan>[
-                          TextSpan(
-                            text:
-                            '您需要注册成为Ms时代用户方可使用本软件的网上购物等功能，在您注册前仍可以浏览本软件中的商品和服务内容，详情请参考如下内容： ',
-                            style : TextStyle(fontSize: 23 * rpx, color: Colors.white),
-                          ),
-                          TextSpan(
-                            text: '',
-                            style: TextStyle(
-                                color: Colors.black, fontSize: 14, height: 2.0),
-                          )
-                        ]),
+                      Container(
+                        margin: EdgeInsets.only(top: 20 * rpx),
+                        child: RichText(
+                          text: TextSpan(children: <InlineSpan>[
+                            TextSpan(
+                              text:
+                              '您需要注册成为Ms时代用户方可使用本软件的网上购物等功能，在您注册前仍可以浏览本软件中的商品和服务内容，详情请参考如下内容： ',
+                              style : TextStyle(fontSize: 23 * rpx, color: Colors.white),
+                            ),
+                            TextSpan(
+                              text: '',
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 14, height: 2.0),
+                            )
+                          ]),
+                        ),
                       ),
-                    ),
-                    _showUserAndPrivatePolicy()
-                  ],
+                      _showUserAndPrivatePolicy()
+                    ],
+                  ),
                 ),
-              ),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text('拒绝',
-                      style: TextStyle(fontSize: 26 * rpx, color: Colors.white)),
-                  onPressed: () {
-                    exit(0);
-                  },
-                ),
-                new FlatButton(
-                  child: new Text('同意，开始使用',
-                      style: TextStyle(fontSize: 26 * rpx, color: Colors.white)),
-                  onPressed: () {
-                    _save();
-                    Navigator.pop(context);
-                    RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
-                  },
-                ),
-              ],
-            );
-          },
-        );
+                actions: <Widget>[
+                  new FlatButton(
+                    child: new Text('暂不使用',
+                        style: TextStyle(fontSize: 26 * rpx, color: Colors.white)),
+                    onPressed: () {
+                      exit(0);
+                    },
+                  ),
+                  new FlatButton(
+                    child: new Text('同意',
+                        style: TextStyle(fontSize: 26 * rpx, color: Colors.white)),
+                    onPressed: () {
+                      _save();
+                      Navigator.pop(context);
+                      RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
       }catch (e){
 
       }
     });
     return Container();
   }
+
+
 
   Widget _showUserAndPrivatePolicy(){
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [

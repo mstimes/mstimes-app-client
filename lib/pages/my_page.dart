@@ -17,7 +17,7 @@ import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -72,8 +72,8 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
-    drawingRecordProvide.getLastByAgentId();
+    // final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
+    context.read<DrawingRecordProvide>().getLastByAgentId();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -606,7 +606,7 @@ class _MyPageState extends State<MyPage> {
                     '复制',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20 * rpx,
+                        fontSize: 18 * rpx,
                         fontWeight: FontWeight.bold),
                   ),
                 ))
@@ -628,7 +628,7 @@ class _MyPageState extends State<MyPage> {
             Container(
                 margin: EdgeInsets.only(left: 20 * rpx),
                 height: 40 * rpx,
-                width: 100 * rpx,
+                width: 120 * rpx,
                 child: OutlineButton(
                   borderSide: BorderSide(color: Colors.white, width: 1.5),
                   onPressed: () {
@@ -1476,7 +1476,7 @@ class _MyPageState extends State<MyPage> {
     } else {
       return InkWell(
         onTap: () {
-          callInviteFriends();
+          // callInviteFriends();
         },
         child: Container(
           margin: EdgeInsets.only(top: 20 * rpx, bottom: 30 * rpx),

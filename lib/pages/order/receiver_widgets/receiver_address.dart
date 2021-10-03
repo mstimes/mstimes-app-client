@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
-import 'package:mstimes/common/control.dart';
 import 'package:mstimes/common/valid.dart';
+import 'package:provider/provider.dart';
+import 'package:mstimes/common/control.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/provide/order_info_add.dart';
@@ -20,7 +20,7 @@ class ReceiverAddress extends StatefulWidget {
 }
 
 class ReceiverAddressState extends State<ReceiverAddress> {
-  // ScrollController _controller;
+  GlobalKey<FormState> _addressInfoFormKey = new GlobalKey<FormState>();
   double rpx;
   var _keyword;
   Timer _getBaiduTokenTimer;
@@ -123,9 +123,9 @@ class ReceiverAddressState extends State<ReceiverAddress> {
       return IconButton(
           onPressed: () {
             print('delete receiver index : ' + widget.index.toString());
-            final orderInfoAddReciverProvide =
-                Provide.value<OrderInfoAddReciverProvide>(context);
-            orderInfoAddReciverProvide.deleteReceiverInfo(widget.index);
+            // final orderInfoAddReciverProvide =
+            //     Provide.value<OrderInfoAddReciverProvide>(context);
+            context.read<OrderInfoAddReciverProvide>().deleteReceiverInfo(widget.index);
           },
           color: Colors.grey,
           icon: Icon(
@@ -137,14 +137,15 @@ class ReceiverAddressState extends State<ReceiverAddress> {
   }
 
   Widget _buildReceiverInfo() {
-    return Provide<ReceiverAddressProvide>(
-        builder: (context, child, addressInfo) {
+    var addressInfo = context.watch<ReceiverAddressProvide>();
+    // return Provide<ReceiverAddressProvide>(
+    //     builder: (context, child, addressInfo) {
       if (addressInfo.identifyAddressMap[widget.index.toString()] == null) {
         return _buildTextFieldInput();
       } else {
         return _buildIdentifyResult(addressInfo);
       }
-    });
+    // });
   }
 
   // Widget _buildReceiverInfo() {
@@ -156,34 +157,37 @@ class ReceiverAddressState extends State<ReceiverAddress> {
   // }
 
   Widget _buildTextFieldInput() {
-    return TextField(
-      autofocus: false,
-      minLines: 1,
-      maxLines: 5,
-      maxLength: 100,
-      enabled: true,
-      controller: TextEditingController.fromValue(TextEditingValue(
-          text: '${this._keyword == null ? "" : this._keyword}', //判断keyword是否为空
-          // 保持光标在最后
-          selection: TextSelection.fromPosition(TextPosition(
-              affinity: TextAffinity.downstream,
-              offset: '${this._keyword}'.length)))),
-      onChanged: (value) {
-        this.setState(() {
-          this._keyword = value;
-        });
-      },
-      textInputAction: TextInputAction.done,
-      decoration: InputDecoration.collapsed(
-          hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey[400]),
-          hintText:
-              "收件人姓名,手机，地址信息，支持黏贴信息并智能识别\n 如：小顾，188*********，浙江省 杭州市 xx区 xx街道 xxx"),
+    return Form(
+      key: _addressInfoFormKey,
+      child: TextFormField(
+        autofocus: false,
+        minLines: 1,
+        maxLines: 5,
+        maxLength: 100,
+        enabled: true,
+        controller: TextEditingController.fromValue(TextEditingValue(
+            text: '${this._keyword == null ? "" : this._keyword}', //判断keyword是否为空
+            // 保持光标在最后
+            selection: TextSelection.fromPosition(TextPosition(
+                affinity: TextAffinity.downstream,
+                offset: '${this._keyword}'.length)))),
+        onSaved: (value) {
+            this._keyword = value;
+        },
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration.collapsed(
+            hintStyle: TextStyle(fontSize: 15.0, color: Colors.grey[400]),
+            hintText:
+            "收件人姓名,手机，地址信息，支持黏贴信息并智能识别\n 如：小顾，188*********，浙江省 杭州市 xx区 xx街道 xxx"),
+      ),
     );
   }
 
   Widget _buildIdentifyResult(identifyAddressModel) {
-    final receiverAddressProvide =
-        Provide.value<ReceiverAddressProvide>(context);
+    // final receiverAddressProvide =
+    //     Provide.value<ReceiverAddressProvide>(context);
+
+    final receiverAddressProvide = context.read<ReceiverAddressProvide>();
 
     IdentifyAddressModel addressInfo =
         identifyAddressModel.identifyAddressMap[widget.index.toString()];
@@ -269,8 +273,9 @@ class ReceiverAddressState extends State<ReceiverAddress> {
   }
 
   Widget _buildIdentifyButton() {
-    return Provide<ReceiverAddressProvide>(
-        builder: (context, child, addressInfo) {
+    var addressInfo = context.watch<ReceiverAddressProvide>();
+    // return Provide<ReceiverAddressProvide>(
+    //     builder: (context, child, addressInfo) {
       if (debug) {
         print('_buildIdentifyButton widget.index: ' +
             widget.index.toString() +
@@ -291,10 +296,15 @@ class ReceiverAddressState extends State<ReceiverAddress> {
                 if (debug) {
                   print('smart adjust... index: ' + widget.index.toString());
                 }
-                // if (this._keyword == null) {
-                //   showAlertDialog(context, "请填写收件人信息", 140.00, rpx);
-                //   return;
-                // }
+
+
+                var _addressInfoForm = _addressInfoFormKey.currentState;
+                _addressInfoForm.save();
+
+                if (this._keyword == null) {
+                  showAlertDialog(context, "请填写收件人信息", 140.00, rpx);
+                  return;
+                }
 
                 Map<String, dynamic> map = Map();
                 map['text'] = this._keyword;
@@ -324,11 +334,12 @@ class ReceiverAddressState extends State<ReceiverAddress> {
               child: Text('清空')),
         );
       }
-    });
+    // });
   }
 
   void _identifyReceierAddress(requestMap, BuildContext context) async {
-    return Provide.value<ReceiverAddressProvide>(context)
-        .getIndentifyResult(widget.index.toString(), requestMap);
+    return context.read<ReceiverAddressProvide>().getIndentifyResult(widget.index.toString(), requestMap);
+    // return Provide.value<ReceiverAddressProvide>(context)
+    //     .getIndentifyResult(widget.index.toString(), requestMap);
   }
 }

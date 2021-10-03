@@ -274,8 +274,11 @@ class _RegistryPageState extends State<RegistryPage> {
 
         RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
       }else{
+        // RouterHome.flutoRouter
+        //     .navigateTo(context, RouterConfig.selectAccTypePagePath);
+        UserInfo.getUserInfo().setUserType(1);
         RouterHome.flutoRouter
-            .navigateTo(context, RouterConfig.selectAccTypePagePath);
+            .navigateTo(context, RouterConfig.invitePagePath);
       }
     });
   }
@@ -322,8 +325,11 @@ class _RegistryPageState extends State<RegistryPage> {
                   style: TextStyle(fontSize: 23 * rpx, color: Colors.white)),
               onPressed: () {
                 if(UserInfo.getUserInfo().userType == null){
+                  // RouterHome.flutoRouter
+                  //     .navigateTo(context, RouterConfig.selectAccTypePagePath);
+                  UserInfo.getUserInfo().setUserType(1);
                   RouterHome.flutoRouter
-                      .navigateTo(context, RouterConfig.selectAccTypePagePath);
+                      .navigateTo(context, RouterConfig.invitePagePath);
                 }else{
                   RouterHome.flutoRouter
                       .navigateTo(context, RouterConfig.groupGoodsPath);

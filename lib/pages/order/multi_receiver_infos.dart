@@ -6,7 +6,7 @@ import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
-import 'package:provide/provide.dart';
+// import 'package:provide/provide.dart';
 import 'package:mstimes/pages/order/receiver_widgets/receiver_address.dart';
 import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';

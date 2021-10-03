@@ -150,8 +150,11 @@ class _VerifyPageState extends State<VerifyPage> {
 
         RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
       }else{
+        // RouterHome.flutoRouter
+        //     .navigateTo(context, RouterConfig.selectAccTypePagePath);
+        UserInfo.getUserInfo().setUserType(1);
         RouterHome.flutoRouter
-            .navigateTo(context, RouterConfig.selectAccTypePagePath);
+            .navigateTo(context, RouterConfig.invitePagePath);
       }
     });
   }

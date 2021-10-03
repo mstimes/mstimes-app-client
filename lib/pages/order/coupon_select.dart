@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 
 class CouponSelectItemPage extends StatefulWidget {
@@ -75,13 +75,13 @@ class _CouponSelectItemPageState extends State<CouponSelectItemPage> {
   }
 
   Widget _buildCouponsBottom(){
-    final selectDiscountProvide =
-    Provide.value<SelectDiscountProvide>(context);
+    // final selectDiscountProvide =
+    // Provide.value<SelectDiscountProvide>(context);
 
     return InkWell(
       onTap: (){
         if(!selectUnused){
-          selectDiscountProvide.enable();
+          context.read<SelectDiscountProvide>().enable();
         }
         Navigator.pop(context);
       },
@@ -93,15 +93,15 @@ class _CouponSelectItemPageState extends State<CouponSelectItemPage> {
   }
 
   Widget _buildUnuseCouponContainer(){
-    final selectDiscountProvide =
-    Provide.value<SelectDiscountProvide>(context);
+    // final selectDiscountProvide =
+    // Provide.value<SelectDiscountProvide>(context);
 
     return InkWell(
       onTap: (){
         setState(() {
           enableCheckBoxIndex = -1;
           selectUnused = true;
-          selectDiscountProvide.clear();
+          context.read<SelectDiscountProvide>().clear();
         });
       },
       child: Container(
@@ -123,8 +123,8 @@ class _CouponSelectItemPageState extends State<CouponSelectItemPage> {
   }
 
   Widget _genCouponList() {
-    final selectDiscountProvide =
-    Provide.value<SelectDiscountProvide>(context);
+    // final selectDiscountProvide =
+    // Provide.value<SelectDiscountProvide>(context);
 
     return ListView.builder(
       shrinkWrap: true,
@@ -145,7 +145,7 @@ class _CouponSelectItemPageState extends State<CouponSelectItemPage> {
             onTap: (){
               setState(() {
                 enableCheckBoxIndex = index;
-                selectDiscountProvide.setSelectCoupon(index, widget.couponList[index]);
+                context.read<SelectDiscountProvide>().setSelectCoupon(index, widget.couponList[index]);
               });
             },
             child: Row(

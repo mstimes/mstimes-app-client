@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    fluwx.responseFromAuth.listen((data) {
+    fluwx.weChatResponseEventHandler.listen((data) {
       if (data is fluwx.WeChatAuthResponse) {
         if (data.errCode == 0) {
           getWeChatAccessToken(data.code, context);
@@ -201,8 +201,7 @@ class _LoginPageState extends State<LoginPage> {
           //点击登录按钮，解除焦点，回收键盘
           _focusNodePassWord.unfocus();
           _focusNodeUserName.unfocus();
-
-          wxLogin();
+          wxLogin(context, rpx);
         },
       ),
     );
@@ -347,10 +346,10 @@ class _LoginPageState extends State<LoginPage> {
             new SizedBox(
               height: 150 * rpx,
             ),
-            isInstalledWx == true ? wxLoginArea : Container(),
+            Platform.isIOS ? (isInstalledWx == true ? wxLoginArea : Container()) : wxLoginArea,
             Platform.isIOS ? appleLoginArea : Container(),
             new SizedBox(
-              height: Platform.isIOS ? 500 * rpx : 400 * rpx,
+              height: Platform.isIOS ? 500 * rpx : 650 * rpx,
             ),
             readServiceText,
           ],

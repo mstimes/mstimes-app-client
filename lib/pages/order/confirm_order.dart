@@ -13,7 +13,7 @@ import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'coupon_select.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'dart:io';
@@ -107,14 +107,18 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
 
   List<Widget> showOrderInfos() {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     List<Widget> orderInfoTotalList = List();
     // 商品信息头
     orderInfoTotalList.add(buildOrderInfoTop(goodInfo));
 
-    final receiverAddressProvide =
-        Provide.value<ReceiverAddressProvide>(context);
-    final orderInfoAddReciverProvide =
-        Provide.value<OrderInfoAddReciverProvide>(context);
+    // final receiverAddressProvide =
+    //     Provide.value<ReceiverAddressProvide>(context);
+    // final orderInfoAddReciverProvide =
+    //     Provide.value<OrderInfoAddReciverProvide>(context);
+
+    final receiverAddressProvide = context.read<ReceiverAddressProvide>();
+    final orderInfoAddReciverProvide = context.read<OrderInfoAddReciverProvide>();
 
     receiverAddressProvide.identifyAddressMap.forEach((key, value) {
       receiverSelectDataTmp['receiverPrice'] = 0;
@@ -180,7 +184,8 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   }
 
   Widget getCouponList(){
-    return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
+    // return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
+    var counter = context.watch<SelectDiscountProvide>();
       return InkWell(
         onTap: (){
           if(_userCouponList.length > 0){
@@ -202,7 +207,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
           ],
         ),
       );
-    });
+    // });
   }
 
   Map getBeansDiscountRow(list, receiverSelectDataTmp) {
@@ -402,7 +407,8 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   }
 
   Widget calculateTotalPrice(receiverPrice){
-    return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
+    // return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
+    var counter = context.watch<SelectDiscountProvide>();
       int totalCouponDiscount = 0;
       if(counter.selectedCoupon != null){
         totalCouponDiscount =  int.parse(counter.selectedCoupon['discountCoupon']);
@@ -445,7 +451,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
           )
         ],
       );
-    });
+    // });
   }
 
   Widget buildOrderInfoTop(goodInfo) {
@@ -501,16 +507,22 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   }
 
   Widget _buildOrderInfoBottom() {
-    final orderInfoAddReciverProvide =
-        Provide.value<OrderInfoAddReciverProvide>(context);
-    final receiverAddressProvide =
-        Provide.value<ReceiverAddressProvide>(context);
-    final uploadOrderProvide = Provide.value<UploadOrderProvide>(context);
+    // final orderInfoAddReciverProvide =
+    //     Provide.value<OrderInfoAddReciverProvide>(context);
+    // final receiverAddressProvide =
+    //     Provide.value<ReceiverAddressProvide>(context);
+
+    final orderInfoAddReciverProvide = context.read<OrderInfoAddReciverProvide>();
+    final receiverAddressProvide = context.read<ReceiverAddressProvide>();
+
+    // final uploadOrderProvide = Provide.value<UploadOrderProvide>(context);
     // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
     //     .goodDetailModel
     //     .dataList[0];
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
+    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
+    var counter = context.watch<SelectDiscountProvide>();
+    // return Provide<SelectDiscountProvide>(builder: (context, child, counter) {
       int totalCouponDiscount = 0;
       if(counter.selectedCoupon != null){
         totalCouponDiscount = int.parse(counter.selectedCoupon['discountCoupon']);
@@ -561,8 +573,10 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                           totalBeansDiscount = canUseBeanCounts;
                         }
 
-                        final selectDiscountProvide =
-                        Provide.value<SelectDiscountProvide>(context);
+                        // final selectDiscountProvide =
+                        // Provide.value<SelectDiscountProvide>(context);
+
+                        final selectDiscountProvide = context.read<SelectDiscountProvide>();
 
                         var couponCode = '';
                         if(selectDiscountProvide.selectedCoupon != null){
@@ -581,7 +595,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                           "receiverAddress": jsonEncode(
                               receiverAddressProvide.identifyAddressMap)
                         });
-                        uploadOrderProvide.postUploadGoodInfos(
+                        context.read<UploadOrderProvide>().postUploadGoodInfos(
                             formData,
                             goodInfo.title,
                             (totalOrderPrice - totalCouponDiscount - totalBeansToMoneyAmount).toString(),
@@ -597,7 +611,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
               ),
             ],
           ));
-    });
+    // });
   }
 
   _buildSelectBeans(){
@@ -627,8 +641,8 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   }
 
   _showCouponItems(context) {
-    final selectDiscountProvide =
-    Provide.value<SelectDiscountProvide>(context);
+    // final selectDiscountProvide =
+    // Provide.value<SelectDiscountProvide>(context);
 
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -645,7 +659,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                     },
                   child: CouponSelectItemPage(
                     couponList: _userCouponList,
-                    selectedIndex: selectDiscountProvide.selectedIndex,
+                    selectedIndex: context.read<SelectDiscountProvide>().selectedIndex,
                   ),
                 )),
           );

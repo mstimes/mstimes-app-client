@@ -9,7 +9,6 @@ import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:intl/intl.dart';
 import 'package:mstimes/utils/date_utils.dart';
 
 class MyFunsPage extends StatefulWidget {
@@ -62,9 +61,11 @@ class _MyFunsPageState extends State<MyFunsPage> {
   void _getFunsCountToday(agentId) {
     FormData formData = new FormData.fromMap({
       "agentId": agentId,
-      "startTime": DateFormat("yyyy-MM-dd").format(DateTime.now()),
-      "endTime": DateFormat("yyyy-MM-dd")
-          .format(DateTime.now().add(new Duration(days: 1))),
+      "startTime": formatDate(DateTime.now(), ymdFormat),
+      "endTime": formatDate(DateTime.now().add(new Duration(days: 1)), ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(DateTime.now()),
+      // "endTime": DateFormat("yyyy-MM-dd")
+      //     .format(DateTime.now().add(new Duration(days: 1))),
     });
     requestDataByUrl('queryFunsCount', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -695,8 +696,10 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
     FormData formData = new FormData.fromMap({
       "agentId": UserInfo.getUserInfo().userId,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -733,7 +736,8 @@ class _MyFunsPageState extends State<MyFunsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+          formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],
@@ -765,7 +769,8 @@ class _MyFunsPageState extends State<MyFunsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+          formatDate(endDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],

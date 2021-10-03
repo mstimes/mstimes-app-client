@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mstimes/model/local_share/release_images.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/utils/color_util.dart';
@@ -58,8 +58,9 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildBrandInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 10 * rpx),
@@ -105,8 +106,9 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildMaterialInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -152,8 +154,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildComponentInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -200,8 +201,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildProductionDateInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -248,8 +248,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildExpirationDateInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -296,8 +295,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildGuaranteePeriodInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -344,8 +342,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildProductionPlaceInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -393,8 +390,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildShippingInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -441,8 +437,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildUnshippingInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -489,8 +484,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildShippingTimeLimitInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -538,8 +532,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildAfterSalesInfo() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     // FocusNode _focusNode = FocusNode();
     return Container(
       margin: EdgeInsets.only(left: 6 * rpx, top: 6 * rpx),
@@ -586,8 +579,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
   }
 
   Widget _buildUploadImageBottom(context) {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
         padding: EdgeInsets.only(left: 0, right: 0, top: 6, bottom: 26),
         width: 750 * rpx,

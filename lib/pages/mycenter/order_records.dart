@@ -11,7 +11,6 @@ import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:intl/intl.dart';
 
 class OrderRecordsPage extends StatefulWidget {
   OrderRecordsPage({Key key}) : super(key: key);
@@ -102,8 +101,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
     }
     FormData formData = new FormData.fromMap({
       "agentId": userId,
-      "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      "endDate": DateFormat("yyyy-MM-dd").format(endDate)
+      "startDate": formatDate(startDate, ymdFormat),
+      "endDate": formatDate(endDate, ymdFormat),
+      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endDate": DateFormat("yyyy-MM-dd").format(endDate)
     });
     requestDataByUrl('queryFundSummary', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -160,8 +161,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       "queryType": queryType,
       "userId": userInfo.userId,
       "userNumber": userInfo.userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -185,8 +188,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       'queryType': 1,
       "userId": UserInfo.getUserInfo().userId,
       "userNumber": UserInfo.getUserInfo().userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
     });
     requestDataByUrl('queryOrderCounts', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -208,8 +213,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       'queryType': 3,
       "userId": UserInfo.getUserInfo().userId,
       "userNumber": UserInfo.getUserInfo().userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
     });
     requestDataByUrl('queryOrderCounts', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -400,7 +407,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       List<Widget> listWidget = _orderList.map((val) {
         return Container(
           width: 700 * rpx,
-          height: 330 * rpx,
+          height: 360 * rpx,
           margin: EdgeInsets.only(
               left: 6 * rpx, top: 10 * rpx, right: 6 * rpx, bottom: 6 * rpx),
           //设置 child 居中
@@ -468,12 +475,12 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 160 * rpx,
+            width: 180 * rpx,
             child: _buildChangeButton('我的订单', null, 0, null, 0),
           ),
           Container(
             margin: EdgeInsets.only(left: 40 * rpx),
-            width: 160 * rpx,
+            width: 180 * rpx,
             child: _buildChangeButton('粉丝订单', null, 2, null, 2),
           ),
         ],
@@ -779,7 +786,8 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+          formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],
@@ -811,7 +819,8 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+         formatDate(endDate, ymdFormat),
+        // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],

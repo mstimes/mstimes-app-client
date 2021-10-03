@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
 import 'package:mstimes/service/qiniu_storge.dart';
 import 'package:mstimes/utils/color_util.dart';
@@ -17,7 +17,7 @@ class ProductReleaseDetail extends StatefulWidget {
 
 class _ProductReleaseDetailState extends State<ProductReleaseDetail> {
   ScrollController _controller = ScrollController();
-  final picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
   Map<String, File> imageMap = Map();
   int detailImageCounts = 25;
   double rpx;
@@ -41,8 +41,9 @@ class _ProductReleaseDetailState extends State<ProductReleaseDetail> {
   }
 
   Widget _buildDetailImageContainer(number) {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    // final uploadGoodInfosProvide =
+    //     Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     FocusNode _focusNode = FocusNode();
     String detailImagesKeyType = 'detailImages';
     String imageName = 'detailImage_' + number.toString();
@@ -142,15 +143,15 @@ class _ProductReleaseDetailState extends State<ProductReleaseDetail> {
   }
 
   Future _getImageByGallery(keyType, imageName, number) async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
-    uploadImage(keyType, imageName, number, pickedFile.path, context);
-    setState(() {
-      if (pickedFile != null) {
-        imageMap[imageName] = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    // uploadImage(keyType, imageName, number, pickedFile.path, context);
+    // setState(() {
+    //   if (pickedFile != null) {
+    //     imageMap[imageName] = File(pickedFile.path);
+    //   } else {
+    //     print('No image selected.');
+    //   }
+    // });
   }
 
   Widget _buildReceiverButton() {

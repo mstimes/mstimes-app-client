@@ -26,43 +26,77 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
-  english_words: ^3.1.0
-  dio: ^3.0.10
-  # flutter_screenutil: ^0.5.1
-  url_launcher: ^5.0.1
-  provide: ^1.0.2
-  fluttertoast: ^3.0.1
-  fluro: ^1.4.0
-  flutter_html: ^0.9.6
-  sqflite: ^1.1.0
-  shared_preferences: ^0.5.1
-  flutter_easyrefresh: ^2.1.6
-  flutter_swiper: ^1.1.4
-  flutter_screenutil: ^4.0.2+2
-  flutter_app_badger: ^1.1.2
-  badges: ^1.1.4
-  image_picker: ^0.6.7+4
-  crypto: ^2.1.5
-  date_format: ^1.0.8
-  json_annotation: ^0.2.3
-  json_serializable: ^0.5.0
-  qiniu_flutter_sdk: ^0.1.0
-  font_awesome_flutter: ^8.11.0
-  fluwx: ^1.2.1+1
-  http: ^0.12.2
-  path_provider: ^1.6.28
-  path: ^1.7.0
-  file_picker: ^2.1.7
-#  permission_handler: ^5.1.0+2
-  image_gallery_saver: ^1.6.8
-  scroll_text: ^0.0.2
-  flutter_speed_dial: ^1.2.4
-  city_pickers: ^0.1.18
+  cupertino_icons: any
+  english_words: any
+  dio: any
+  url_launcher: any
+  fluttertoast: any
+  fluro: any
+  flutter_html: any
+  sqflite: any
+  shared_preferences: any
+  flutter_easyrefresh: any
+  flutter_swiper: any
+  flutter_screenutil: any
+  flutter_app_badger: any
+  badges: any
+  image_picker: any
+  date_format: any
+  json_annotation: any
+  json_serializable: any
+  qiniu_flutter_sdk: any
+  font_awesome_flutter: any
+#  analyzer: any
+  crypto: any
+  fluwx: any
+  http: any
+  http_parser: any
+#  path: ^1.7.0
+  file_picker: ^3.0.0
+  image_gallery_saver: any
+#  scroll_text: ^0.0.2
+  flutter_speed_dial: ^3.0.5
+  city_pickers: ^1.0.1
   sign_in_apple: ^0.0.1
-#  io: ^0.3.3
+  provider: ^6.0.0
+#  cupertino_icons: ^1.0.0
+#  english_words: ^3.1.0
+#  dio: ^3.0.10
+#  # flutter_screenutil: ^0.5.1
+#  url_launcher: ^5.0.1
+#  provide: ^1.0.2
+#  fluttertoast: ^3.0.1
+#  fluro: ^1.4.0
+#  flutter_html: ^0.9.6
+#  sqflite: ^1.1.0
+#  shared_preferences: ^0.5.1
+#  flutter_easyrefresh: ^2.1.6
+#  flutter_swiper: ^1.1.4
+#  flutter_screenutil: ^4.0.2+2
+#  flutter_app_badger: ^1.1.2
+#  badges: ^1.1.4
+#  image_picker: ^0.6.7+4
+#  crypto: ^2.1.5
+#  date_format: ^1.0.8
+#  json_annotation: ^0.2.3
+#  json_serializable: ^0.5.0
+#  qiniu_flutter_sdk: ^0.1.0
+#  font_awesome_flutter: ^8.11.0
+#  fluwx: ^3.6.1+1
+#  http: ^0.12.2
+#  path_provider: ^1.6.28
+#  file_picker: ^2.1.7
+#  path: ^1.7.0
+#  #  permission_handler: ^5.1.0+2
+#  image_gallery_saver: ^1.6.8
+#  scroll_text: ^0.0.2
+#  flutter_speed_dial: ^1.2.4
+#  city_pickers: ^1.0.1
+#  sign_in_apple: ^0.0.1
+#  #  io: ^0.3.3
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 

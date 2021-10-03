@@ -11,7 +11,6 @@ import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:intl/intl.dart';
 
 class DrawingAuditRecordsPage extends StatefulWidget {
   DrawingAuditRecordsPage({Key key}) : super(key: key);
@@ -35,6 +34,7 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
   var userInfo;
   int totalCounts = 0;
   int queryStatus = 1;
+  var fundInfoData;
 
   @override
   void initState() {
@@ -44,6 +44,7 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
     endDate = DateTime.now().add(new Duration(days: 1));
     userInfo = UserInfo.getUserInfo();
 
+    _getFundSummary(UserInfo.getUserInfo().userId);
     _getDrawingAuditRecords();
   }
 
@@ -104,8 +105,10 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
 
     FormData formData = new FormData.fromMap({
       "status": queryStatus,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(endDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -125,6 +128,22 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
     });
   }
 
+  void _getFundSummary(agentId) {
+    FormData formData = new FormData.fromMap({
+      "agentId": agentId,
+    });
+    requestDataByUrl('queryFund', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      if (debug) {
+        print("queryFund data " + data.toString());
+      }
+
+      setState(() {
+        fundInfoData = (data['dataList'] as List).cast();
+      });
+    });
+  }
+
   Widget myIncomeSummary(rpx) {
     return Container(
         height: 200 * rpx,
@@ -132,7 +151,7 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
         decoration: new BoxDecoration(
           color: mainColor,
         ),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
@@ -158,9 +177,14 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
                           Container(
                             margin: EdgeInsets.only(left: 20 * rpx),
                             child: Text(
-                                fundSummary.isEmpty
+                                fundInfoData == null ||
+                                    fundInfoData[0]['totalRemain'] == null
                                     ? '0.00'
-                                    : fundSummary[0].myIncome,
+                                    : (fundInfoData[0]['totalRemain'] -
+                                    fundInfoData[0]['drawingAmount'] -
+                                    fundInfoData[0]['freezeAmount'])
+                                    .toString() +
+                                    "0",
                                 style: TextStyle(
                                     fontSize: 30 * rpx,
                                     fontWeight: FontWeight.bold,
@@ -186,9 +210,39 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
                           Container(
                             margin: EdgeInsets.only(left: 20 * rpx),
                             child: Text(
-                                fundSummary.isEmpty
+                                fundInfoData == null ||
+                                    fundInfoData[0]['drawingAmount'] == null
                                     ? '0.00'
-                                    : fundSummary[0].myIncome,
+                                    : fundInfoData[0]['drawingAmount'].toString() + "0",
+                                style: TextStyle(
+                                    fontSize: 30 * rpx,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding:
+                            EdgeInsets.only(left: 50 * rpx, top: 10 * rpx),
+                            child: Text('未到账金额',
+                                style: TextStyle(
+                                  fontSize: 23 * rpx,
+                                  color: Colors.white,
+                                )),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20 * rpx),
+                            child: Text(
+                                fundInfoData == null ||
+                                    fundInfoData[0]['freezeAmount'] == null
+                                    ? '0.00'
+                                    : fundInfoData[0]['freezeAmount'].toString() + "0",
                                 style: TextStyle(
                                     fontSize: 30 * rpx,
                                     fontWeight: FontWeight.bold,
@@ -718,7 +772,8 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+          formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,
@@ -750,7 +805,8 @@ class _DrawingAuditRecordsPageState extends State<DrawingAuditRecordsPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+          formatDate(endDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.white,

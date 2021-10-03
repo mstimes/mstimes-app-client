@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
+
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/pages/order/receiver_widgets/receiver_address.dart';
 import 'package:mstimes/pages/order/receiver_widgets/receiver_select.dart';
+import 'package:mstimes/provide/reveiver_address_provide.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
@@ -38,14 +41,14 @@ class OrderInfosState extends State<OrderInfos> {
 
   Iterable receiversIterable;
   String receiverRegionInfo;
-  double alertLeftPadding;
+  double alertLeftPadding = 10;
 
   @override
   void initState() {
 
     // getGoodInfosById(widget.goodId, context);
 
-    fluwx.responseFromPayment.listen((data) {
+    fluwx.weChatResponseEventHandler.listen((data) {
       print(data.errCode);
 
       if (data.errCode == 0) {
@@ -76,9 +79,9 @@ class OrderInfosState extends State<OrderInfos> {
           leading: Container(
             child: IconButton(
                 onPressed: () {
-                  final goodTypeBadgerProvide =
-                      Provide.value<GoodSelectBottomProvide>(context);
-                  goodTypeBadgerProvide.setFromOrderInfo(false);
+                  // final goodTypeBadgerProvide =
+                  //     Provide.value<GoodSelectBottomProvide>(context);
+                  context.read<GoodSelectBottomProvide>().setFromOrderInfo(false);
                   OrderInfosState().clear();
                   Navigator.pop(context);
                 },
@@ -131,7 +134,7 @@ class OrderInfosState extends State<OrderInfos> {
 
   Widget buildOrderInfoTop() {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-
+    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     return Container(
           child: Container(
             width: 730 * rpx,
@@ -194,10 +197,13 @@ class OrderInfosState extends State<OrderInfos> {
               children: <Widget>[
                 InkWell(
                     onTap: () {
+                      print('.......abc........ ');
+
                       // 重置校验开关
                       validReceiverInfo = true;
                       // 校验收件人信息
-                      // _checkReceiverInfos(receiverAddressProvide);
+                      _checkReceiverInfos();
+                      // _checkReceiver();
 
                       if (!validReceiverInfo) {
                         showAlertDialog(
@@ -215,46 +221,60 @@ class OrderInfosState extends State<OrderInfos> {
         ));
   }
 
-  // _checkReceiverInfos(receiverAddressProvide) {
-  //   receiversIterable = receiverAddressProvide.identifyAddressMap.keys;
-  //   if (receiversIterable.isEmpty) {
-  //     validReceiverInfo = false;
-  //     remindContent = '请正确填写收件人信息';
-  //     alertLeftPadding = 140.00;
-  //     return;
-  //   }
-  //
-  //   for (String receiver in receiversIterable) {
-  //     IdentifyAddressModel identifyAddressModel =
-  //         receiverAddressProvide.identifyAddressMap[receiver];
-  //
-  //     receiverRegionInfo = identifyAddressModel.province +
-  //         identifyAddressModel.city +
-  //         identifyAddressModel.town;
-  //     if (receiverRegionInfo.isEmpty) {
-  //       validReceiverInfo = false;
-  //       remindContent = '请填写第' + receiver + "收件人省份区域信息";
-  //       alertLeftPadding = 100.00;
-  //       break;
-  //     }
-  //     if (identifyAddressModel.phonenum.isEmpty) {
-  //       validReceiverInfo = false;
-  //       remindContent = '请填写第' + receiver + "收件人联系方式";
-  //       alertLeftPadding = 120.00;
-  //       break;
-  //     }
-  //     if (identifyAddressModel.person.isEmpty) {
-  //       validReceiverInfo = false;
-  //       remindContent = '请填写第' + receiver + "收件人信息";
-  //       alertLeftPadding = 140.00;
-  //       break;
-  //     }
-  //     if (identifyAddressModel.detail.isEmpty) {
-  //       validReceiverInfo = false;
-  //       remindContent = '请填写第' + receiver + "收件人详细地址";
-  //       alertLeftPadding = 120.00;
-  //       break;
-  //     }
-  //   }
-  // }
+  _checkReceiver(){
+    final receiverAddressProvide = context.read<ReceiverAddressProvide>();
+    if(receiverAddressProvide.identifyAddressMap.isEmpty){
+      showAlertDialog(
+          context, 'b' + receiverAddressProvide.identifyAddressMap.toString(), alertLeftPadding, rpx);
+    }else{
+      showAlertDialog(
+          context, 'a' + receiverAddressProvide.identifyAddressMap.toString(), alertLeftPadding, rpx);
+    }
+
+    print('.......abc ' + receiverAddressProvide.identifyAddressMap.toString());
+  }
+
+  _checkReceiverInfos() {
+    final receiverAddressProvide = context.read<ReceiverAddressProvide>();
+    receiversIterable = receiverAddressProvide.identifyAddressMap.keys;
+    if (receiversIterable.isEmpty) {
+      validReceiverInfo = false;
+      remindContent = '请正确填写收件人信息';
+      alertLeftPadding = 140.00;
+      return;
+    }
+
+    for (String receiver in receiversIterable) {
+      IdentifyAddressModel identifyAddressModel =
+          receiverAddressProvide.identifyAddressMap[receiver];
+
+      receiverRegionInfo = identifyAddressModel.province +
+          identifyAddressModel.city +
+          identifyAddressModel.town;
+      if (receiverRegionInfo.isEmpty) {
+        validReceiverInfo = false;
+        remindContent = '请填写收件人省份区域信息';
+        alertLeftPadding = 120.00;
+        break;
+      }
+      if (identifyAddressModel.phonenum.isEmpty) {
+        validReceiverInfo = false;
+        remindContent = '请填写收件人联系方式';
+        alertLeftPadding = 140.00;
+        break;
+      }
+      if (identifyAddressModel.person.isEmpty) {
+        validReceiverInfo = false;
+        remindContent = '请填写收件人信息';
+        alertLeftPadding = 160.00;
+        break;
+      }
+      if (identifyAddressModel.detail.isEmpty) {
+        validReceiverInfo = false;
+        remindContent = '请填写收件人详细地址';
+        alertLeftPadding = 140.00;
+        break;
+      }
+    }
+  }
 }

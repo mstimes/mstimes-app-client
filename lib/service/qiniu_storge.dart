@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mstimes/common/control.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/model/local_share/release_images.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:qiniu_flutter_sdk/qiniu_flutter_sdk.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/qiniu_token.dart';
@@ -18,7 +18,8 @@ Timer _timer;
 
 void uploadImage(String keyType, String imageName, int number, String filePath,
     context) async {
-  final uploadGoodInfosProvide = Provide.value<UploadGoodInfosProvide>(context);
+  // final uploadGoodInfosProvide = Provide.value<UploadGoodInfosProvide>(context);
+  final uploadGoodInfosProvide = Provider.of<UploadGoodInfosProvide>(context, listen: false);
 
   double rpx = MediaQuery.of(context).size.width / 750;
   storage = Storage();

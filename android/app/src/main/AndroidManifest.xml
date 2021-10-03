@@ -40,6 +40,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.yshq.mstimes.registered.on.wechat.wxapi.WXEntryActivity"
+            android:theme="@style/DisablePreviewTheme"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.yshq.mstimes.registered.on.wechat.wxapi.WXPayEntryActivity"
+            android:theme="@style/DisablePreviewTheme"
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

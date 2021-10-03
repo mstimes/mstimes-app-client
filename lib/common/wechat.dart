@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:fluwx/fluwx.dart';
+import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/wechatResponse.dart';
 import 'package:mstimes/pages/login/login.page.dart';
@@ -55,10 +56,13 @@ doWechatRepay(groupNumber, goodName, totalFee) {
   });
 }
 
-wxLogin() {
+wxLogin(context, rpx) {
   print('wx login ...');
   fluwx.sendWeChatAuth(scope: "snsapi_userinfo", state: "mstimes").then((data) {
-    print('fluwx data ' + data.toString());
+    // print('fluwx data ' + data.toString());
+  }).catchError((e){
+    // showAlertDialog(context, 'weChatLogin  e  $e', 50, rpx);
+    // print('weChatLogin  e  $e');
   });
   print('login finished.');
 }
@@ -97,23 +101,31 @@ void getWeChatUserInfo(accessToken, openId) {
   });
 }
 
-void callInviteFriends() {
+void callInviteFriends(context, rpx) {
+  showAlertDialog(context, 'call invite friends', 80, rpx);
   var model = new WeChatShareMiniProgramModel(
-      webPageUrl: '/pages/home/home.wxml',
-      path: '/pages/home/home?shareUser=abc',
+      webPageUrl: '/pages/discount/discount.wxml',
+      path: '/pages/discount/discount?shareUser=13624606542',
       userName: 'gh_6482b034b059',
       title: UserInfo.getUserInfo().userName + '想要赠您¥ 100首单购物券',
       description: '甄选天下好物 尽在Ms时代',
-      // thumbnail: '/images/about_share.jpg',
-      //     'https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erw66OoBpTLWcNqiahRvskOtfwz72hNwk04BNr4GlCicEqXmsSD13qn7AeWkzOicicjmficMIMBnfSTx4w/132',
-      hdImagePath: 'https://ghomelifevvip.com/MSTIMES_PLATFORM_SHARE_2.jpg');
+      // thumbnail: WeChatImage.network('/images/about_share.jpg'),
+          thumbnail: WeChatImage.network('https://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83erw66OoBpTLWcNqiahRvskOtfwz72hNwk04BNr4GlCicEqXmsSD13qn7AeWkzOicicjmficMIMBnfSTx4w/132'),
+      hdImagePath: WeChatImage.network('https://ghomelifevvip.com/MSTIMES_PLATFORM_SHARE_2.jpg'),
+  );
 
-  fluwx.shareToWeChat(model);
+  fluwx.shareToWeChat(model).then((result){
+    showAlertDialog(context, result.toString(), 80, rpx);
+  },
+      // onError: (msg){
+      //   showAlertDialog(context, msg, 80, rpx);
+      // }
+      );
 }
 
 isInstallFluwx() async {
-  return await fluwx.isWeChatInstalled().then((value) => {
-    print('isInstallWx ' + value.toString()),
-    isInstalledWx = value,
-  });
+  // return await fluwx.isWeChatInstalled().then((value) => {
+  //   print('isInstallWx ' + value.toString()),
+  //   isInstalledWx = value,
+  // });
 }

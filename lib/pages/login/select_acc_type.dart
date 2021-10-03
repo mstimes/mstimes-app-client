@@ -76,7 +76,6 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
             vipAccTextContainer,
             InkWell(
               onTap: () {
-                print('recommend');
                 userInfo.setUserType(1);
                 RouterHome.flutoRouter
                     .navigateTo(context, RouterConfig.invitePagePath);

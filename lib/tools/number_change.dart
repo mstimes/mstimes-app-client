@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
 import 'package:mstimes/provide/good_select_type.dart';
+import 'package:provider/provider.dart';
 
 class NumChangeWidget extends StatefulWidget {
   final double height;
@@ -29,14 +29,10 @@ class NumChangeWidget extends StatefulWidget {
 class _NumChangeWidgetState extends State<NumChangeWidget> {
   @override
   Widget build(BuildContext context) {
-    final goodTypeBadgerProvide =
-        Provide.value<GoodSelectBottomProvide>(context);
-
     return Container(
       height: widget.height,
       margin: EdgeInsets.only(right: 8.0),
       decoration: BoxDecoration(
-        // borderRadius: BorderRadius.all(Radius.circular(15.0)),
         border: Border.all(color: Colors.grey, width: 0.5),
       ),
       child: Row(
@@ -55,7 +51,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                   ),
                   onPressed: () {
                     _minusNum();
-                    goodTypeBadgerProvide.decrease(widget.specIndex);
+                    context.read<GoodSelectBottomProvide>().decrease(widget.specIndex);
                   }),
             ),
           ),
@@ -67,7 +63,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
             width: 52.0,
             alignment: Alignment.center,
             child: Text(
-              goodTypeBadgerProvide.getCurrentTypeNumberChangeSize(
+              context.read<GoodSelectBottomProvide>().getCurrentTypeNumberChangeSize(
                   widget.currentReceiverNum,
                   widget.typeIndex,
                   widget.specIndex),
@@ -91,7 +87,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                 ),
                 onPressed: () {
                   _addNum();
-                  goodTypeBadgerProvide.increment(widget.specIndex);
+                  context.read<GoodSelectBottomProvide>().increment(widget.specIndex);
                 }),
           ),
         ],

@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:mstimes/common/control.dart';
-import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/fund_summary.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
@@ -13,7 +12,6 @@ import 'package:mstimes/model/m_beans.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
-import 'package:intl/intl.dart';
 import 'package:mstimes/utils/date_utils.dart';
 
 class MyMBeansPage extends StatefulWidget {
@@ -607,8 +605,10 @@ class _MyMBeansPageState extends State<MyMBeansPage> {
 
     FormData formData = new FormData.fromMap({
       "userNumber": UserInfo.getUserInfo().userNumber,
-      "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      "endTime": DateFormat("yyyy-MM-dd").format(endDate),
+      "startTime": formatDate(startDate, ymdFormat),
+      "endTime": formatDate(startDate, ymdFormat),
+      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
+      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
@@ -646,7 +646,8 @@ class _MyMBeansPageState extends State<MyMBeansPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(startDate),
+            formatDate(startDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(startDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],
@@ -678,7 +679,8 @@ class _MyMBeansPageState extends State<MyMBeansPage> {
     return Container(
       child: FlatButton(
         child: Text(
-          DateFormat("yyyy-MM-dd").format(endDate),
+          formatDate(endDate, ymdFormat),
+          // DateFormat("yyyy-MM-dd").format(endDate),
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         color: Colors.grey[200],

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mstimes/model/local_share/release_images.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/provide/upload_release_provide.dart';
 import 'package:mstimes/service/qiniu_storge.dart';
@@ -103,8 +103,7 @@ class _UploadMainImagesState extends State<UploadMainImages> {
   }
 
   Widget _buildMainImageDesc() {
-    final uploadGoodInfosProvide =
-        Provide.value<UploadGoodInfosProvide>(context);
+    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     FocusNode _focusNode = FocusNode();
     return Container(
         width: 710 * rpx,
@@ -313,16 +312,16 @@ class _UploadMainImagesState extends State<UploadMainImages> {
   }
 
   Future _getImageByGallery(keyType, number, imageName) async {
-    var pickedFile = await picker.getImage(source: ImageSource.gallery);
-    uploadImage(keyType, imageName, number, pickedFile.path, context);
-
-    setState(() {
-      if (pickedFile != null) {
-        imageMap[imageName] = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+    // var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    // uploadImage(keyType, imageName, number, pickedFile.path, context);
+    //
+    // setState(() {
+    //   if (pickedFile != null) {
+    //     imageMap[imageName] = File(pickedFile.path);
+    //   } else {
+    //     print('No image selected.');
+    //   }
+    // });
   }
 
   Widget _buildNextToProductDetail(context) {

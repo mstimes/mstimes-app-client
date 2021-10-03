@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,22 +10,22 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mstimes/common/apple.dart';
-import 'package:mstimes/common/provider_call.dart';
 import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
+import 'package:mstimes/pages/login/home_alert.dart';
 import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/pages/product/group/group_hot_swiper.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
+import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/utils/date_utils.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import '../../../common/valid.dart';
 
 class GroupGoods extends StatefulWidget {
@@ -65,8 +65,6 @@ class _GroupGoodsState extends State<GroupGoods> {
   String downloadEndDate =
       formatDate(DateTime.now().add(Duration(days: 1)), mdFormat);
 
-
-
   @override
   void initState() {
     super.initState();
@@ -81,6 +79,8 @@ class _GroupGoodsState extends State<GroupGoods> {
 
     getTodayGroupGoods();
     getYesterdayGroupGoods();
+
+    LocalOrderInfo.getLocalOrderInfo().clear();
   }
 
   @override
@@ -126,7 +126,6 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildBody() {
-
     if (_needSaveSingeImage()) {
       return Stack(
         children: [
@@ -484,8 +483,6 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   List<Widget> _getTodayWrapList() {
-
-
     if (_todayGoodList.length != 0) {
       todayTotalWrapList.clear();
       if (!_needSaveLongImage()) {
@@ -525,6 +522,9 @@ class _GroupGoodsState extends State<GroupGoods> {
               //   return;
               // }
 
+              context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
+              // _getGoodInfosById(val['goodId']);
+
               RouterHome.flutoRouter.navigateTo(
                 context,
                 RouterConfig.detailsPath +
@@ -545,13 +545,6 @@ class _GroupGoodsState extends State<GroupGoods> {
         List<Widget> yesterdayListWidget = _yesterdayGoodList.map((val) {
           return InkWell(
               onTap: () {
-
-
-                // if(!checkIsLogin(context)){
-                //   // 腾讯应用上架前置登陆
-                //   return;
-                // }
-
                 RouterHome.flutoRouter.navigateTo(
                   context,
                   RouterConfig.detailsPath +
@@ -625,7 +618,7 @@ class _GroupGoodsState extends State<GroupGoods> {
         onLongPressStart: (details) {
           print('group_goods ... ' + val['goodId'].toString());
 
-          getGoodInfosById(val['goodId'], context);
+          // getGoodInfosById(val['goodId'], context);
           if (!today) {
             downloadStartDate =
                 formatDate(DateTime.now().add(Duration(days: -1)), mdFormat);
@@ -646,9 +639,10 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildDownloadContainers() {
-    var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-        .goodDetailModel
-        .dataList[0];
+    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
+    //     .goodDetailModel
+    //     .dataList[0];
+    var goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     return Column(
       children: [
         enableSingleImageDownloadA
@@ -1270,18 +1264,24 @@ class _GroupGoodsState extends State<GroupGoods> {
           ),
           onPressed: () {
 
-            // _getGoodInfosById(val['goodId']);
+            _getGoodInfosById(val['goodId']);
 
-              final goodTypeBadgerProvide =
-                  Provide.value<GoodSelectBottomProvide>(context);
-              final orderInfoAddReciverProvide =
-                  Provide.value<OrderInfoAddReciverProvide>(context);
-              final receiverAddressProvide =
-                  Provide.value<ReceiverAddressProvide>(context);
+              // final goodTypeBadgerProvide =
+              //     Provide.value<GoodSelectBottomProvide>(context);
+              // final orderInfoAddReciverProvide =
+              //     Provide.value<OrderInfoAddReciverProvide>(context);
+              // final receiverAddressProvide =
+              //     Provide.value<ReceiverAddressProvide>(context);
 
-              goodTypeBadgerProvide.clear();
-              orderInfoAddReciverProvide.clear();
-              receiverAddressProvide.clear();
+              // goodTypeBadgerProvide.clear();
+              // orderInfoAddReciverProvide.clear();
+              // receiverAddressProvide.clear();
+            
+              context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
+
+              Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
+              Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
+              Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
 
               showBottomItems(val['goodId'], context, rpx);
           }),

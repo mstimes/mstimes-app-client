@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
-import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:provide/provide.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/model/good_details.dart';
-
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'details_swiper.dart';
 
 class DetailsGoodTop extends StatelessWidget {
@@ -13,27 +10,25 @@ class DetailsGoodTop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    return Provide<DetailGoodInfoProvide>(builder: (context, child, val) {
-      DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-      if (goodInfo != null) {
-        return Container(
-          color: Colors.grey[200],
-          padding: EdgeInsets.all(2.0),
-          child: Column(
-            children: <Widget>[
-              GoodsImageSwiper(swiperImageUrls: goodInfo.rotateImages),
-              buildTopContent(goodInfo, context),
-            ],
-          ),
-        );
-      } else {
-        return Text("商品详情不存在！");
-      }
-    });
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
+    if (goodInfo != null) {
+      return Container(
+        color: Colors.grey[200],
+        padding: EdgeInsets.all(2.0),
+        child: Column(
+          children: <Widget>[
+            GoodsImageSwiper(swiperImageUrls: goodInfo.rotateImages),
+            buildTopContent(goodInfo, context),
+          ],
+        ),
+      );
+    } else {
+      return Text("商品详情不存在！");
+    }
   }
 
   Widget buildTopContent(goodInfo, context) {
-    print('userInfo aaaa ' + userInfo.toString());
     return Container(
         width: 750 * rpx,
         height: userInfo.isOrdinaryAccount() ? 200 * rpx : 260 * rpx,
