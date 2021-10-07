@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:mstimes/common/control.dart';
+import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/fund_summary.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
@@ -212,15 +213,15 @@ class _MyMBeansPageState extends State<MyMBeansPage> {
                 fontWeight: FontWeight.w400),
           ),
         ),
-        // Container(
-        //   margin: EdgeInsets.only(top: 100 * rpx),
-        //   child: InkWell(
-        //     onTap: () {
-        //       callInviteFriends();
-        //     },
-        //     child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
-        //   ),
-        // )
+        Container(
+          margin: EdgeInsets.only(top: 100 * rpx),
+          child: InkWell(
+            onTap: () {
+              callInviteFriends(context, rpx);
+            },
+            child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
+          ),
+        )
       ],
     );
   }

@@ -31,7 +31,7 @@ class RouterConfig {
 
   // 登陆
   static String loginPagePath = '/login';
-  static String registryPagePath = '/login/registry';
+  static String bindPhoneNumberPagePath = '/login/bindPhone';
   static String verifyPagePath = '/login/verify';
   static String invitePagePath = '/login/invite';
   static String serviceTextPagePath = '/login/serviceTextPage';
@@ -83,7 +83,7 @@ class RouterConfig {
     fluroRouter.define(uploadProductInfosPath,
         handler: uploadProductInfosHandler);
     fluroRouter.define(groupGoodsPath, handler: groupGoodsHandler);
-    fluroRouter.define(registryPagePath, handler: registryHandler);
+    fluroRouter.define(bindPhoneNumberPagePath, handler: bindPhoneNumberPageHandler);
     fluroRouter.define(verifyPagePath, handler: verifyPageHandler);
     fluroRouter.define(invitePagePath, handler: invitePageHandler);
     fluroRouter.define(indexPagePath, handler: indexPageHandler);
