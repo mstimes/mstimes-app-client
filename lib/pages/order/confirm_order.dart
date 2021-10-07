@@ -269,6 +269,7 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
       ),
       margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -283,23 +284,35 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
                       style: TextStyle(fontSize: 30 * rpx))),
             ],
           ),
+          Container(
+            margin: EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
+            child: Container(
+              child: Text(value.province +
+                  " " +
+                  value.city +
+                  " " +
+                  value.town +
+                  " " +
+                  value.detail),
+            ),
+          ),
         ],
       ),
     ));
-    list.add(
-      Container(
-        margin: EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
-        child: Container(
-          child: Text(value.province +
-              " " +
-              value.city +
-              " " +
-              value.town +
-              " " +
-              value.detail),
-        ),
-      ),
-    );
+    // list.add(
+    //   Container(
+    //     margin: EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
+    //     child: Container(
+    //       child: Text(value.province +
+    //           " " +
+    //           value.city +
+    //           " " +
+    //           value.town +
+    //           " " +
+    //           value.detail),
+    //     ),
+    //   ),
+    // );
     list.add(Divider(
       color: Colors.grey[300],
     ));
@@ -308,9 +321,6 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
   }
 
   Map getSelectTypesColumn(goodInfo, list, infos, receiverSelectDataTmp) {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<dynamic> specifics = jsonDecode(goodInfo.specifics);
 

@@ -238,14 +238,33 @@ class _RegistryPageState extends State<RegistryPage> {
       print('data ' + data.toString());
       print('data result ' + data['success'].toString());
       if(data['success'] == true){
-        loginByPhoneNo(fillCode);
+        if(UserInfo.getUserInfo().userNumber != null){
+          // 注册过，但未绑定手机号
+          updatePhoneNumber();
+          RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+        }else {
+          loginByPhoneNo();
+        }
       }else{
         showAlertDialog(context, '请检查手机号或验证码是否正确！', 100, rpx);
       }
     });
   }
 
-  void loginByPhoneNo(fillCode) {
+  void updatePhoneNumber(){
+    FormData formData = new FormData.fromMap({
+      "userNumber": UserInfo.getUserInfo().userNumber,
+      "phone": UserInfo.getUserInfo().phone
+    });
+
+    requestDataByUrl('updatePhoneNumber', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+      RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+    });
+  }
+
+  void loginByPhoneNo() {
     print('UserInfo.getUserInfo().unionId ' + UserInfo.getUserInfo().unionId.toString());
     FormData formData = new FormData.fromMap({
       "loginType": UserInfo.getUserInfo().loginType,
@@ -324,6 +343,8 @@ class _RegistryPageState extends State<RegistryPage> {
               child: new Text('仍然跳过',
                   style: TextStyle(fontSize: 23 * rpx, color: Colors.white)),
               onPressed: () {
+                // phone number 设置默认值
+                UserInfo.getUserInfo().phone = '0';
                 if(UserInfo.getUserInfo().userType == null){
                   // RouterHome.flutoRouter
                   //     .navigateTo(context, RouterConfig.selectAccTypePagePath);

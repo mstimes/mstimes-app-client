@@ -91,7 +91,7 @@ Handler newGoodsHandler = Handler(
   },
 );
 
-Handler registryHandler = Handler(
+Handler bindPhoneNumberPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
     return RegistryPage();
   },

@@ -7,7 +7,6 @@ import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/pages/product/group/group_goods.dart';
-import 'package:mstimes/provide/detail_good_infos.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';
@@ -40,8 +39,8 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Center(
-            // child: GroupGoods(),
-            child: HomeAlertPage(),
+            child: GroupGoods(),
+            // child: HomeAlertPage(),
           ),
         ),
         // routes: <String, WidgetBuilder>{

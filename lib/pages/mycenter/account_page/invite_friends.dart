@@ -107,7 +107,7 @@ class _InviteFriendsPageState extends State<InviteFriendsPage> {
       //   alignment: Alignment.center,
       //   child: Text('暂无数据'),
       // ));
-      wrapList.add(buildInviteFriendsContainer(rpx));
+      wrapList.add(buildInviteFriendsContainer(context, rpx));
     }
 
     return ListView(
