@@ -12,7 +12,7 @@ class NumChangeWidget extends StatefulWidget {
 
   NumChangeWidget(
       {Key key,
-      this.height = 28.0,
+      this.height = 55,
       this.num = 0,
       this.onValueChanged,
       this.currentReceiverNum,
@@ -27,19 +27,23 @@ class NumChangeWidget extends StatefulWidget {
 }
 
 class _NumChangeWidgetState extends State<NumChangeWidget> {
+  double rpx;
+
   @override
   Widget build(BuildContext context) {
+    rpx = MediaQuery.of(context).size.width / 750;
     return Container(
-      height: widget.height,
-      margin: EdgeInsets.only(right: 8.0),
+      height: widget.height * rpx,
+      margin: EdgeInsets.only(right: 30 * rpx),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 0.5),
+        border: Border.all(color: Colors.grey, width: 1 * rpx),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            width: 28.0,
+            width: 50 * rpx,
+            height: 50 * rpx,
             alignment: Alignment.center,
             child: Center(
               child: IconButton(
@@ -47,7 +51,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                   icon: Icon(
                     Icons.remove,
                     color: Colors.grey,
-                    size: 20,
+                    size: 30 * rpx,
                   ),
                   onPressed: () {
                     _minusNum();
@@ -60,7 +64,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
             color: Colors.grey,
           ),
           Container(
-            width: 52.0,
+            width: 80 * rpx,
             alignment: Alignment.center,
             child: Text(
               context.read<GoodSelectBottomProvide>().getCurrentTypeNumberChangeSize(
@@ -68,7 +72,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                   widget.typeIndex,
                   widget.specIndex),
               maxLines: 1,
-              style: TextStyle(fontSize: 18.0, color: Colors.black),
+              style: TextStyle(fontSize: 30 * rpx, color: Colors.black),
             ),
           ),
           Container(
@@ -76,14 +80,14 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
             color: Colors.grey,
           ),
           Container(
-            width: 28.0,
+            width: 50 * rpx,
             alignment: Alignment.center,
             child: IconButton(
                 color: Colors.grey[600],
                 icon: Icon(
                   Icons.add,
                   color: Colors.grey,
-                  size: 20,
+                  size: 30 * rpx,
                 ),
                 onPressed: () {
                   _addNum();

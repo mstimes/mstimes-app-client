@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
-import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/pages/order/product_select_bottom.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -43,54 +42,27 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-
-    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
-    // return Stack(
-    //   children: <Widget>[
-    //     SingleChildScrollView(
-    //       controller: controller,
-    //       child: Column(
-    //         children: <Widget>[
-    //           _buildTopRow(goodInfo, context),
-    //           _showTypeTitle(),
-    //           _buildGoodTypes(goodInfo),
-    //           _showSpecificationTitle(),
-    //           _buildSpecification(goodInfo, controller),
-    //         ],
-    //       ),
-    //     ),
-    //     Positioned(
-    //       bottom: 0,
-    //       left: 0,
-    //       child: GoodSelectBottom(goodId: widget.goodId),
-    //     )
-    //   ],
-    // );
     return FutureBuilder(
         future: getGoodInfos(widget.goodId, context),
         builder: _buildFuture);
   }
 
   Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
+    // return _createItems(context, snapshot);
     switch (snapshot.connectionState) {
       case ConnectionState.none:
-        return Text('Not beginning to connect network.');
+        // return Text('Not beginning to connect network.');
+        return Container();
       case ConnectionState.active:
-        return Text('ConnectionState is active.');
+        // return Text('ConnectionState is active.');
+        return Container();
       case ConnectionState.waiting:
-        return Center(
-            child: Positioned(
-                left: 150.0,
-                top: 170.0,
-                child: CircularProgressIndicator(
-                  value: 0.3,
-                  valueColor: new AlwaysStoppedAnimation<Color>(buttonColor),
-                )));
+        return Container();
       case ConnectionState.done:
-        if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+        // if (snapshot.hasError) return Text('Error: ${snapshot.error}');
         return _createItems(context, snapshot);
       default:
-        return null;
+        return Container();
     }
   }
 
@@ -102,6 +74,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
         SingleChildScrollView(
           controller: controller,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildTopRow(goodInfo, context),
               _showTypeTitle(),
@@ -128,7 +101,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       child: Text(
         typeName,
         textAlign: TextAlign.left,
-        style: TextStyle(fontSize: 35 * rpx, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 30 * rpx, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -143,21 +116,19 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       });
     }
 
-    return Wrap(
-      runSpacing: 20,
-      children: _listWidgets,
+    return Container(
+      margin: EdgeInsets.only(left: 20 * rpx, right: 10 * rpx),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        runAlignment: WrapAlignment.end,
+        runSpacing: 6 * rpx,
+        spacing: 6 * rpx,
+        children: _listWidgets,
+      ),
     );
   }
 
   Widget _buildTypeButton(bool select, int index, String value) {
-    // return Provide<GoodSelectBottomProvide>(
-    //   builder: (context, child, counter) {
-        // print(
-        //     'counter.queryTypeValueMap().toString() : ${counter.queryTypeValueMap().toString()}');
-        // print('${counter.queryTypeNumChangeMap().toString()}');
-
-
-        // Map typeValueMap = counter.queryTypeValueMap();
         Map typeValueMap = context.watch<GoodSelectBottomProvide>().queryTypeValueMap();
         if (select) {
           return Badge(
@@ -166,16 +137,24 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
             badgeContent: Container(
               child: Text(
                 '${typeValueMap[index]}',
-                style: TextStyle(color: Colors.white, fontSize: 11.0),
+                style: TextStyle(color: Colors.white, fontSize: 15 * rpx),
               ),
             ),
-            child: OutlineButton(
-              borderSide: new BorderSide(color: Colors.black),
-              onPressed: () {
+            child: InkWell(
+              onTap: () {
                 updateTypeValue(index);
                 context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
               },
-              child: Text(value, style: TextStyle(color: Colors.black)),
+              child: Container(
+                padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+                margin: EdgeInsets.only(left: 12 * rpx, right: 3 * rpx, top: 5 * rpx),
+                decoration: new BoxDecoration(
+                  color: homeBackgroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10 * rpx)),
+                  border: new Border.all(width: 1 * rpx, color: homeBackgroundColor),
+                ),
+                child: Text(value, style: TextStyle(color: Colors.white, fontSize: 26 * rpx)),
+              ),
             ),
           );
         } else {
@@ -185,15 +164,25 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
             badgeContent: Container(
                 child: Text(
               '${typeValueMap[index]}',
-              style: TextStyle(color: Colors.white, fontSize: 11.0),
+              style: TextStyle(color: Colors.white, fontSize: 15 * rpx),
             )),
-            child: OutlineButton(
-              onPressed: () {
+            child: InkWell(
+              onTap: () {
                 context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
                 updateTypeValue(index);
               },
-              child: Text(
-                value,
+              child: Container(
+                padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+                margin: EdgeInsets.only(left: 12 * rpx, right: 3 * rpx, top: 5 * rpx),
+                decoration: new BoxDecoration(
+                  // color: Colors.black,
+                  borderRadius: BorderRadius.all(Radius.circular(10 * rpx)),
+                  border: new Border.all(width: 1 * rpx, color: Colors.black),
+                ),
+                child: Text(
+                  value,
+                  style: TextStyle(fontSize: 26 * rpx),
+                ),
               ),
             ),
           );
@@ -221,7 +210,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       child: Text(
         specification,
         textAlign: TextAlign.left,
-        style: TextStyle(fontSize: 35 * rpx, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 30 * rpx, fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -231,6 +220,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     return SingleChildScrollView(
       controller: controller,
       child: Container(
+        margin: EdgeInsets.only(bottom: 100 * rpx),
         child: _genSpecificationList(specfications, controller),
       ),
     );
@@ -263,21 +253,18 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
           child: Row(
             children: <Widget>[
               Container(
-                  width: 200 * rpx,
-                  height: 50 * rpx,
+                  padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+                  margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx, top: 5 * rpx),
                   decoration: new BoxDecoration(
-                    //背景
-                    color: Colors.white,
-                    //设置四周圆角 角度
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                    //设置四周边框
-                    border: new Border.all(width: 1, color: Colors.grey),
+                    // color: Colors.black,
+                    borderRadius: BorderRadius.all(Radius.circular(10 * rpx)),
+                    border: new Border.all(width: 1 * rpx, color: Colors.black),
                   ),
                   child: Container(
                       child: Center(
                     child: Text(
                       specs[index].toString(),
-                      style: TextStyle(fontSize: 28 * rpx),
+                      style: TextStyle(fontSize: 26 * rpx),
                     ),
                   ))),
               Expanded(
@@ -359,13 +346,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   size: 65 * rpx,
                 ),
                 onPressed: () {
-                  // final goodTypeBadgerProvide =
-                  //     Provide.value<GoodSelectBottomProvide>(context);
-                  // final orderInfoAddReciverProvide =
-                  //     Provide.value<OrderInfoAddReciverProvide>(context);
-                  // final receiverAddressProvide =
-                  //     Provide.value<ReceiverAddressProvide>(context);
-
                   LocalOrderInfo.getLocalOrderInfo().clear();
 
                   if (!Provider.of<GoodSelectBottomProvide>(context, listen: false).fromOrderInfo) {
@@ -399,7 +379,7 @@ showBottomItems(goodId, context, rpx) {
       isScrollControlled: true,
       builder: (_) {
         return SizedBox(
-            height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
+            // height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
             child: Container(
                 child: GestureDetector(
                     onTap: () {
