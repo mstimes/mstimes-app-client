@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:date_format/date_format.dart';
@@ -14,7 +13,6 @@ import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:mstimes/pages/login/home_alert.dart';
 import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/pages/product/group/group_hot_swiper.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -1265,20 +1263,7 @@ class _GroupGoodsState extends State<GroupGoods> {
           onPressed: () {
 
             _getGoodInfosById(val['goodId']);
-
-              // final goodTypeBadgerProvide =
-              //     Provide.value<GoodSelectBottomProvide>(context);
-              // final orderInfoAddReciverProvide =
-              //     Provide.value<OrderInfoAddReciverProvide>(context);
-              // final receiverAddressProvide =
-              //     Provide.value<ReceiverAddressProvide>(context);
-
-              // goodTypeBadgerProvide.clear();
-              // orderInfoAddReciverProvide.clear();
-              // receiverAddressProvide.clear();
-            
               context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-
               Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
               Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
               Provider.of<ReceiverAddressProvide>(context, listen: false).clear();

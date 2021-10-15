@@ -304,7 +304,7 @@ class _LoginPageState extends State<LoginPage> {
             //点击快速注册、执行事件
             onPressed: () {
               RouterHome.flutoRouter
-                  .navigateTo(context, RouterConfig.registryPagePath);
+                  .navigateTo(context, RouterConfig.  bindPhoneNumberPagePath);
             },
           )
         ],
@@ -398,7 +398,7 @@ void postUserLogin(loginType, loginId, accessToken, context) {
       }
 
       RouterHome.flutoRouter
-          .navigateTo(context, RouterConfig.registryPagePath);
+          .navigateTo(context, RouterConfig.bindPhoneNumberPagePath);
     }
   });
 }

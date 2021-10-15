@@ -1476,7 +1476,7 @@ class _MyPageState extends State<MyPage> {
     } else {
       return InkWell(
         onTap: () {
-          // callInviteFriends();
+          callInviteFriends(context, rpx);
         },
         child: Container(
           margin: EdgeInsets.only(top: 20 * rpx, bottom: 30 * rpx),

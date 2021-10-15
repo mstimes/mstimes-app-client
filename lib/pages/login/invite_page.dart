@@ -17,7 +17,6 @@ class InvitePage extends StatefulWidget {
 class _InvitePageState extends State<InvitePage> {
   UserModel userModel;
   double rpx;
-  String _result = 'nothing';
 
   @override
   void initState() {

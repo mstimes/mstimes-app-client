@@ -167,6 +167,8 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
+
+
     });
     requestDataByUrl('queryOrders', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -517,7 +519,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
           },
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 25 * rpx),
           ),
         ),
       );
@@ -540,7 +542,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
           },
           child: Text(
             text,
-            style: TextStyle(color: buttonColor),
+            style: TextStyle(color: buttonColor, fontSize: 25 * rpx),
           ),
         ),
       );

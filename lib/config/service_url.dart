@@ -60,6 +60,7 @@ const servicePath = {
   'sendPhoneVerify': GHOME_SERVER_URL + '/user/sendPhoneVerify',
   'checkPhoneVerify': GHOME_SERVER_URL + '/user/checkPhoneVerify',
   'loginByPhoneNo': GHOME_SERVER_URL + '/user/loginByPhoneNo',
+  'updatePhoneNumber': GHOME_SERVER_URL + '/user/updatePhoneNumber',
 
   // 微信支付
   'doRepay': GHOME_SERVER_URL + '/pay/queryPrepayOrder',
