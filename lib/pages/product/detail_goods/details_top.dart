@@ -81,42 +81,44 @@ class DetailsGoodTop extends StatelessWidget {
           child: Row(children: _showProfitList(goodInfo)),
         ),
       );
-    } else if (!userInfo.isOrdinaryAccount() && userInfo.level != 80){
-      return Container(
-        width: 700 * rpx,
-        height: 50 * rpx,
-        margin: EdgeInsets.only(
-            left: 15 * rpx, top: 10 * rpx, right: 15 * rpx, bottom: 10 * rpx),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
-          border: new Border.all(width: 1 * rpx, color: Colors.white),
-        ),
-        child: Container(
-          padding: EdgeInsets.only(
-              left: 30 * rpx, top: 5 * rpx, bottom: 5 * rpx, right: 30 * rpx),
-          child:
-            Row(children: [
-              Container(
-                margin: EdgeInsets.only(left: 80 * rpx),
-                child: Text(
-                  '蜜豆奖励  ' + getMBeansCount(goodInfo.beans),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25 * rpx),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 160 * rpx),
-                child: Text(
-                  getMBeansMultiple(),
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25 * rpx),
-                ),
-              )
-            ],),
-        ),
-      );
-    }else {
+    }
+    // else if (!userInfo.isOrdinaryAccount() && userInfo.level != 80){
+    //   return Container(
+    //     width: 700 * rpx,
+    //     height: 50 * rpx,
+    //     margin: EdgeInsets.only(
+    //         left: 15 * rpx, top: 10 * rpx, right: 15 * rpx, bottom: 10 * rpx),
+    //     decoration: new BoxDecoration(
+    //       color: Colors.white,
+    //       borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
+    //       border: new Border.all(width: 1 * rpx, color: Colors.white),
+    //     ),
+    //     child: Container(
+    //       padding: EdgeInsets.only(
+    //           left: 30 * rpx, top: 5 * rpx, bottom: 5 * rpx, right: 30 * rpx),
+    //       child:
+    //         Row(children: [
+    //           Container(
+    //             margin: EdgeInsets.only(left: 80 * rpx),
+    //             child: Text(
+    //               '蜜豆奖励  ' + getMBeansCount(goodInfo.beans),
+    //               style: TextStyle(
+    //                   fontWeight: FontWeight.bold, fontSize: 25 * rpx),
+    //             ),
+    //           ),
+    //           Container(
+    //             margin: EdgeInsets.only(left: 160 * rpx),
+    //             child: Text(
+    //               getMBeansMultiple(),
+    //               style: TextStyle(
+    //                   fontWeight: FontWeight.bold, fontSize: 25 * rpx),
+    //             ),
+    //           )
+    //         ],),
+    //     ),
+    //   );
+    // }
+    else {
       return Container();
     }
   }

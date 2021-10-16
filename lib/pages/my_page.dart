@@ -99,12 +99,12 @@ class _MyPageState extends State<MyPage> {
           _myIncomeOrOrders(context),
           _buildAccountInfos(),
           _buildIncomeInfos(),
-          _buildInvideFriends(),
+          // _buildInvideFriends(),
           _buildMyWalletInfos(),
           _showBackendManage(context),
           _showFinanceManage(context),
           // _addBottom(),
-          about()
+          // about()
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -155,8 +155,8 @@ class _MyPageState extends State<MyPage> {
 
     return InkWell(
       onTap: () {
-        RouterHome.flutoRouter
-            .navigateTo(context, RouterConfig.vipCategoryPagePath);
+        // RouterHome.flutoRouter
+        //     .navigateTo(context, RouterConfig.vipCategoryPagePath);
       },
       child: Container(
         margin: EdgeInsets.only(top: 30 * rpx, left: 40 * rpx, right: 40 * rpx),
@@ -189,13 +189,13 @@ class _MyPageState extends State<MyPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '成为 ',
-              style: TextStyle(
-                  fontSize: 26 * rpx,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white),
-            ),
+            // Text(
+            //   '成为 ',
+            //   style: TextStyle(
+            //       fontSize: 26 * rpx,
+            //       fontWeight: FontWeight.w700,
+            //       color: Colors.white),
+            // ),
             Text(
               'ADVANCED',
               style: TextStyle(
@@ -203,8 +203,15 @@ class _MyPageState extends State<MyPage> {
                   fontWeight: FontWeight.w300,
                   color: Colors.white),
             ),
+            // Text(
+            //   ' 会员 解锁权益',
+            //   style: TextStyle(
+            //       fontSize: 26 * rpx,
+            //       fontWeight: FontWeight.w700,
+            //       color: Colors.white),
+            // ),
             Text(
-              ' 会员 解锁权益',
+              ' 会员权益 即将解锁',
               style: TextStyle(
                   fontSize: 26 * rpx,
                   fontWeight: FontWeight.w700,
