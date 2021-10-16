@@ -615,7 +615,7 @@ class _GroupGoodsState extends State<GroupGoods> {
         onLongPress: _showSingleImage,
         onLongPressStart: (details) {
           print('group_goods ... ' + val['goodId'].toString());
-
+          context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
           // getGoodInfosById(val['goodId'], context);
           if (!today) {
             downloadStartDate =
@@ -637,10 +637,8 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildDownloadContainers() {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     var goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
+    print('_buildDownloadContainers ' + goodInfo.toString());
     return Column(
       children: [
         enableSingleImageDownloadA
@@ -762,13 +760,15 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   Widget _buildDownloadHeaderContainerA(goodInfo) {
     return Container(
+      width: 750 * rpx,
       margin: EdgeInsets.only(top: 100 * rpx, bottom: 30 * rpx),
-      child: Row(children: [
+      child: Row(
+          children: [
         Container(
           width: 200 * rpx,
           height: 160 * rpx,
           margin: EdgeInsets.only(
-              left: 40 * rpx, top: 10 * rpx, right: 50 * rpx, bottom: 0 * rpx),
+              left: 30 * rpx, top: 10 * rpx, right: 50 * rpx, bottom: 0 * rpx),
           decoration: new BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -812,24 +812,32 @@ class _GroupGoodsState extends State<GroupGoods> {
           ),
         ),
         Container(
-          margin:
-              EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx, left: 50 * rpx),
-          child: Text(
-            'Ms时代 x ',
-            style: TextStyle(
-                fontSize: 40 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx),
-          child: Text(
-            goodInfo.brand.toString(),
-            style: TextStyle(
-                fontSize: 40 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+          width: 400 * rpx,
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // margin:
+                // EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx, left: 10 * rpx),
+                child: Text(
+                  'Ms时代 x ',
+                  style: TextStyle(
+                      fontSize: 40 * rpx,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                // margin: EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx),
+                child: Text(
+                  goodInfo.brand.toString(),
+                  style: TextStyle(
+                      fontSize: 40 * rpx,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
           ),
         )
       ]),

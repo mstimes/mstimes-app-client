@@ -52,22 +52,6 @@ class _DetailGoodsState extends State<DetailGoods> {
         elevation: 0,
         backgroundColor: Colors.white,
       ),
-      // body: Stack(
-      //   children: <Widget>[
-      //     ListView(
-      //       children: <Widget>[
-      //         DetailsGoodTop(),
-      //         DetailsGoodInfo(),
-      //       ],
-      //     ),
-      //     Positioned(
-      //       bottom: Platform.isIOS ? 30 * rpx : 3 * rpx,
-      //       left: 70 * rpx,
-      //       child: _buildOrderingContainer(),
-      //     )
-      //     // Positioned(bottom: 0, left: 0, child: DetailsGoodBottom())
-      //   ],
-      // )
       body: FutureBuilder(
         future: _getGoodInfosById(widget.goodId),
         builder: _buildFuture,
@@ -98,7 +82,6 @@ class _DetailGoodsState extends State<DetailGoods> {
               left: 70 * rpx,
               child: _buildOrderingContainer(),
             )
-            // Positioned(bottom: 0, left: 0, child: DetailsGoodBottom())
           ],
         );
       }
@@ -115,19 +98,10 @@ class _DetailGoodsState extends State<DetailGoods> {
       return Container();
     }
 
-    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
     if (goodInfo != null) {
       return InkWell(
         onTap: () {
-          // final goodTypeBadgerProvide =
-          //     Provide.value<GoodSelectBottomProvide>(context);
-          // final orderInfoAddReciverProvide =
-          //     Provide.value<OrderInfoAddReciverProvide>(context);
-          // final receiverAddressProvide =
-          //     Provide.value<ReceiverAddressProvide>(context);
-          //
-
           context.read<GoodSelectBottomProvide>().clear();
           context.read<OrderInfoAddReciverProvide>().clear();
           context.read<ReceiverAddressProvide>().clear();
