@@ -11,7 +11,6 @@ class DetailsGoodTop extends StatelessWidget {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    // DataList goodInfo = context.watch<SelectedGoodInfoProvide>().goodInfo;
     if (goodInfo != null) {
       return Container(
         color: Colors.grey[200],
@@ -31,7 +30,7 @@ class DetailsGoodTop extends StatelessWidget {
   Widget buildTopContent(goodInfo, context) {
     return Container(
         width: 750 * rpx,
-        height: userInfo.isOrdinaryAccount() ? 200 * rpx : 260 * rpx,
+        height: userInfo.isOrdinaryAccount() ? 240 * rpx : 280 * rpx,
         margin: EdgeInsets.only(
             left: 0 * rpx, top: 10 * rpx, right: 0 * rpx, bottom: 10 * rpx),
         decoration: new BoxDecoration(

@@ -42,13 +42,13 @@ class _DetailGoodsState extends State<DetailGoods> {
       appBar: AppBar(
         leading: IconButton(
           color: Colors.black,
-          icon: Icon(Icons.arrow_back_ios_outlined),
+          icon: Icon(Icons.arrow_back_ios_outlined, size: 45 * rpx),
           onPressed: () {
             LocalOrderInfo.getLocalOrderInfo().clear();
             Navigator.pop(context);
           },
         ),
-        toolbarHeight: 30.0,
+        toolbarHeight: 70 * rpx,
         elevation: 0,
         backgroundColor: Colors.white,
       ),
@@ -106,7 +106,7 @@ class _DetailGoodsState extends State<DetailGoods> {
           context.read<OrderInfoAddReciverProvide>().clear();
           context.read<ReceiverAddressProvide>().clear();
 
-          showBottomItems(widget.goodId, context, rpx);
+          showBottomItems(goodInfo, context, rpx);
         },
         child: buildSingleSummitButton('立即下单', 600, 80, 10, rpx),
       );

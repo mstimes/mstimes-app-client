@@ -521,7 +521,6 @@ class _GroupGoodsState extends State<GroupGoods> {
               // }
 
               context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-              // _getGoodInfosById(val['goodId']);
 
               RouterHome.flutoRouter.navigateTo(
                 context,
@@ -616,7 +615,6 @@ class _GroupGoodsState extends State<GroupGoods> {
         onLongPressStart: (details) {
           print('group_goods ... ' + val['goodId'].toString());
           context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-          // getGoodInfosById(val['goodId'], context);
           if (!today) {
             downloadStartDate =
                 formatDate(DateTime.now().add(Duration(days: -1)), mdFormat);
@@ -1260,24 +1258,34 @@ class _GroupGoodsState extends State<GroupGoods> {
             topLeft: Radius.circular(20 * rpx),
             topRight: Radius.circular(20 * rpx)),
       ),
-      child: FlatButton(
-          child: Text(
-            '立即下单',
-            style: TextStyle(
-                fontSize: 23 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.w400),
-          ),
-          onPressed: () {
-
-            _getGoodInfosById(val['goodId']);
-              context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-              Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
-              Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
-              Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
-
-              showBottomItems(val['goodId'], context, rpx);
-          }),
+      child: Container(
+        alignment: Alignment.center,
+        width: 200 * rpx,
+        child: Text(
+          '立即下单',
+          style: TextStyle(
+              fontSize: 23 * rpx,
+              color: Colors.white,
+              fontWeight: FontWeight.w400),
+        ),
+      ),
+      // child: FlatButton(
+      //     child: Text(
+      //       '立即下单',
+      //       style: TextStyle(
+      //           fontSize: 23 * rpx,
+      //           color: Colors.white,
+      //           fontWeight: FontWeight.w400),
+      //     ),
+      //     onPressed: () {
+      //         // context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
+      //         // Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
+      //         // Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
+      //         // Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
+      //         //
+      //         // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
+      //         // showBottomItems(goodInfo, context, rpx);
+      //     }),
     );
   }
 

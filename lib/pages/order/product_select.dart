@@ -15,7 +15,6 @@ import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
-import 'dart:io';
 
 class ProductSelectItemPage extends StatefulWidget {
   final int goodId;
@@ -42,39 +41,41 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    return FutureBuilder(
-        future: getGoodInfos(widget.goodId, context),
-        builder: _buildFuture);
+    return _createItems(context);
+    // return FutureBuilder(
+    //     future: getGoodInfos(widget.goodId, context),
+    //     builder: _buildFuture);
   }
 
-  Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
-    // return _createItems(context, snapshot);
-    switch (snapshot.connectionState) {
-      case ConnectionState.none:
-        // return Text('Not beginning to connect network.');
-        return Container();
-      case ConnectionState.active:
-        // return Text('ConnectionState is active.');
-        return Container();
-      case ConnectionState.waiting:
-        return Container();
-      case ConnectionState.done:
-        // if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-        return _createItems(context, snapshot);
-      default:
-        return Container();
-    }
-  }
+  // Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
+  //   // return _createItems(context, snapshot);
+  //   switch (snapshot.connectionState) {
+  //     case ConnectionState.none:
+  //       // return Text('Not beginning to connect network.');
+  //       return Container();
+  //     case ConnectionState.active:
+  //       // return Text('ConnectionState is active.');
+  //       return Container();
+  //     case ConnectionState.waiting:
+  //       return Container();
+  //     case ConnectionState.done:
+  //       // if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+  //       return _createItems(context, snapshot);
+  //     default:
+  //       return Container();
+  //   }
+  // }
 
-  Widget _createItems(BuildContext context, AsyncSnapshot snapshot) {
+  Widget _createItems(BuildContext context) {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     return Stack(
       children: <Widget>[
         SingleChildScrollView(
           controller: controller,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            shrinkWrap: true,
+            // mainAxisSize: MainAxisSize.min,
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildTopRow(goodInfo, context),
               _showTypeTitle(),
@@ -85,7 +86,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
           ),
         ),
         Positioned(
-          bottom: 0,
+          bottom: 10,
           left: 0,
           child: GoodSelectBottom(goodId: widget.goodId),
         )
@@ -205,8 +206,8 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   Widget _showSpecificationTitle() {
     return Container(
       width: 730 * rpx,
-      height: 60 * rpx,
-      margin: EdgeInsets.only(left: 10.0, top: 20.0),
+      // height: 50 * rpx,
+      margin: EdgeInsets.only(left: 20 * rpx, top: 20 * rpx),
       child: Text(
         specification,
         textAlign: TextAlign.left,
@@ -220,7 +221,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     return SingleChildScrollView(
       controller: controller,
       child: Container(
-        margin: EdgeInsets.only(bottom: 100 * rpx),
+        margin: EdgeInsets.only(bottom: 180 * rpx),
         child: _genSpecificationList(specfications, controller),
       ),
     );
@@ -244,12 +245,12 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       List<dynamic> specs, ScrollController controller) {
     return ListView.builder(
       shrinkWrap: true,
-      padding: EdgeInsets.only(left: 10.0, top: 15.0),
+      padding: EdgeInsets.only(left: 20 * rpx, top: 15 * rpx),
       controller: controller,
       itemCount: specs.length,
       itemBuilder: (context, index) {
         return Container(
-          padding: EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(bottom: 20 * rpx),
           child: Row(
             children: <Widget>[
               Container(
@@ -346,7 +347,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   size: 65 * rpx,
                 ),
                 onPressed: () {
-                  LocalOrderInfo.getLocalOrderInfo().clear();
+
 
                   if (!Provider.of<GoodSelectBottomProvide>(context, listen: false).fromOrderInfo) {
                     Navigator.pop(context);
@@ -370,24 +371,51 @@ Widget _showNumChangeContainer(context, index) {
         specIndex: index);
 }
 
-showBottomItems(goodId, context, rpx) {
+showBottomItems(goodInfo, context, rpx) {
+  if(goodInfo == null){
+    goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+  }
+  List<dynamic> categories = jsonDecode(goodInfo.categories);
+  List<dynamic> specfications = jsonDecode(goodInfo.specifics);
+  var listLength = categories.length + specfications.length;
+  print("showBottomItems h : " + listLength.toString());
+  var h_ratio = 0.5;
+  if(listLength > 4){
+    h_ratio = 0.7;
+  }else if(listLength > 6){
+    h_ratio = 0.8;
+  }else if(listLength > 10){
+    h_ratio = 0.9;
+  }
+
+  double maxShowHeight = MediaQuery.of(context).size.height * h_ratio;
   showModalBottomSheet(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.circular(15)),
       context: context,
       isDismissible: false,
       isScrollControlled: true,
+      enableDrag: false,
       builder: (_) {
-        return SizedBox(
+        return AnimatedPadding(
             // height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
+            padding: MediaQuery.of(context).viewInsets,
+            duration: const Duration(milliseconds: 100),
             child: Container(
+                constraints: BoxConstraints(
+                  minHeight: 90, //设置最小高度（必要）
+                  maxHeight: maxShowHeight
+                  // maxHeight: MediaQuery.of(context).size.height / 1.5, //设置最大高度（必要）
+                ),
+                padding: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
                 child: GestureDetector(
                     onTap: () {
                       return false;
                     },
                     child: ProductSelectItemPage(
-                      goodId: goodId,
-                    ))),
-          );
+                      goodId: goodInfo.goodId,
+                    )),
+            ),
+        );
       });
 }
