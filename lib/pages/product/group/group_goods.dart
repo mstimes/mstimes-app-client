@@ -1382,37 +1382,57 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   Widget makeImageArea(val, size) {
     String imageUrl = QINIU_OBJECT_STORAGE_URL + val['mainImage'];
-    return Container(
-      margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx),
-      width: size * rpx,
-      height: size * rpx,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20 * rpx),
-        child: val['mainImage'] == null ? '' : Image.network(imageUrl),
-      ),
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx),
+          width: size * rpx,
+          height: size * rpx,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * rpx),
+            child: val['mainImage'] == null ? '' : Image.network(imageUrl),
+          ),
+        ),
+        val['saleOut'] == 0 ? Container() :
+        Container(
+          width: 360 * rpx,
+          alignment: Alignment.center,
+          child: ClipRRect(
+            child: Image.asset(
+              "lib/images/sale_out.png",
+              width: 200 * rpx,
+              height: 200 * rpx,
+            ),
+          ),
+        )
+      ],
     );
   }
 
-  void getTommorrowGroupGoods() {
-    FormData formData = new FormData.fromMap({
-      "groupStartDate":
-          formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
-    });
-
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-      List<Map> newGoodList = (data['dataList'] as List).cast();
-      setState(() {
-        _tommorrowGoodList.addAll(newGoodList);
-      });
-    });
-  }
+  // void getTommorrowGroupGoods() {
+  //   FormData formData = new FormData.fromMap({
+  //     "type": 3
+  //     // "groupStartDate":
+  //     //     formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
+  //   });
+  //
+  //   requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //     List<Map> newGoodList = (data['dataList'] as List).cast();
+  //     setState(() {
+  //       _tommorrowGoodList.addAll(newGoodList);
+  //     });
+  //   });
+  // }
 
   void getTodayGroupGoods() {
     FormData formData = new FormData.fromMap(
-        {"groupStartDate": formatDate(DateTime.now(), ymdFormat)});
+        {
+          "type" : 1
+          // "groupStartDate": formatDate(DateTime.now(), ymdFormat)
+        });
 
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
       var data = json.decode(val.toString());
       List<Map> newGoodList = (data['dataList'] as List).cast();
       print('newGoodList data ' + newGoodList.toString());
@@ -1423,8 +1443,10 @@ class _GroupGoodsState extends State<GroupGoods> {
                   {
                     hotImages.add(val['hotSaleImage'].toString()),
                     hotGoodIds.add(val['goodId'].toString())
-                  }
-              })
+                  },
+
+              print('sale out  ' + val['saleOut'].toString())
+      })
           .toList();
 
       print('hotImages ' + hotImages.toString());
@@ -1438,11 +1460,12 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   void getYesterdayGroupGoods() {
     FormData formData = new FormData.fromMap({
-      "groupStartDate":
-          formatDate(DateTime.now().add(Duration(days: -1)), ymdFormat)
+      "type" : 2
+      // "groupStartDate":
+      //     formatDate(DateTime.now().add(Duration(days: -1)), ymdFormat)
     });
 
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
       var data = json.decode(val.toString());
 
       List<Map> newGoodList = (data['dataList'] as List).cast();

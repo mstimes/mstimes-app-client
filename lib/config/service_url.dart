@@ -14,11 +14,11 @@ const WECHART_PAY = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 //     'https://www.easy-mock.com/mock/5faea95d90e2202de96cd1de/';
 
 const servicePath = {
-  // 测试地址
   'createUserCoupons': GHOME_SERVER_URL + '/coupon/createUserCoupons',
 
   // 商品信息
   'queryGoodsList': GHOME_SERVER_URL + '/goods/queryGoodsList',
+  'queryGoodsListByType': GHOME_SERVER_URL + '/goods/queryGoodsListByType',
   'queryGoodById': GHOME_SERVER_URL + '/goods/queryGoodById',
 
   // 商品上架
