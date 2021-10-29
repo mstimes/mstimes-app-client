@@ -83,6 +83,9 @@ class DataList {
   int secondProfit;
   int thirdProfit;
   int saleOut;
+  int diffType;
+  String diffPriceInfo;
+  Map diffPriceInfoMap;
 
   DataList(
       {this.goodId,
@@ -116,7 +119,9 @@ class DataList {
       this.firstProfit,
       this.secondProfit,
       this.thirdProfit,
-      this.saleOut});
+      this.saleOut,
+      this.diffType,
+      this.diffPriceInfo});
 
   DataList.fromJson(Map<String, dynamic> json) {
     goodId = json['goodId'];
@@ -151,6 +156,8 @@ class DataList {
     secondProfit = json['secondProfit'];
     thirdProfit = json['thirdProfit'];
     saleOut = json['saleOut'];
+    diffType = json['diffType'];
+    diffPriceInfo = json['diffPriceInfo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -187,6 +194,8 @@ class DataList {
     data['secondProfit'] = this.secondProfit;
     data['thirdProfit'] = this.thirdProfit;
     data['saleOut'] =  this.saleOut;
+    data['diffType'] = this.diffType;
+    data['diffPriceInfo'] = this.diffPriceInfo;
     return data;
   }
 }

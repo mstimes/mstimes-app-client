@@ -1,4 +1,5 @@
 import 'package:mstimes/model/good_details.dart';
+import 'dart:convert';
 
 class LocalOrderInfo {
   static LocalOrderInfo _instance = null;
@@ -6,6 +7,7 @@ class LocalOrderInfo {
   var orderNumber;
   var totalFee;
   DataList goodInfo;
+  Map orderInfoMap = new Map();
 
   _LocalOrderInfo() {}
 
@@ -30,10 +32,16 @@ class LocalOrderInfo {
     }
     print('LocalOrderInfo set goodInfo : ' + currentGoodInfo.goodId.toString());
     this.goodInfo = currentGoodInfo;
+    this.goodInfo.diffPriceInfoMap = json.decode(this.goodInfo.diffPriceInfo);
+  }
+
+  void setOrderInfoKV(key, value){
+    this.orderInfoMap[key] = value;
   }
 
   void clear(){
     // print('LocalOrderInfo clear : ' + goodInfo.goodId.toString());
     goodInfo = null;
+    this.orderInfoMap.clear();
   }
 }

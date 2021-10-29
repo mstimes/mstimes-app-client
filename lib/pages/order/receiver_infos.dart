@@ -46,8 +46,6 @@ class OrderInfosState extends State<OrderInfos> {
   @override
   void initState() {
 
-    // getGoodInfosById(widget.goodId, context);
-
     fluwx.weChatResponseEventHandler.listen((data) {
       print(data.errCode);
 
@@ -79,8 +77,6 @@ class OrderInfosState extends State<OrderInfos> {
           leading: Container(
             child: IconButton(
                 onPressed: () {
-                  // final goodTypeBadgerProvide =
-                  //     Provide.value<GoodSelectBottomProvide>(context);
                   context.read<GoodSelectBottomProvide>().setFromOrderInfo(false);
                   OrderInfosState().clear();
                   Navigator.pop(context);
@@ -197,8 +193,6 @@ class OrderInfosState extends State<OrderInfos> {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      print('.......abc........ ');
-
                       // 重置校验开关
                       validReceiverInfo = true;
                       // 校验收件人信息

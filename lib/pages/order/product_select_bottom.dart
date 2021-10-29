@@ -36,30 +36,30 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
     Map typeValueMap = context.watch<GoodSelectBottomProvide>().queryTypeValueMap();
     Map queryTypeNumChangeMap = context.watch<GoodSelectBottomProvide>().queryTypeNumChangeMap();
     int typeSpecNums = context.watch<GoodSelectBottomProvide>().typeSpecNums;
-    // final goodTypeBadgerProvide =
-    //     Provide.value<GoodSelectBottomProvide>(context);
-    // final orderInfoAddReciverProvide =
-    //     Provide.value<OrderInfoAddReciverProvide>(context);
     return InkWell(
         onTap: () {
           if(!checkIsLogin(context)){
             return;
           }
 
-          if (typeValueMap.isEmpty || typeSpecNums <= 0) {
-            showAlertDialog(context, '请选择后下单', 180.00, rpx);
-            return;
-          }
+          // if (typeValueMap.isEmpty || typeSpecNums <= 0) {
+          //   showAlertDialog(context, '请选择后下单', 180.00, rpx);
+          //   return;
+          // }
 
           context.read<OrderInfoAddReciverProvide>().addReceiverOrderSelectInfo(
               queryTypeNumChangeMap,
               typeValueMap);
 
           if (!context.read<GoodSelectBottomProvide>().fromOrderInfo) {
-            RouterHome.flutoRouter.navigateTo(
-              context,
-              RouterConfig.orderInfosPath,
-            );
+            // RouterHome.flutoRouter.navigateTo(
+            //   context,
+            //   RouterConfig.orderInfosPath,
+            // );
+            // RouterConfig.detailsPath + "?id=${val['goodId']}&showPay=false"
+
+          RouterHome.flutoRouter.navigateTo(
+                context, RouterConfig.orderInfoPagePath);
           } else {
             Navigator.pop(context);
           }

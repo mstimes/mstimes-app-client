@@ -11,6 +11,7 @@ import 'package:mstimes/pages/order/product_select_bottom.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/tools/number_change.dart';
+import 'package:mstimes/tools/number_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:provider/provider.dart';
@@ -31,40 +32,36 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   String typeName = '种类';
   String specification = '规格';
   int typeValue = 1;
+  int specValue = 1;
   double rpx;
+  int groupPrice = 0;
+  int oriPrice = 0;
 
   @override
   void initState() {
     super.initState();
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    this.groupPrice = goodInfo.groupPrice;
+    this.oriPrice = goodInfo.oriPrice;
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('groupPrice', this.groupPrice);
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('oriPrice', this.oriPrice);
+
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('classifyId', typeValue);
+    List<dynamic> categories = jsonDecode(goodInfo.categories);
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedClassify', categories[0]);
+
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('specificId', specValue);
+    List<dynamic> specifics = jsonDecode(goodInfo.specifics);
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedSpecific', specifics[0]);
+
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('num', 1);
   }
 
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
     return _createItems(context);
-    // return FutureBuilder(
-    //     future: getGoodInfos(widget.goodId, context),
-    //     builder: _buildFuture);
   }
-
-  // Widget _buildFuture(BuildContext context, AsyncSnapshot snapshot) {
-  //   // return _createItems(context, snapshot);
-  //   switch (snapshot.connectionState) {
-  //     case ConnectionState.none:
-  //       // return Text('Not beginning to connect network.');
-  //       return Container();
-  //     case ConnectionState.active:
-  //       // return Text('ConnectionState is active.');
-  //       return Container();
-  //     case ConnectionState.waiting:
-  //       return Container();
-  //     case ConnectionState.done:
-  //       // if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-  //       return _createItems(context, snapshot);
-  //     default:
-  //       return Container();
-  //   }
-  // }
 
   Widget _createItems(BuildContext context) {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
@@ -74,14 +71,14 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
           controller: controller,
           child: ListView(
             shrinkWrap: true,
-            // mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _buildTopRow(goodInfo, context),
               _showTypeTitle(),
               _buildGoodTypes(goodInfo),
               _showSpecificationTitle(),
-              _buildSpecification(goodInfo, controller),
+              _buildSpecifics(goodInfo),
+              _buildBuyNumber(rpx),
+              _buildBottom(rpx),
             ],
           ),
         ),
@@ -131,6 +128,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
 
   Widget _buildTypeButton(bool select, int index, String value) {
         Map typeValueMap = context.watch<GoodSelectBottomProvide>().queryTypeValueMap();
+        DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
         if (select) {
           return Badge(
             badgeColor: Colors.black,
@@ -145,6 +143,9 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
               onTap: () {
                 updateTypeValue(index);
                 context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
+
+                LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('classifyId', index);
+                LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedClassify', value);
               },
               child: Container(
                 padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
@@ -171,6 +172,15 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
               onTap: () {
                 context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
                 updateTypeValue(index);
+                LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('classifyId', index);
+                LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedClassify', value);
+
+                if(goodInfo.diffType == 1){
+                  _refreshDiffPrice(goodInfo, index.toString());
+                }else if(goodInfo.diffType == 3){
+                  String bothKey = index.toString() + specValue.toString();
+                  _refreshDiffPrice(goodInfo, bothKey);
+                }
               },
               child: Container(
                 padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
@@ -207,13 +217,120 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
     return Container(
       width: 730 * rpx,
       // height: 50 * rpx,
-      margin: EdgeInsets.only(left: 20 * rpx, top: 20 * rpx),
+      margin: EdgeInsets.only(left: 20 * rpx, top: 20 * rpx, bottom: 10 * rpx),
       child: Text(
         specification,
         textAlign: TextAlign.left,
         style: TextStyle(fontSize: 30 * rpx, fontWeight: FontWeight.w500),
       ),
     );
+  }
+
+  Widget _buildSpecifics(goodInfo) {
+    List<dynamic> specifics = jsonDecode(goodInfo.specifics);
+    List<Widget> _listWidgets = [];
+    if (specifics.length > 0) {
+      int index = 1;
+      specifics.forEach((val) {
+        _listWidgets.add(_listSpecButtons(index++, val));
+      });
+    }
+
+    return Container(
+      margin: EdgeInsets.only(left: 20 * rpx, right: 10 * rpx),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        runAlignment: WrapAlignment.end,
+        runSpacing: 6 * rpx,
+        spacing: 6 * rpx,
+        children: _listWidgets,
+      ),
+    );
+  }
+
+  Widget _listSpecButtons(index, value) {
+    bool select = specValue == index;
+    return _buildSpecButton(select, index, value);
+  }
+
+  void updateSpecValue(int v) {
+    setState(() {
+      specValue = v;
+    });
+  }
+
+  Widget _buildSpecButton(bool select, int index, String value) {
+    DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    if (select) {
+      return InkWell(
+          onTap: () {
+            updateSpecValue(index);
+            // context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
+            LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('specificId', index);
+            LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedSpecific', value);
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+            margin: EdgeInsets.only(left: 12 * rpx, right: 3 * rpx, top: 5 * rpx),
+            decoration: new BoxDecoration(
+              color: homeBackgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(10 * rpx)),
+              border: new Border.all(width: 1 * rpx, color: homeBackgroundColor),
+            ),
+            child: Text(value, style: TextStyle(color: Colors.white, fontSize: 26 * rpx)),
+          ),
+        );
+    } else {
+      return InkWell(
+          onTap: () {
+            // context.read<GoodSelectBottomProvide>().updateTypeIndex(index);
+            updateSpecValue(index);
+            LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('specificId', index);
+            LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('selectedSpecific', value);
+
+            if(goodInfo.diffType == 2){
+              _refreshDiffPrice(goodInfo, index.toString());
+            }else if(goodInfo.diffType == 3){
+              String bothKey = typeValue.toString() + index.toString();
+              _refreshDiffPrice(goodInfo, bothKey);
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: 50 * rpx, right: 50 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+            margin: EdgeInsets.only(left: 12 * rpx, right: 3 * rpx, top: 5 * rpx),
+            decoration: new BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10 * rpx)),
+              border: new Border.all(width: 1 * rpx, color: Colors.black),
+            ),
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 26 * rpx),
+            ),
+          ),
+        );
+    }
+  }
+
+  void _refreshDiffPrice(goodInfo, key){
+    if(goodInfo.diffPriceInfoMap[key] != null){
+      var newGroupPrice = goodInfo.diffPriceInfoMap[key]['groupPrice'];
+      var newOriPrice = goodInfo.diffPriceInfoMap[key]['oriPrice'];
+      LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('groupPrice', newGroupPrice);
+      LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('oriPrice', newOriPrice);
+
+      setState(() {
+        this.groupPrice = newGroupPrice;
+        this.oriPrice = newOriPrice;
+      });
+    }else {
+      LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('groupPrice', goodInfo.groupPrice);
+      LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('oriPrice', goodInfo.oriPrice);
+
+      setState(() {
+        this.groupPrice = goodInfo.groupPrice;
+        this.oriPrice = goodInfo.oriPrice;
+      });
+    }
   }
 
   Widget _buildSpecification(goodInfo, ScrollController controller) {
@@ -305,7 +422,8 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   margin: EdgeInsets.only(left: 5 * rpx),
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    '¥${goodInfo.oriPrice}',
+                    // '¥${goodInfo.oriPrice}',
+                    '¥' + this.oriPrice.toString(),
                     style: TextStyle(
                         color: Colors.black26,
                         fontSize: 30 * rpx,
@@ -317,14 +435,15 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   children: [
                     Container(
                       child: Text(
-                        '特卖价 ¥',
+                        '蜜糖价 ¥',
                         style: TextStyle(
                             fontSize: 25.0 * rpx, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                       child: Text(
-                        '${goodInfo.groupPrice}',
+                        // '${goodInfo.groupPrice}',
+                        this.groupPrice.toString(),
                         style: TextStyle(
                             fontSize: 35.0 * rpx, fontWeight: FontWeight.bold),
                       ),
@@ -347,8 +466,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   size: 65 * rpx,
                 ),
                 onPressed: () {
-
-
                   if (!Provider.of<GoodSelectBottomProvide>(context, listen: false).fromOrderInfo) {
                     Navigator.pop(context);
                     Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
@@ -361,6 +478,27 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
       ],
     );
   }
+}
+
+Widget _buildBuyNumber(rpx){
+  return Row(
+    children: [
+      Container(
+        margin: EdgeInsets.only(left: 30 * rpx, top: 50 * rpx),
+        child: Text('购买数量', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w500),),
+      ),
+      Expanded(
+        child: Container(),
+      ),
+      NumberChangeWidget()
+    ],
+  );
+}
+
+Widget _buildBottom(rpx){
+  return Container(
+    margin: EdgeInsets.only(bottom: 180 * rpx),
+  );
 }
 
 Widget _showNumChangeContainer(context, index) {

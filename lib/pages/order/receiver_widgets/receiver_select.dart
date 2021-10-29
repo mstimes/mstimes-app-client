@@ -58,27 +58,16 @@ class _ReceiverSelectInfoState extends State<ReceiverSelectInfo> {
           border: Border.all(color: Colors.grey, width: 0.5),
         ),
         child:
-        // Provide<OrderInfoAddReciverProvide>(
-        //     builder: (context, child, receiver) {
-        //   print('[ReceiverSelectInfo] _genSelectGoodsList ,widget.index : ' +
-        //       widget.index.toString() +
-        //       ' , receiver.receiverOrderInfos : ' +
-        //       receiver.receiverOrderInfos.toString());
-
           Column(
             children:
-                buildSelectInfos(context.watch<OrderInfoAddReciverProvide>().receiverOrderInfos[widget.index - 1]),
+                buildSelectInfos(context.read<OrderInfoAddReciverProvide>().receiverOrderInfos[widget.index - 1]),
           )
         // })
   );
   }
 
   List<Widget> buildSelectInfos(infos) {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     var goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    // var goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     List<dynamic> categories = jsonDecode(goodInfo.categories);
     List<dynamic> specifics = jsonDecode(goodInfo.specifics);
     print('SelectInfos->buildSelectInfos()->_infos:' + infos.toString());
