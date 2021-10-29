@@ -138,7 +138,7 @@ class _NewGoodsState extends State<NewGoods> {
                   ),
                   Padding(
                     child: Text(
-                      "发起群聊",
+                      "",
                       style: TextStyle(color: Colors.white, fontSize: 22),
                     ),
                     padding: EdgeInsets.only(left: 5, bottom: 5),
@@ -550,11 +550,12 @@ class _NewGoodsState extends State<NewGoods> {
 
   void getTommorrowGroupGoods() {
     FormData formData = new FormData.fromMap({
-      "groupStartDate":
-          formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
+      "type": 3
+      // "groupStartDate":
+      //     formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
     });
 
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
       var data = json.decode(val.toString());
       List<Map> newGoodList = (data['dataList'] as List).cast();
       setState(() {

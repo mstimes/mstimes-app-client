@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/good_select_type.dart';
 import 'package:provider/provider.dart';
 
-class NumChangeWidget extends StatefulWidget {
+class NumberChangeWidget extends StatefulWidget {
   final double height;
-  int num;
+  int num = 1;
   final ValueChanged<int> onValueChanged;
-  int currentReceiverNum;
-  int typeIndex;
-  int specIndex;
 
-  NumChangeWidget(
+  NumberChangeWidget(
       {Key key,
       this.height = 55,
-      this.num = 0,
-      this.onValueChanged,
-      this.currentReceiverNum,
-      this.typeIndex,
-      this.specIndex})
+      this.num = 1,
+      this.onValueChanged})
       : super(key: key);
 
   @override
-  _NumChangeWidgetState createState() {
-    return _NumChangeWidgetState();
+  _NumberChangeWidgetState createState() {
+    return _NumberChangeWidgetState();
   }
 }
 
-class _NumChangeWidgetState extends State<NumChangeWidget> {
+class _NumberChangeWidgetState extends State<NumberChangeWidget> {
   double rpx;
 
   @override
@@ -34,7 +29,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
     rpx = MediaQuery.of(context).size.width / 750;
     return Container(
       height: widget.height * rpx,
-      margin: EdgeInsets.only(right: 30 * rpx),
+      margin: EdgeInsets.only(right: 30 * rpx, top: 50 * rpx),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey, width: 1 * rpx),
       ),
@@ -55,7 +50,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                   ),
                   onPressed: () {
                     _minusNum();
-                    context.read<GoodSelectBottomProvide>().decrease(widget.specIndex);
+                    // context.read<GoodSelectBottomProvide>().decrease(widget.specIndex);
                   }),
             ),
           ),
@@ -67,10 +62,11 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
             width: 80 * rpx,
             alignment: Alignment.center,
             child: Text(
-              context.read<GoodSelectBottomProvide>().getCurrentTypeNumberChangeSize(
-                  widget.currentReceiverNum,
-                  widget.typeIndex,
-                  widget.specIndex),
+              // context.read<GoodSelectBottomProvide>().getCurrentTypeNumberChangeSize(
+              //     widget.currentReceiverNum,
+              //     widget.typeIndex,
+              //     widget.specIndex),
+              widget.num.toString(),
               maxLines: 1,
               style: TextStyle(fontSize: 30 * rpx, color: Colors.black),
             ),
@@ -91,7 +87,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
                 ),
                 onPressed: () {
                   _addNum();
-                  context.read<GoodSelectBottomProvide>().increment(widget.specIndex);
+                  // context.read<GoodSelectBottomProvide>().increment(widget.specIndex);
                 }),
           ),
         ],
@@ -100,7 +96,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
   }
 
   void _minusNum() {
-    if (widget.num == 0) {
+    if (widget.num == 1) {
       return;
     }
 
@@ -111,6 +107,8 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
         widget.onValueChanged(widget.num);
       }
     });
+
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('num', widget.num);
   }
 
   void _addNum() {
@@ -121,5 +119,7 @@ class _NumChangeWidgetState extends State<NumChangeWidget> {
         widget.onValueChanged(widget.num);
       }
     });
+
+    LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('num', widget.num);
   }
 }

@@ -97,7 +97,7 @@ Widget buildSingleSummitButton(
         child: Text(
           buttonName,
           style: TextStyle(
-              color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.w400),
+              color: Colors.white, fontSize: 26 * rpx, fontWeight: FontWeight.w400),
         ),
       ));
 }
@@ -171,15 +171,15 @@ Widget buildInviteFriendsContainer(context, rpx) {
               fontWeight: FontWeight.w400),
         ),
       ),
-      Container(
-        margin: EdgeInsets.only(top: 100 * rpx),
-        child: InkWell(
-          onTap: () {
-            callInviteFriends(context, rpx);
-          },
-          child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
-        ),
-      )
+      // Container(
+      //   margin: EdgeInsets.only(top: 100 * rpx),
+      //   child: InkWell(
+      //     onTap: () {
+      //       callInviteFriends(context, rpx);
+      //     },
+      //     child: buildSingleSummitButton('现在去邀请', 280, 60, 0, rpx),
+      //   ),
+      // )
     ],
   );
 }

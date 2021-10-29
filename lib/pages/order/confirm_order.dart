@@ -107,15 +107,9 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
 
   List<Widget> showOrderInfos() {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
     List<Widget> orderInfoTotalList = List();
     // 商品信息头
     orderInfoTotalList.add(buildOrderInfoTop(goodInfo));
-
-    // final receiverAddressProvide =
-    //     Provide.value<ReceiverAddressProvide>(context);
-    // final orderInfoAddReciverProvide =
-    //     Provide.value<OrderInfoAddReciverProvide>(context);
 
     final receiverAddressProvide = context.read<ReceiverAddressProvide>();
     final orderInfoAddReciverProvide = context.read<OrderInfoAddReciverProvide>();
@@ -299,20 +293,6 @@ class _ConfirmOrderPageState extends State<ConfirmOrderPage> {
         ],
       ),
     ));
-    // list.add(
-    //   Container(
-    //     margin: EdgeInsets.only(top: 20 * rpx, left: 10 * rpx),
-    //     child: Container(
-    //       child: Text(value.province +
-    //           " " +
-    //           value.city +
-    //           " " +
-    //           value.town +
-    //           " " +
-    //           value.detail),
-    //     ),
-    //   ),
-    // );
     list.add(Divider(
       color: Colors.grey[300],
     ));

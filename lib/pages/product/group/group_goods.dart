@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:date_format/date_format.dart';
@@ -14,7 +13,6 @@ import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
-import 'package:mstimes/pages/login/home_alert.dart';
 import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/pages/product/group/group_hot_swiper.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -523,7 +521,6 @@ class _GroupGoodsState extends State<GroupGoods> {
               // }
 
               context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-              // _getGoodInfosById(val['goodId']);
 
               RouterHome.flutoRouter.navigateTo(
                 context,
@@ -617,8 +614,7 @@ class _GroupGoodsState extends State<GroupGoods> {
         onLongPress: _showSingleImage,
         onLongPressStart: (details) {
           print('group_goods ... ' + val['goodId'].toString());
-
-          // getGoodInfosById(val['goodId'], context);
+          context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
           if (!today) {
             downloadStartDate =
                 formatDate(DateTime.now().add(Duration(days: -1)), mdFormat);
@@ -639,10 +635,8 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildDownloadContainers() {
-    // var goodInfo = Provide.value<DetailGoodInfoProvide>(context)
-    //     .goodDetailModel
-    //     .dataList[0];
     var goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
+    print('_buildDownloadContainers ' + goodInfo.toString());
     return Column(
       children: [
         enableSingleImageDownloadA
@@ -764,13 +758,15 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   Widget _buildDownloadHeaderContainerA(goodInfo) {
     return Container(
+      width: 750 * rpx,
       margin: EdgeInsets.only(top: 100 * rpx, bottom: 30 * rpx),
-      child: Row(children: [
+      child: Row(
+          children: [
         Container(
           width: 200 * rpx,
           height: 160 * rpx,
           margin: EdgeInsets.only(
-              left: 40 * rpx, top: 10 * rpx, right: 50 * rpx, bottom: 0 * rpx),
+              left: 30 * rpx, top: 10 * rpx, right: 50 * rpx, bottom: 0 * rpx),
           decoration: new BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -814,24 +810,32 @@ class _GroupGoodsState extends State<GroupGoods> {
           ),
         ),
         Container(
-          margin:
-              EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx, left: 50 * rpx),
-          child: Text(
-            'Ms时代 x ',
-            style: TextStyle(
-                fontSize: 40 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx),
-          child: Text(
-            goodInfo.brand.toString(),
-            style: TextStyle(
-                fontSize: 40 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
+          width: 400 * rpx,
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // margin:
+                // EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx, left: 10 * rpx),
+                child: Text(
+                  'Ms时代 x ',
+                  style: TextStyle(
+                      fontSize: 40 * rpx,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                // margin: EdgeInsets.only(top: 30 * rpx, bottom: 30 * rpx),
+                child: Text(
+                  goodInfo.brand.toString(),
+                  style: TextStyle(
+                      fontSize: 40 * rpx,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
           ),
         )
       ]),
@@ -1254,37 +1258,34 @@ class _GroupGoodsState extends State<GroupGoods> {
             topLeft: Radius.circular(20 * rpx),
             topRight: Radius.circular(20 * rpx)),
       ),
-      child: FlatButton(
-          child: Text(
-            '立即下单',
-            style: TextStyle(
-                fontSize: 23 * rpx,
-                color: Colors.white,
-                fontWeight: FontWeight.w400),
-          ),
-          onPressed: () {
-
-            _getGoodInfosById(val['goodId']);
-
-              // final goodTypeBadgerProvide =
-              //     Provide.value<GoodSelectBottomProvide>(context);
-              // final orderInfoAddReciverProvide =
-              //     Provide.value<OrderInfoAddReciverProvide>(context);
-              // final receiverAddressProvide =
-              //     Provide.value<ReceiverAddressProvide>(context);
-
-              // goodTypeBadgerProvide.clear();
-              // orderInfoAddReciverProvide.clear();
-              // receiverAddressProvide.clear();
-            
-              context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-
-              Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
-              Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
-              Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
-
-              showBottomItems(val['goodId'], context, rpx);
-          }),
+      child: Container(
+        alignment: Alignment.center,
+        width: 200 * rpx,
+        child: Text(
+          '立即下单',
+          style: TextStyle(
+              fontSize: 23 * rpx,
+              color: Colors.white,
+              fontWeight: FontWeight.w400),
+        ),
+      ),
+      // child: FlatButton(
+      //     child: Text(
+      //       '立即下单',
+      //       style: TextStyle(
+      //           fontSize: 23 * rpx,
+      //           color: Colors.white,
+      //           fontWeight: FontWeight.w400),
+      //     ),
+      //     onPressed: () {
+      //         // context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
+      //         // Provider.of<GoodSelectBottomProvide>(context, listen: false).clear();
+      //         // Provider.of<OrderInfoAddReciverProvide>(context, listen: false).clear();
+      //         // Provider.of<ReceiverAddressProvide>(context, listen: false).clear();
+      //         //
+      //         // DataList goodInfo = context.read<SelectedGoodInfoProvide>().goodInfo;
+      //         // showBottomItems(goodInfo, context, rpx);
+      //     }),
     );
   }
 
@@ -1381,37 +1382,57 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   Widget makeImageArea(val, size) {
     String imageUrl = QINIU_OBJECT_STORAGE_URL + val['mainImage'];
-    return Container(
-      margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx),
-      width: size * rpx,
-      height: size * rpx,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20 * rpx),
-        child: val['mainImage'] == null ? '' : Image.network(imageUrl),
-      ),
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx),
+          width: size * rpx,
+          height: size * rpx,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20 * rpx),
+            child: val['mainImage'] == null ? '' : Image.network(imageUrl),
+          ),
+        ),
+        val['saleOut'] == 0 ? Container() :
+        Container(
+          width: 360 * rpx,
+          alignment: Alignment.center,
+          child: ClipRRect(
+            child: Image.asset(
+              "lib/images/sale_out.png",
+              width: 200 * rpx,
+              height: 200 * rpx,
+            ),
+          ),
+        )
+      ],
     );
   }
 
-  void getTommorrowGroupGoods() {
-    FormData formData = new FormData.fromMap({
-      "groupStartDate":
-          formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
-    });
-
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-      List<Map> newGoodList = (data['dataList'] as List).cast();
-      setState(() {
-        _tommorrowGoodList.addAll(newGoodList);
-      });
-    });
-  }
+  // void getTommorrowGroupGoods() {
+  //   FormData formData = new FormData.fromMap({
+  //     "type": 3
+  //     // "groupStartDate":
+  //     //     formatDate(DateTime.now().add(Duration(days: 1)), ymdFormat)
+  //   });
+  //
+  //   requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //     List<Map> newGoodList = (data['dataList'] as List).cast();
+  //     setState(() {
+  //       _tommorrowGoodList.addAll(newGoodList);
+  //     });
+  //   });
+  // }
 
   void getTodayGroupGoods() {
     FormData formData = new FormData.fromMap(
-        {"groupStartDate": formatDate(DateTime.now(), ymdFormat)});
+        {
+          "type" : 1
+          // "groupStartDate": formatDate(DateTime.now(), ymdFormat)
+        });
 
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
       var data = json.decode(val.toString());
       List<Map> newGoodList = (data['dataList'] as List).cast();
       print('newGoodList data ' + newGoodList.toString());
@@ -1422,8 +1443,10 @@ class _GroupGoodsState extends State<GroupGoods> {
                   {
                     hotImages.add(val['hotSaleImage'].toString()),
                     hotGoodIds.add(val['goodId'].toString())
-                  }
-              })
+                  },
+
+              print('sale out  ' + val['saleOut'].toString())
+      })
           .toList();
 
       print('hotImages ' + hotImages.toString());
@@ -1437,11 +1460,12 @@ class _GroupGoodsState extends State<GroupGoods> {
 
   void getYesterdayGroupGoods() {
     FormData formData = new FormData.fromMap({
-      "groupStartDate":
-          formatDate(DateTime.now().add(Duration(days: -1)), ymdFormat)
+      "type" : 2
+      // "groupStartDate":
+      //     formatDate(DateTime.now().add(Duration(days: -1)), ymdFormat)
     });
 
-    requestDataByUrl('queryGoodsList', formData: formData).then((val) {
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
       var data = json.decode(val.toString());
 
       List<Map> newGoodList = (data['dataList'] as List).cast();
