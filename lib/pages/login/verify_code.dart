@@ -23,29 +23,50 @@ class _VercodeTimerWidgetState extends State<VercodeTimerWidget> {
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
 
-    return OutlineButton(
-          borderSide: new BorderSide(color: Colors.grey[600]),
-          onPressed: _countdownTime == 0 ? btnPress() : null,
-          child: Text(
-              handleCodeAutoSizeText(),
-              style: TextStyle(color: Colors.grey[600], fontSize: 20 * rpx),
-            ),
-          );
-
+    // return OutlineButton(
+    //       borderSide: new BorderSide(color: Colors.grey[600]),
+    //       onPressed: _countdownTime == 0 ? btnPress() : null,
+    //       child: Text(
+    //           handleCodeAutoSizeText(),
+    //           style: TextStyle(color: Colors.grey[600], fontSize: 20 * rpx),
+    //         ),
+    //       );
+    return InkWell(
+      onTap: (){
+        if(_countdownTime == 0){
+          btnPress();
+        }else {
+          return null;
+        }
+      },
+      child: Container(
+        height: 70 * rpx,
+        width: 160 * rpx,
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 10 * rpx, bottom: 10 * rpx),
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          border: new Border.all(width: 1, color: Colors.grey[600]),
+        ),
+        child: Text(
+          handleCodeAutoSizeText(),
+          style: TextStyle(color: Colors.grey[600], fontSize: 22 * rpx, fontWeight: FontWeight.w400),
+        ),
+      ),
+    );
   }
 
   btnPress() {
     if (_countdownTime == 0) {
-      return () {
-        String validateResult = validatePhoneNumber(UserInfo.getUserInfo().phone);
-        if(validateResult != null){
-          showAlertDialog(context, validateResult, 150, rpx);
-          return;
-        }
+      String validateResult = validatePhoneNumber(UserInfo.getUserInfo().phone);
+      if(validateResult != null){
+        showAlertDialog(context, validateResult, 150, rpx);
+        return;
+      }
 
-        sendPhoneVerify();
-        startCountdown();
-      };
+      sendPhoneVerify();
+      startCountdown();
     }
   }
 

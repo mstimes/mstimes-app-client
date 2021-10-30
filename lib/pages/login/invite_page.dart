@@ -2,10 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/router.dart';
+import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/agent.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
+import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../common/control.dart';
 
@@ -150,7 +154,11 @@ class _InvitePageState extends State<InvitePage> {
         userInfo.setInviteCode(userModel.dataList[0].inviteCode);
         userInfo.setParentAgentName(userModel.dataList[0].parentAgentName);
         print('userModel.success ....');
-        RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+        // RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+        // 路由登陆前最后一个页面
+        // indexPageAfterLogin(context);
+        Navigator.pop(context);
+        context.read<LoginProvide>().refreshLoginStatus();
       } else {
         setState(() {
           userModel = UserModel.fromJson(data);
@@ -158,6 +166,7 @@ class _InvitePageState extends State<InvitePage> {
         userInfo.setMyInviteCode(userModel.dataList[0].inviteCode);
         userInfo.setModel(userModel);
         print('userModel return false.');
+        showAlertDialog(context, '注册码无效！', 180.00, rpx);
       }
 
       print('userModel' + userModel.toJson().toString());

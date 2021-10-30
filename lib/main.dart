@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mstimes/pages/login/home_alert.dart';
 import 'package:mstimes/provide/add_reveiver_provide.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
+import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/provide/select_good_provider.dart';
 import 'package:mstimes/pages/product/group/group_goods.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (_) => DrawingRecordProvide()),
           ChangeNotifierProvider(create: (_) => SelectDiscountProvide()),
           ChangeNotifierProvider(create: (_) => AddReceiverAddressProvide()),
+          ChangeNotifierProvider(create: (_) => LoginProvide()),
         ],
       child: MaterialApp(
         title: "MsTimes App",

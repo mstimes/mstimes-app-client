@@ -4,6 +4,7 @@ import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/add_reveiver_provide.dart';
+import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
@@ -363,7 +364,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
 
     return Container(
         padding: EdgeInsets.only(
-            left: 50 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 10 * rpx),
+            left: 40 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 10 * rpx),
         width: 750 * rpx,
         color: Colors.white,
         child: Column(

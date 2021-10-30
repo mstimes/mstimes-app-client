@@ -14,6 +14,7 @@ import 'package:mstimes/model/fund_summary.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/m_beans.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
+import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
@@ -93,7 +94,7 @@ class _MyPageState extends State<MyPage> {
       ),
       body: ListView(
         children: <Widget>[
-          _topHeader(context),
+          _topHeader(),
           _buildVipCategorys(),
           // _buildUpgradeImage(context),
           _myIncomeOrOrders(context),
@@ -448,8 +449,14 @@ class _MyPageState extends State<MyPage> {
     return Container();
   }
 
-  Widget _topHeader(context) {
-    var userInfo = UserInfo.getUserInfo();
+  Widget _topHeader() {
+    final loginProvide = context.watch<LoginProvide>();
+    if(loginProvide.isLogin){
+      setState(() {
+        userInfo = UserInfo.getUserInfo();
+      });
+    }
+
     if(!userInfo.isLogin()){
       return Container(
         padding: EdgeInsets.only(left: 40 * rpx, top: 30 * rpx),
@@ -459,6 +466,7 @@ class _MyPageState extends State<MyPage> {
         child: InkWell(
           onTap: (){
             checkIsLogin(context);
+            // UserInfo.getUserInfo().indexPage = TO_MY_PAGE;
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
