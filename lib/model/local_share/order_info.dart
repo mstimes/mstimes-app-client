@@ -1,5 +1,8 @@
+import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'dart:convert';
+
+import '../identify_address.dart';
 
 class LocalOrderInfo {
   static LocalOrderInfo _instance = null;
@@ -8,6 +11,7 @@ class LocalOrderInfo {
   var totalFee;
   DataList goodInfo;
   Map orderInfoMap = new Map();
+  IdentifyAddressModel identifyAddressResult;
 
   _LocalOrderInfo() {}
 
@@ -40,8 +44,23 @@ class LocalOrderInfo {
   }
 
   void clear(){
-    // print('LocalOrderInfo clear : ' + goodInfo.goodId.toString());
     goodInfo = null;
     this.orderInfoMap.clear();
+  }
+
+  void getIndentifyResult(requestMap) async {
+    Map<String, dynamic> queryParameters = Map();
+    queryParameters['access_token'] = requestMap['access_token'];
+    await requestDataForJson('identifyReceiverAddress',
+        queryParameters: queryParameters, bodyParameters: requestMap)
+        .then((val) {
+      var data = json.decode(val.toString());
+      print('identifyReceiverAddress get ...');
+      identifyAddressResult = IdentifyAddressModel.fromJson(data);
+    });
+  }
+
+  void identifyAddressClear(){
+    identifyAddressResult = null;
   }
 }

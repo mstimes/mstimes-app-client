@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mstimes/config/service_url.dart';
+import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
+import 'package:mstimes/provide/add_reveiver_provide.dart';
+import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
+
+import 'package:provider/src/provider.dart';
 
 class OrderInfoPage extends StatefulWidget {
   const OrderInfoPage({Key key}) : super(key: key);
@@ -61,6 +66,42 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   }
 
   Widget _buildUserAddressContainer(){
+    return InkWell(
+      onTap: (){
+        RouterHome.flutoRouter.navigateTo(
+            context, RouterConfig.addReceiverAddressPagePath);
+      },
+      child: _showAddressInfo()
+    );
+  }
+
+  Widget _showAddressInfo(){
+    // 新添加地址信息优先级高
+    IdentifyAddressModel addressModel = context.watch<AddReceiverAddressProvide>().identifyAddress;
+    if(addressModel == null){
+      // 没有新添加信息则取缓存地址信息
+      addressModel = LocalOrderInfo.getLocalOrderInfo().identifyAddressResult;
+    }
+
+    if(addressModel == null){
+      // 没有添加过任何地址信息
+      return Container(
+        alignment: Alignment.center,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          border: new Border.all(width: 1, color: Colors.white),
+        ),
+        padding: EdgeInsets.all(30 * rpx),
+        margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 50 * rpx, bottom: 10 * rpx),
+        child: Row(
+          children: [
+            Text(' + 请填写收获地址', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400),)
+          ],
+        ),
+      );
+    }
+
     return Container(
       alignment: Alignment.center,
       decoration: new BoxDecoration(
@@ -70,9 +111,27 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       ),
       padding: EdgeInsets.all(30 * rpx),
       margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 50 * rpx, bottom: 10 * rpx),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(' + 请填写收获地址', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w500),)
+          Container(
+              margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx),
+              child: Row(
+              children: [
+                Container(
+                  child: Text(addressModel.person, style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400),),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20 * rpx),
+                  child: Text(addressModel.phonenum, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
+                )
+              ],
+            )
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx, top: 6 * rpx),
+            child:  Text(addressModel.province + addressModel.city + addressModel.town + addressModel.detail, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
+          )
         ],
       ),
     );
@@ -278,7 +337,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
 
     return Container(
         padding: EdgeInsets.only(
-            left: 50 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 3 * rpx),
+            left: 50 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 10 * rpx),
         width: 750 * rpx,
         color: Colors.white,
         child: Column(

@@ -4,28 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
 
-// 废弃
-class ReceiverAddressProvide with ChangeNotifier {
-  Map<String, IdentifyAddressModel> identifyAddressMap = Map();
+class AddReceiverAddressProvide with ChangeNotifier {
+  IdentifyAddressModel identifyAddress;
 
-  void getIndentifyResult(receiverIndex, requestMap) async {
-    // print("requestDataByUrl receiverIndex : " +
-    //     receiverIndex +
-    //     ",requestMap : " +
-    //     requestMap.toString());
+  void getIndentifyResult(requestMap) async {
     Map<String, dynamic> queryParameters = Map();
     queryParameters['access_token'] = requestMap['access_token'];
     await requestDataForJson('identifyReceiverAddress',
             queryParameters: queryParameters, bodyParameters: requestMap)
         .then((val) {
       var data = json.decode(val.toString());
-      // print('getIndentifyResult ' + data.toString());
-      identifyAddressMap[receiverIndex] = IdentifyAddressModel.fromJson(data);
+      identifyAddress = IdentifyAddressModel.fromJson(data);
+      print('getIndentifyResult ......');
       notifyListeners();
     });
   }
 
   void clear() {
-    identifyAddressMap.clear();
+    identifyAddress = null;
   }
 }

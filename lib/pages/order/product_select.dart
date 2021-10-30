@@ -480,80 +480,80 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 }
 
-Widget _buildBuyNumber(rpx){
-  return Row(
-    children: [
-      Container(
-        margin: EdgeInsets.only(left: 30 * rpx, top: 50 * rpx),
-        child: Text('购买数量', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w500),),
-      ),
-      Expanded(
-        child: Container(),
-      ),
-      NumberChangeWidget()
-    ],
-  );
-}
-
-Widget _buildBottom(rpx){
-  return Container(
-    margin: EdgeInsets.only(bottom: 180 * rpx),
-  );
-}
-
-Widget _showNumChangeContainer(context, index) {
-    final goodSelectBottomProvide = Provider.of<GoodSelectBottomProvide>(context, listen: false);
-    return NumChangeWidget(
-        currentReceiverNum: goodSelectBottomProvide.currentReceiverIndex,
-        typeIndex: goodSelectBottomProvide.typeIndex,
-        specIndex: index);
-}
-
-showBottomItems(goodInfo, context, rpx) {
-  if(goodInfo == null){
-    goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-  }
-  List<dynamic> categories = jsonDecode(goodInfo.categories);
-  List<dynamic> specfications = jsonDecode(goodInfo.specifics);
-  var listLength = categories.length + specfications.length;
-  print("showBottomItems h : " + listLength.toString());
-  var h_ratio = 0.5;
-  if(listLength > 4){
-    h_ratio = 0.7;
-  }else if(listLength > 6){
-    h_ratio = 0.8;
-  }else if(listLength > 10){
-    h_ratio = 0.9;
+  Widget _buildBuyNumber(rpx){
+    return Row(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left: 30 * rpx, top: 50 * rpx),
+          child: Text('购买数量', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w500),),
+        ),
+        Expanded(
+          child: Container(),
+        ),
+        NumberChangeWidget()
+      ],
+    );
   }
 
-  double maxShowHeight = MediaQuery.of(context).size.height * h_ratio;
-  showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusDirectional.circular(15)),
-      context: context,
-      isDismissible: false,
-      isScrollControlled: true,
-      enableDrag: false,
-      builder: (_) {
-        return AnimatedPadding(
-            // height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
-            padding: MediaQuery.of(context).viewInsets,
-            duration: const Duration(milliseconds: 100),
-            child: Container(
-                constraints: BoxConstraints(
-                  minHeight: 90, //设置最小高度（必要）
-                  maxHeight: maxShowHeight
-                  // maxHeight: MediaQuery.of(context).size.height / 1.5, //设置最大高度（必要）
-                ),
-                padding: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
-                child: GestureDetector(
-                    onTap: () {
-                      return false;
-                    },
-                    child: ProductSelectItemPage(
-                      goodId: goodInfo.goodId,
-                    )),
-            ),
-        );
-      });
-}
+  Widget _buildBottom(rpx){
+    return Container(
+      margin: EdgeInsets.only(bottom: 180 * rpx),
+    );
+  }
+
+  Widget _showNumChangeContainer(context, index) {
+      final goodSelectBottomProvide = Provider.of<GoodSelectBottomProvide>(context, listen: false);
+      return NumChangeWidget(
+          currentReceiverNum: goodSelectBottomProvide.currentReceiverIndex,
+          typeIndex: goodSelectBottomProvide.typeIndex,
+          specIndex: index);
+  }
+
+  showBottomItems(goodInfo, context, rpx) {
+    if(goodInfo == null){
+      goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    }
+    List<dynamic> categories = jsonDecode(goodInfo.categories);
+    List<dynamic> specfications = jsonDecode(goodInfo.specifics);
+    var listLength = categories.length + specfications.length;
+    print("showBottomItems h : " + listLength.toString());
+    var h_ratio = 0.5;
+    if(listLength > 4){
+      h_ratio = 0.7;
+    }else if(listLength > 6){
+      h_ratio = 0.8;
+    }else if(listLength > 10){
+      h_ratio = 0.9;
+    }
+
+    double maxShowHeight = MediaQuery.of(context).size.height * h_ratio;
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusDirectional.circular(15)),
+        context: context,
+        isDismissible: false,
+        isScrollControlled: true,
+        enableDrag: false,
+        builder: (_) {
+          return AnimatedPadding(
+              // height: Platform.isIOS ? 1100 * rpx : 950 * rpx,
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 100),
+              child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: 90, //设置最小高度（必要）
+                    maxHeight: maxShowHeight
+                    // maxHeight: MediaQuery.of(context).size.height / 1.5, //设置最大高度（必要）
+                  ),
+                  padding: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
+                  child: GestureDetector(
+                      onTap: () {
+                        return false;
+                      },
+                      child: ProductSelectItemPage(
+                        goodId: goodInfo.goodId,
+                      )),
+              ),
+          );
+        });
+  }
