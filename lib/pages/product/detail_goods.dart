@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
@@ -102,6 +103,10 @@ class _DetailGoodsState extends State<DetailGoods> {
     if (goodInfo != null) {
       return InkWell(
         onTap: () {
+          if(!checkIsLogin(context)){
+            return;
+          }
+
           context.read<GoodSelectBottomProvide>().clear();
           context.read<OrderInfoAddReciverProvide>().clear();
           context.read<ReceiverAddressProvide>().clear();

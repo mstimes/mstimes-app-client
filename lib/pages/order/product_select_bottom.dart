@@ -38,9 +38,7 @@ class _GoodSelectBottomState extends State<GoodSelectBottom> {
     int typeSpecNums = context.watch<GoodSelectBottomProvide>().typeSpecNums;
     return InkWell(
         onTap: () {
-          if(!checkIsLogin(context)){
-            return;
-          }
+
 
           // if (typeValueMap.isEmpty || typeSpecNums <= 0) {
           //   showAlertDialog(context, '请选择后下单', 180.00, rpx);
