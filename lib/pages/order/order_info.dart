@@ -4,13 +4,13 @@ import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/add_reveiver_provide.dart';
+import 'package:mstimes/provide/upload_order_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:mstimes/model/good_details.dart';
-import 'package:dio/dio.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 import 'dart:io';
-
 import 'package:provider/src/provider.dart';
 
 class OrderInfoPage extends StatefulWidget {
@@ -22,6 +22,27 @@ class OrderInfoPage extends StatefulWidget {
 
 class _OrderInfoPageState extends State<OrderInfoPage> {
   double rpx;
+
+  @override
+  void initState() {
+    fluwx.weChatResponseEventHandler.listen((data) {
+      print(data.errCode);
+
+      if (data.errCode == 0) {
+        print("微信支付成功");
+
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.paySuccessPagePath);
+        print('responseFromPayment : ' + data.toString());
+      } else {
+        print("微信支付失败");
+        RouterHome.flutoRouter
+            .navigateTo(context, RouterConfig.payFailedPagePath);
+      }
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -331,8 +352,13 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
 
   Widget _buildOrderInfoBottom() {
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
-    Map orderInfoMap = LocalOrderInfo.getLocalOrderInfo().orderInfoMap;
+    IdentifyAddressModel identifyAddress = context.watch<AddReceiverAddressProvide>().identifyAddress;
+    if(identifyAddress == null){
+      identifyAddress = LocalOrderInfo.getLocalOrderInfo().identifyAddressResult;
+    }
+    print('_buildOrderInfoBottom identifyAddress ' + identifyAddress.toString());
 
+    Map orderInfoMap = LocalOrderInfo.getLocalOrderInfo().orderInfoMap;
     int sumPrice = orderInfoMap['groupPrice'] * orderInfoMap['num'];
 
     return Container(
@@ -369,18 +395,26 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 InkWell(
                     onTap: () {
                       UserInfo acc = UserInfo.getUserInfo();
-                      FormData formData = FormData.fromMap({
+                      Map paramsMap = ({
                         "userNumber": acc.userNumber,
                         "goodId": goodInfo.goodId,
                         "couponCode": '',
                         "mbeanCounts": 0,
+                        "classify": orderInfoMap['selectedClassify'].toString(),
+                        "specific": orderInfoMap['selectedSpecific'].toString(),
+                        "selectNum": orderInfoMap['num'],
+                        "person": identifyAddress.person,
+                        "telNumber": identifyAddress.phonenum,
+                        "address": identifyAddress.province + identifyAddress.city + identifyAddress.town + identifyAddress.detail,
+                        "classifyId": orderInfoMap['classifyId'].toString(),
+                        "specificId": orderInfoMap['specificId'].toString(),
                       });
-                      // context.read<UploadOrderProvide>().postUploadGoodInfos(
-                      //     formData,
-                      //     goodInfo.title,
-                      //     (totalOrderPrice - totalCouponDiscount - totalBeansToMoneyAmount).toString(),
-                      //     context,
-                      //     rpx);
+                      context.read<UploadOrderProvide>().postUploadGoodInfos(
+                          paramsMap,
+                          goodInfo.title,
+                          sumPrice.toString(),
+                          context,
+                          rpx);
 
                       LocalOrderInfo.getLocalOrderInfo().clear();
                     },

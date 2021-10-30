@@ -1,4 +1,3 @@
-import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
 import 'dart:convert';
 
@@ -48,19 +47,19 @@ class LocalOrderInfo {
     this.orderInfoMap.clear();
   }
 
-  void getIndentifyResult(requestMap) async {
-    Map<String, dynamic> queryParameters = Map();
-    queryParameters['access_token'] = requestMap['access_token'];
-    await requestDataForJson('identifyReceiverAddress',
-        queryParameters: queryParameters, bodyParameters: requestMap)
-        .then((val) {
-      var data = json.decode(val.toString());
-      print('identifyReceiverAddress get ...');
-      identifyAddressResult = IdentifyAddressModel.fromJson(data);
-    });
-  }
+  // void getIndentifyResult(requestMap) async {
+  //   Map<String, dynamic> queryParameters = Map();
+  //   queryParameters['access_token'] = requestMap['access_token'];
+  //   await requestDataForJson('identifyReceiverAddress',
+  //       queryParameters: queryParameters, bodyParameters: requestMap)
+  //       .then((val) {
+  //     var data = json.decode(val.toString());
+  //     print('identifyReceiverAddress get ...');
+  //     identifyAddressResult = IdentifyAddressModel.fromJson(data);
+  //   });
+  // }
 
-  void identifyAddressClear(){
-    identifyAddressResult = null;
-  }
+  // void identifyAddressClear(){
+  //   identifyAddressResult = null;
+  // }
 }

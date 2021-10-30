@@ -25,7 +25,7 @@ const servicePath = {
   'uploadReleaseGoods': GHOME_SERVER_URL + '/upload/goodRelease',
 
   // 订单信息
-  'uploadOrder': GHOME_SERVER_URL + '/order/uploadOrderInfos',
+  'uploadOrder': GHOME_SERVER_URL + '/order/uploadOrderInfo',
   'queryOrders': GHOME_SERVER_URL + '/order/queryOrderRecordsByType',
   'queryOrderCounts': GHOME_SERVER_URL + '/order/queryOrderCounts',
   'exportOrder': GHOME_SERVER_URL + '/order/export',

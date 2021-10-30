@@ -375,7 +375,7 @@ class AddReceiverAddressState extends State<AddReceiverAddress> {
                 color: buttonColor,
                 // border: new Border.all(width: 1, color: Colors.white),
               ),
-              child: Text('清空', style: TextStyle(color: Colors.white, fontSize: 26 * rpx, fontWeight: FontWeight.w500),),
+              child: Text('重置', style: TextStyle(color: Colors.white, fontSize: 26 * rpx, fontWeight: FontWeight.w500),),
             )
           ),
         );
@@ -387,12 +387,13 @@ class AddReceiverAddressState extends State<AddReceiverAddress> {
       onTap: (){
         // 更新地址信息缓存
         final addReceiverAddress = context.read<AddReceiverAddressProvide>();
+        print('更新地址信息缓存 addReceiverAddress ' + addReceiverAddress.identifyAddress.toString());
         LocalOrderInfo.getLocalOrderInfo().identifyAddressResult = addReceiverAddress.identifyAddress;
 
         // 持久化最新地址
 
         // 清除识别地址信息
-        addReceiverAddress.clear();
+        // addReceiverAddress.clear();
 
         // 关闭当前页面
         Navigator.pop(context);

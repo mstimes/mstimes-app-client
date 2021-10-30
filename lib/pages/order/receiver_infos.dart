@@ -46,21 +46,21 @@ class OrderInfosState extends State<OrderInfos> {
   @override
   void initState() {
 
-    fluwx.weChatResponseEventHandler.listen((data) {
-      print(data.errCode);
-
-      if (data.errCode == 0) {
-        print("微信支付成功");
-        print('responseFromPayment : ' + data.toString());
-
-        RouterHome.flutoRouter
-            .navigateTo(context, RouterConfig.paySuccessPagePath);
-      } else {
-        print("微信支付失败");
-        RouterHome.flutoRouter
-            .navigateTo(context, RouterConfig.payFailedPagePath);
-      }
-    });
+    // fluwx.weChatResponseEventHandler.listen((data) {
+    //   print(data.errCode);
+    //
+    //   if (data.errCode == 0) {
+    //     print("微信支付成功");
+    //     print('responseFromPayment : ' + data.toString());
+    //
+    //     RouterHome.flutoRouter
+    //         .navigateTo(context, RouterConfig.paySuccessPagePath);
+    //   } else {
+    //     print("微信支付失败");
+    //     RouterHome.flutoRouter
+    //         .navigateTo(context, RouterConfig.payFailedPagePath);
+    //   }
+    // });
     super.initState();
   }
 
