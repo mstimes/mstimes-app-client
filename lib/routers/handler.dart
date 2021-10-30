@@ -25,6 +25,7 @@ import 'package:mstimes/pages/login/service_text_page.dart';
 import 'package:mstimes/pages/login/verify_page.dart';
 import 'package:mstimes/pages/my_page.dart';
 import 'package:mstimes/pages/order/receiver_infos.dart';
+import 'package:mstimes/pages/order/receiver_widgets/add_receiver.dart';
 import 'package:mstimes/pages/product/detail_goods.dart';
 import 'package:mstimes/pages/product/group/group_goods.dart';
 import 'package:mstimes/pages/product/group/new_goods.dart';
@@ -252,5 +253,11 @@ Handler myMBeansPageHandler = Handler(
 Handler inviteFriendsPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
     return InviteFriendsPage();
+  },
+);
+
+Handler addReceiverAddressPageHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    return AddReceiverAddress();
   },
 );

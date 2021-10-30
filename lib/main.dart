@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:mstimes/pages/login/home_alert.dart';
+import 'package:mstimes/provide/add_reveiver_provide.dart';
 import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/provide/select_good_provider.dart';
@@ -15,6 +16,8 @@ import 'package:mstimes/routers/router_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'provide/good_select_type.dart';
 import 'package:provider/provider.dart';
+// import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 Future<void> main() async {
   // init router
@@ -33,9 +36,15 @@ Future<void> main() async {
           ChangeNotifierProvider(create: (_) => UploadOrderProvide()),
           ChangeNotifierProvider(create: (_) => DrawingRecordProvide()),
           ChangeNotifierProvider(create: (_) => SelectDiscountProvide()),
+          ChangeNotifierProvider(create: (_) => AddReceiverAddressProvide()),
         ],
       child: MaterialApp(
         title: "MsTimes App",
+        // localizationsDelegates: [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Center(

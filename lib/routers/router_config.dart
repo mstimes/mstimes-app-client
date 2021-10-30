@@ -18,6 +18,7 @@ class RouterConfig {
   static String orderInfoPagePath = '/order/orderInfoPage';
   static String queryOrderInfosPath = '/order/queryOrders';
   static String confirmOrderPagePath = '/order/confirmOrder';
+  static String addReceiverAddressPagePath = '/order/addReceiverAddress';
 
   // 商品上架
   static String uploadProductPath = '/upload/productRelease';
@@ -117,5 +118,7 @@ class RouterConfig {
     fluroRouter.define(myMBeansPagePath, handler: myMBeansPageHandler);
     fluroRouter.define(inviteFriendsPagePath,
         handler: inviteFriendsPageHandler);
+    fluroRouter.define(addReceiverAddressPagePath,
+        handler: addReceiverAddressPageHandler);
   }
 }
