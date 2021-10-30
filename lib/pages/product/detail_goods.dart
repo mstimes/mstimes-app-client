@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:mstimes/common/constant.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/pages/order/product_select.dart';
 import 'package:mstimes/provide/good_select_type.dart';
@@ -103,6 +105,7 @@ class _DetailGoodsState extends State<DetailGoods> {
     if (goodInfo != null) {
       return InkWell(
         onTap: () {
+          UserInfo.getUserInfo().setIndexPage(TO_DETAIL_GOOD_PAGE);
           if(!checkIsLogin(context)){
             return;
           }

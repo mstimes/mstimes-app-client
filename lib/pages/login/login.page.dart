@@ -7,9 +7,11 @@ import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/agent.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
+import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/utils/color_util.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:provider/src/provider.dart';
 import 'package:sign_in_apple/sign_in_apple.dart';
 
 import '../../common/valid.dart';
@@ -344,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             logoImageArea,
             new SizedBox(
-              height: 150 * rpx,
+              height: 160 * rpx,
             ),
             Platform.isIOS ? (isInstalledWx == true ? wxLoginArea : Container()) : wxLoginArea,
             Platform.isIOS ? appleLoginArea : Container(),
@@ -359,7 +361,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-void postUserLogin(loginType, loginId, accessToken, context) {
+void postUserLogin(loginType, loginId, accessToken,BuildContext context) {
   UserInfo userInfo = UserInfo.getUserInfo();
   FormData formData = new FormData.fromMap({
     "loginType": loginType,
@@ -391,12 +393,16 @@ void postUserLogin(loginType, loginId, accessToken, context) {
     }
 
     if(userInfo.phone != null && userInfo.phone != "0"){
-      RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+      // RouterHome.flutoRouter.navigateTo(context, RouterConfig.groupGoodsPath);
+      // 路由登陆前最后一个页面
+      // indexPageAfterLogin(context);
+      Navigator.pop(context);
+      context.read<LoginProvide>().refreshLoginStatus();
     } else {
       if(loginType == 1){
         getWeChatUserInfo(accessToken, loginId);
       }
-
+      Navigator.pop(context);
       RouterHome.flutoRouter
           .navigateTo(context, RouterConfig.bindPhoneNumberPagePath);
     }

@@ -18,6 +18,9 @@ class UserInfo {
   var parentAgentName;
   var loginType;
 
+  // 登陆成功后索引页面
+  String indexPage;
+
   _UserInfo() {}
 
   bool isAgent() {
@@ -90,5 +93,9 @@ class UserInfo {
 
   void setLevel(level) {
     this.level = level;
+  }
+
+  void setIndexPage(indexPage){
+    this.indexPage = indexPage;
   }
 }
