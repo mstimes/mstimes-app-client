@@ -11,7 +11,6 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:mstimes/common/apple.dart';
 import 'package:mstimes/common/wechat.dart';
 import 'package:mstimes/config/service_url.dart';
-import 'package:mstimes/model/good_details.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/pages/product/group/group_hot_swiper.dart';
 import 'package:mstimes/provide/select_good_provider.dart';
@@ -39,7 +38,6 @@ const List<GroupChoiceTab> groupChoiceTabs = const <GroupChoiceTab>[
 
 class _GroupGoodsState extends State<GroupGoods> {
   int pageCount = 1;
-  List<Map> _tommorrowGoodList = [];
   List<Map> _todayGoodList = [];
   List<Map> _yesterdayGoodList = [];
   double rpx;
@@ -54,7 +52,6 @@ class _GroupGoodsState extends State<GroupGoods> {
   bool saveLongPatternC = false;
   bool enableSingleImageDownloadA = false;
   bool enableSingleImageDownloadB = false;
-  // bool isToday = true;
   String downloadStartDate = formatDate(DateTime.now(), mdFormat);
   String downloadEndDate =
       formatDate(DateTime.now().add(Duration(days: 1)), mdFormat);
@@ -1379,6 +1376,7 @@ class _GroupGoodsState extends State<GroupGoods> {
   Widget makeImageArea(val, size) {
     String imageUrl = QINIU_OBJECT_STORAGE_URL + val['mainImage'];
     return Stack(
+      alignment: Alignment.center,
       children: [
         Container(
           margin: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx),
@@ -1389,22 +1387,54 @@ class _GroupGoodsState extends State<GroupGoods> {
             child: val['mainImage'] == null ? '' : Image.network(imageUrl),
           ),
         ),
-        val['saleOut'] == 0 ? Container() :
-        Positioned(
-          top: 0,
-          right: 5,
+        buildLabel(val)
+      ],
+    );
+  }
+
+  Widget buildLabel(val){
+    if(val['saleOut'] == 1){
+      return Container(
+          alignment: Alignment.center,
           child: Container(
             child: ClipRRect(
               child: Image.asset(
                 "lib/images/sale_out.png",
-                width: 100 * rpx,
-                height: 100 * rpx,
+                width: 160 * rpx,
+                height: 160 * rpx,
               ),
             ),
           )
-        )
-      ],
-    );
+      );
+    }else if(val['secondKill'] == 1){
+      return Container(
+          alignment: Alignment.topCenter,
+          child: Container(
+            child: ClipRRect(
+              child: Image.asset(
+                "lib/images/second_kill_1.png",
+                width: 80 * rpx,
+                height: 80 * rpx,
+              ),
+            ),
+          )
+      );
+      return Positioned(
+          top: 0,
+          right: 5 * rpx,
+          child: Container(
+            child: ClipRRect(
+              child: Image.asset(
+                "lib/images/second_kill_1.png",
+                width: 80 * rpx,
+                height: 80 * rpx,
+              ),
+            ),
+          )
+      );
+    }else {
+      return Container();
+    }
   }
 
   // void getTommorrowGroupGoods() {
