@@ -31,6 +31,8 @@ const servicePath = {
   'exportOrder': GHOME_SERVER_URL + '/order/export',
   'queryAccountOrderSummary':
       GHOME_SERVER_URL + '/order/queryAccountOrderSummary',
+  'createUsualAddress': GHOME_SERVER_URL + '/user/createUsualAddress',
+  'queryLastUsualAddress': GHOME_SERVER_URL + '/user/queryLastUsualAddress',
 
   // 用户管理
   'registerUser': GHOME_SERVER_URL + '/user/newUser',

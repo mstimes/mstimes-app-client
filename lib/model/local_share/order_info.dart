@@ -1,7 +1,10 @@
+import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/good_details.dart';
+import 'package:mstimes/model/local_share/account_info.dart';
 import 'dart:convert';
 
 import '../identify_address.dart';
+import 'package:dio/dio.dart';
 
 class LocalOrderInfo {
   static LocalOrderInfo _instance = null;
@@ -47,19 +50,34 @@ class LocalOrderInfo {
     this.orderInfoMap.clear();
   }
 
-  // void getIndentifyResult(requestMap) async {
-  //   Map<String, dynamic> queryParameters = Map();
-  //   queryParameters['access_token'] = requestMap['access_token'];
-  //   await requestDataForJson('identifyReceiverAddress',
-  //       queryParameters: queryParameters, bodyParameters: requestMap)
-  //       .then((val) {
-  //     var data = json.decode(val.toString());
-  //     print('identifyReceiverAddress get ...');
-  //     identifyAddressResult = IdentifyAddressModel.fromJson(data);
-  //   });
-  // }
+  String getFullAddress(){
+    return identifyAddressResult.province + identifyAddressResult.city + identifyAddressResult.town + identifyAddressResult.detail;
+  }
 
-  // void identifyAddressClear(){
-  //   identifyAddressResult = null;
-  // }
+  Future getUsualAddressInfo() async {
+    print('getUsualAddressInfo ' + UserInfo.getUserInfo().userNumber.toString());
+    FormData formData = new FormData.fromMap({
+      "userNumber": UserInfo.getUserInfo().userNumber,
+    });
+    await requestDataByUrl('queryLastUsualAddress', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('queryLastUsualAddress ' + data.toString());
+      if(data['success']){
+        Map<String, dynamic> map = {
+          'person' : data['dataList'][0]['name'],
+          'phonenum': data['dataList'][0]['phoneNo'],
+          'province': data['dataList'][0]['address'],
+          'city': '',
+          'town': '',
+          'detail': '',
+        };
+        identifyAddressResult = IdentifyAddressModel.fromJson(map);
+        print('get person : ' + identifyAddressResult.person.toString());
+      }else {
+        print('no address.');
+      }
+
+      return data;
+    });
+  }
 }

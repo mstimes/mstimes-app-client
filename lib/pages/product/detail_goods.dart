@@ -105,10 +105,11 @@ class _DetailGoodsState extends State<DetailGoods> {
     if (goodInfo != null) {
       return InkWell(
         onTap: () {
-          UserInfo.getUserInfo().setIndexPage(TO_DETAIL_GOOD_PAGE);
           if(!checkIsLogin(context)){
+            print('4');
             return;
           }
+          LocalOrderInfo.getLocalOrderInfo().getUsualAddressInfo();
 
           context.read<GoodSelectBottomProvide>().clear();
           context.read<OrderInfoAddReciverProvide>().clear();
