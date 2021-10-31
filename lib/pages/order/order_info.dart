@@ -4,7 +4,6 @@ import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/add_reveiver_provide.dart';
-import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';
 import 'package:mstimes/routers/router_config.dart';
 import 'package:mstimes/tools/common_container.dart';
@@ -104,6 +103,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
       // 没有新添加信息则取缓存地址信息
       addressModel = LocalOrderInfo.getLocalOrderInfo().identifyAddressResult;
     }
+    print('addressModel ' + addressModel.toString());
 
     if(addressModel == null){
       // 没有添加过任何地址信息

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mstimes/common/valid.dart';
+import 'package:mstimes/model/local_share/account_info.dart';
 import 'package:mstimes/model/local_share/order_info.dart';
 import 'package:mstimes/provide/add_reveiver_provide.dart';
 import 'package:mstimes/tools/common_container.dart';
@@ -10,6 +11,7 @@ import 'package:mstimes/common/control.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/identify_address.dart';
 import 'package:mstimes/utils/color_util.dart';
+import 'package:dio/dio.dart';
 import 'dart:io';
 
 import 'package:provider/src/provider.dart';
@@ -223,7 +225,7 @@ class AddReceiverAddressState extends State<AddReceiverAddress> {
         onSaved: (value) {
           this._keyword = value;
         },
-        cursorColor: Colors.black,
+        cursorColor: Colors.black54,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
             enabledBorder: InputBorder.none,
@@ -391,9 +393,7 @@ class AddReceiverAddressState extends State<AddReceiverAddress> {
         LocalOrderInfo.getLocalOrderInfo().identifyAddressResult = addReceiverAddress.identifyAddress;
 
         // 持久化最新地址
-
-        // 清除识别地址信息
-        // addReceiverAddress.clear();
+        postUsualAddress();
 
         // 关闭当前页面
         Navigator.pop(context);
@@ -410,5 +410,19 @@ class AddReceiverAddressState extends State<AddReceiverAddress> {
 
   void _identifyReceierAddress(requestMap, BuildContext context) async {
     return context.read<AddReceiverAddressProvide>().getIndentifyResult(requestMap);
+  }
+
+  void postUsualAddress(){
+    FormData formData = new FormData.fromMap({
+      "userNumber": UserInfo.getUserInfo().userNumber,
+      "phoneNo": LocalOrderInfo.getLocalOrderInfo().identifyAddressResult.phonenum,
+      "name": LocalOrderInfo.getLocalOrderInfo().identifyAddressResult.person,
+      "address": LocalOrderInfo.getLocalOrderInfo().getFullAddress(),
+    });
+
+    requestDataByUrl('createUsualAddress', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      print('data ' + data.toString());
+    });
   }
 }

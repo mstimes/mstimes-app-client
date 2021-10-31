@@ -38,6 +38,7 @@ bool checkIsLogin(context) {
   UserInfo agent = UserInfo.getUserInfo();
   if (agent.phone == null) {
     RouterHome.flutoRouter.navigateTo(context, RouterConfig.loginPagePath);
+    return false;
   } else {
     return true;
   }

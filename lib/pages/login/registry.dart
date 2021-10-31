@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mstimes/common/router.dart';
 import 'package:mstimes/common/valid.dart';
 import 'package:mstimes/config/service_url.dart';
 import 'package:mstimes/model/local_share/account_info.dart';

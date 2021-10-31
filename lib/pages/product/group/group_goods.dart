@@ -1285,19 +1285,19 @@ class _GroupGoodsState extends State<GroupGoods> {
     );
   }
 
-  Future _getGoodInfosById(int goodId) async {
-    FormData formData = new FormData.fromMap({
-      "goodId": goodId,
-    });
-    print("getGoodInfosById : " + goodId.toString());
-    await requestDataByUrl('queryGoodById', formData: formData).then((val) {
-      var data = json.decode(val.toString());
-      print('queryGoodById ' + data.toString());
-      GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
-      LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
-      return data;
-    });
-  }
+  // Future _getGoodInfosById(int goodId) async {
+  //   FormData formData = new FormData.fromMap({
+  //     "goodId": goodId,
+  //   });
+  //   print("getGoodInfosById :  " + goodId.toString());
+  //   await requestDataByUrl('queryGoodById', formData: formData).then((val) {
+  //     var data = json.decode(val.toString());
+  //     print('queryGoodById ' + data.toString());
+  //     GoodDetailModel goodDetailModel = GoodDetailModel.fromJson(data);
+  //     LocalOrderInfo.getLocalOrderInfo().setGoodInfo(goodDetailModel.dataList[0]);
+  //     return data;
+  //   });
+  // }
 
   // Future _getGoodInfos(BuildContext context, int goodId) async {
   //   return Provide.value<OrderingInfosProvide>(context)
@@ -1390,16 +1390,18 @@ class _GroupGoodsState extends State<GroupGoods> {
           ),
         ),
         val['saleOut'] == 0 ? Container() :
-        Container(
-          width: 360 * rpx,
-          alignment: Alignment.center,
-          child: ClipRRect(
-            child: Image.asset(
-              "lib/images/sale_out.png",
-              width: 200 * rpx,
-              height: 200 * rpx,
+        Positioned(
+          top: 0,
+          right: 5,
+          child: Container(
+            child: ClipRRect(
+              child: Image.asset(
+                "lib/images/sale_out.png",
+                width: 100 * rpx,
+                height: 100 * rpx,
+              ),
             ),
-          ),
+          )
         )
       ],
     );
