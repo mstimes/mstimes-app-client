@@ -163,12 +163,8 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       "userNumber": userInfo.userNumber,
       "startTime": formatDate(startDate, ymdFormat),
       "endTime": formatDate(endDate, ymdFormat),
-      // "startTime": DateFormat("yyyy-MM-dd").format(startDate),
-      // "endTime": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
-
-
     });
     requestDataByUrl('queryOrders', formData: formData).then((val) {
       var data = json.decode(val.toString());
@@ -412,15 +408,9 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
           height: 360 * rpx,
           margin: EdgeInsets.only(
               left: 6 * rpx, top: 10 * rpx, right: 6 * rpx, bottom: 6 * rpx),
-          //设置 child 居中
-          // alignment: Alignment(0, 0),
-          //边框设置
           decoration: new BoxDecoration(
-            //背景
             color: Colors.white,
-            //设置四周圆角 角度
             borderRadius: BorderRadius.all(Radius.circular(15.0 * rpx)),
-            //设置四周边框
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
           child: Column(
@@ -606,12 +596,12 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
   }
 
   Widget buildClassify(val) {
-    List<dynamic> goodCategories = jsonDecode(val['goodCategories']);
-    List<dynamic> goodSpecifics = jsonDecode(val['goodSpecifics']);
-    print('goodCategories goodSpecifics ' +
-        goodCategories.toString() +
-        "," +
-        goodSpecifics.toString());
+    // List<dynamic> goodCategories = jsonDecode(val['goodCategories']);
+    // List<dynamic> goodSpecifics = jsonDecode(val['goodSpecifics']);
+    // print('goodCategories goodSpecifics ' +
+    //     goodCategories.toString() +
+    //     "," +
+    //     goodSpecifics.toString());
     return Container(
       margin: EdgeInsets.only(left: 50 * rpx, bottom: 10 * rpx, top: 20 * rpx),
       child: Row(
@@ -620,9 +610,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             // alignment: Alignment.topLeft,
             margin: EdgeInsets.only(right: 20 * rpx),
             child: Text(
-              goodCategories[val['classify'] - 1].toString() +
-                  " " +
-                  goodSpecifics[val['specification']],
+              // goodCategories[val['classify'] - 1].toString() +
+              //     " " +
+              //     goodSpecifics[val['specification']],
+              val['classify'].toString() + " " +  val['specification'].toString(),
               style: TextStyle(
                   color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
             ),
