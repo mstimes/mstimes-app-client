@@ -1407,27 +1407,29 @@ class _GroupGoodsState extends State<GroupGoods> {
           )
       );
     }else if(val['secondKill'] == 1){
+      return Positioned(
+          top: 0,
+          right: 30 * rpx,
+          child: Container(
+            child: ClipRRect(
+              child: Image.asset(
+                "lib/images/second_kill_1.png",
+                width: 90 * rpx,
+                height: 90 * rpx,
+              ),
+            ),
+          )
+      );
+
       return Container(
+        // margin: EdgeInsets.only(top: 10 * rpx),
           alignment: Alignment.topCenter,
           child: Container(
             child: ClipRRect(
               child: Image.asset(
                 "lib/images/second_kill_1.png",
-                width: 80 * rpx,
-                height: 80 * rpx,
-              ),
-            ),
-          )
-      );
-      return Positioned(
-          top: 0,
-          right: 5 * rpx,
-          child: Container(
-            child: ClipRRect(
-              child: Image.asset(
-                "lib/images/second_kill_1.png",
-                width: 80 * rpx,
-                height: 80 * rpx,
+                width: 90 * rpx,
+                height: 90 * rpx,
               ),
             ),
           )
