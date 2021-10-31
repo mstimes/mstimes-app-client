@@ -1387,12 +1387,13 @@ class _GroupGoodsState extends State<GroupGoods> {
             child: val['mainImage'] == null ? '' : Image.network(imageUrl),
           ),
         ),
-        buildLabel(val)
+        buildSaleOutLabel(val),
+        buildSecondKillLabel(val),
       ],
     );
   }
 
-  Widget buildLabel(val){
+  Widget buildSaleOutLabel(val){
     if(val['saleOut'] == 1){
       return Container(
           alignment: Alignment.center,
@@ -1406,7 +1407,13 @@ class _GroupGoodsState extends State<GroupGoods> {
             ),
           )
       );
-    }else if(val['secondKill'] == 1){
+    } else{
+      return Container();
+    }
+  }
+
+  Widget buildSecondKillLabel(val) {
+    if (val['secondKill'] == 1) {
       return Positioned(
           top: 0,
           right: 30 * rpx,
@@ -1420,21 +1427,7 @@ class _GroupGoodsState extends State<GroupGoods> {
             ),
           )
       );
-
-      return Container(
-        // margin: EdgeInsets.only(top: 10 * rpx),
-          alignment: Alignment.topCenter,
-          child: Container(
-            child: ClipRRect(
-              child: Image.asset(
-                "lib/images/second_kill_1.png",
-                width: 90 * rpx,
-                height: 90 * rpx,
-              ),
-            ),
-          )
-      );
-    }else {
+    } else{
       return Container();
     }
   }
