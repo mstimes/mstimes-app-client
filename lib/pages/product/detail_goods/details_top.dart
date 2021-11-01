@@ -228,18 +228,18 @@ class DetailsGoodTop extends StatelessWidget {
 
   String _selectProfitSharingPrice(agentLevel, levelName, goodInfo) {
     if (agentLevel == 0) {
-      return levelName + goodInfo.zeroProfit.toString();
+      return levelName + goodInfo.zeroProfit;
     }
     if (agentLevel == 1) {
-      return levelName + goodInfo.firstProfit.toString();
+      return levelName + goodInfo.firstProfit;
     }
     if (agentLevel == 2) {
-      return levelName + goodInfo.secondProfit.toString();
+      return levelName + goodInfo.secondProfit;
     }
     if (agentLevel == 3) {
-      return levelName + goodInfo.thirdProfit.toString();
+      return levelName + goodInfo.thirdProfit;
     }
-    return levelName + goodInfo.zeroProfit.toString();
+    return levelName + goodInfo.zeroProfit;
   }
 
   Widget getDetailTopImages(url) {
@@ -262,32 +262,50 @@ class DetailsGoodTop extends StatelessWidget {
   }
 
   Widget getGoodPrice(presentPrice, groupPrice) {
+    var groupPriceArr = groupPrice.toString().split(".");
     return Container(
       width: 730 * rpx,
       padding: EdgeInsets.only(left: 15.0),
       margin: EdgeInsets.only(top: 18.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Text(
-            '特卖价￥',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20 * rpx,
-                fontWeight: FontWeight.bold),
+          Container(
+            margin: EdgeInsets.only(bottom: 3 * rpx),
+            child: Text(
+              '蜜糖价￥ ',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 23 * rpx,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
-          Text(
-            '${groupPrice} ',
-            style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                fontSize: 40 * rpx),
+          Container(
+            child: Text(
+              groupPriceArr[0],
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                  fontSize: 36 * rpx),
+            ),
           ),
-          Text(
-            '￥${presentPrice}',
-            style: TextStyle(
-                color: Colors.white,
-                decoration: TextDecoration.lineThrough,
-                fontSize: 25 * rpx),
+          Container(
+            margin: EdgeInsets.only(bottom: 3 * rpx),
+            child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 23 * rpx,
+                    fontWeight: FontWeight.w800)),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10 * rpx, bottom: 3 * rpx),
+            child: Text(
+              '￥${presentPrice}',
+              style: TextStyle(
+                  color: Colors.white,
+                  decoration: TextDecoration.lineThrough,
+                  fontSize: 25 * rpx),
+            ),
           )
         ],
       ),

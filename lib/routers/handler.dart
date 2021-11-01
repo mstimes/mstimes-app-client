@@ -178,11 +178,11 @@ Handler selectAccTypePageHandler = Handler(
   },
 );
 
-Handler confirmOrderPageHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return ConfirmOrderPage();
-  },
-);
+// Handler confirmOrderPageHandler = Handler(
+//   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//     return ConfirmOrderPage();
+//   },
+// );
 
 Handler myFunsPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {

@@ -100,7 +100,7 @@ class RouterConfig {
     fluroRouter.define(payFailedPagePath, handler: payFailedPageHandler);
     // fluroRouter.define(selectAccTypePagePath,
     //     handler: selectAccTypePageHandler);
-    fluroRouter.define(confirmOrderPagePath, handler: confirmOrderPageHandler);
+    // fluroRouter.define(confirmOrderPagePath, handler: confirmOrderPageHandler);
     fluroRouter.define(newGoodsPath, handler: newGoodsHandler);
     fluroRouter.define(myFunsPath, handler: myFunsPageHandler);
     fluroRouter.define(fundPath, handler: fundPageHandler);

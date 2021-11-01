@@ -54,8 +54,8 @@ class DataList {
   int goodId;
   String title;
   String description;
-  int oriPrice;
-  int groupPrice;
+  String oriPrice;
+  String groupPrice;
   int beans;
   int groupNum;
   String mainImage;
@@ -77,11 +77,11 @@ class DataList {
   String unShippingInfo;
   String shippingTimeLimit;
   String afterSales;
-  int equalLevelProfit;
-  int zeroProfit;
-  int firstProfit;
-  int secondProfit;
-  int thirdProfit;
+  String equalLevelProfit;
+  String zeroProfit;
+  String firstProfit;
+  String secondProfit;
+  String thirdProfit;
   int saleOut;
   int diffType;
   String diffPriceInfo;
