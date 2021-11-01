@@ -181,6 +181,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
   Widget _showOrderInfo(){
     Map orderInfoMap = LocalOrderInfo.getLocalOrderInfo().orderInfoMap;
     DataList goodInfo = LocalOrderInfo.getLocalOrderInfo().goodInfo;
+    var groupPriceArr = orderInfoMap['groupPrice'].toString().split(".");
     return Container(
       margin: EdgeInsets.only(top: 30 * rpx),
       decoration: new BoxDecoration(
@@ -202,49 +203,54 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                   // fit: BoxFit.cover,
                 )),
           ),
-          Container(
-              margin: EdgeInsets.only(left: 30 * rpx),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(goodInfo.title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28 * rpx),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5 * rpx),
-                    child: Text('分类：' + orderInfoMap['selectedClassify'].toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 23 * rpx),),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 5 * rpx, bottom: 30 * rpx),
-                    child: Text('规格：' + orderInfoMap['selectedSpecific'].toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 23 * rpx)),
-                  ),
-                  Row(
-                      children: [
-                        Container(
-                          child: Text('¥', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 23 * rpx)),
-                        ),
-                        Container(
-                          child: Text(orderInfoMap['groupPrice'].toString(), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30 * rpx)),
-                        ),
-                        Container(
-                          child: Text('/件', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 23 * rpx)),
-                        ),
-                        Container(
-                            width: 60 * rpx,
-                            margin: EdgeInsets.only(left: 260 * rpx),
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
-                            decoration: new BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                              border: new Border.all(width: 1, color: Colors.white),
-                            ),
-                            child: Text('x ' + orderInfoMap['num'].toString(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20 * rpx))
-                        )
-                      ]
-                  )
-                ],
-              )
+          Expanded(
+            child: Container(
+                margin: EdgeInsets.only(left: 30 * rpx),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: Text(goodInfo.title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28 * rpx),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 10 * rpx),
+                      child: Text('分类：' + orderInfoMap['selectedClassify'].toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 23 * rpx),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 5 * rpx, bottom: 30 * rpx),
+                      child: Text('规格：' + orderInfoMap['selectedSpecific'].toString(), style: TextStyle(fontWeight: FontWeight.w400, fontSize: 23 * rpx)),
+                    ),
+                    Row(
+                        children: [
+                          Container(
+                            child: Text('¥', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20 * rpx)),
+                          ),
+                          Container(
+                            child: Text(groupPriceArr[0], style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30 * rpx)),
+                          ),
+                          Container(
+                            child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(), style: TextStyle(fontWeight: FontWeight.w700, fontSize: 23 * rpx)),
+                          ),
+                          Container(
+                            child: Text('/件', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18 * rpx)),
+                          ),
+                          Container(
+                              width: 60 * rpx,
+                              margin: EdgeInsets.only(left: 260 * rpx),
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
+                              decoration: new BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                border: new Border.all(width: 1, color: Colors.white),
+                              ),
+                              child: Text('x ' + orderInfoMap['num'].toString(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20 * rpx))
+                          )
+                        ]
+                    )
+                  ],
+                )
+            ),
           )
         ],
       ),
@@ -315,7 +321,8 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
 
   Widget _buildBriefSummary(){
     Map orderInfoMap = LocalOrderInfo.getLocalOrderInfo().orderInfoMap;
-    int sumPrice = orderInfoMap['groupPrice'] * orderInfoMap['num'];
+    double sumPrice = double.parse(orderInfoMap['groupPrice']) * orderInfoMap['num'];
+    var sumPriceArr = sumPrice.toString().split(".");
 
     return Container(
       alignment: Alignment.center,
@@ -331,7 +338,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    child: Text('小计 ¥ ' + sumPrice.toString() + ".00", style: TextStyle(fontSize: 23 * rpx, fontWeight: FontWeight.w400)),
+                    child: Text('小计 ¥ ' + sumPrice.toString(), style: TextStyle(fontSize: 23 * rpx, fontWeight: FontWeight.w400)),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 10 * rpx),
@@ -343,7 +350,22 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
             Expanded(child: Container()),
             Container(
               margin: EdgeInsets.only(right: 20 * rpx),
-              child: Text('¥ ' + sumPrice.toString() + '.00', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 3 * rpx),
+                    child: Text('¥ ', style: TextStyle(fontSize: 23 * rpx, fontWeight: FontWeight.w500)),
+                  ),
+                  Container(
+                    child: Text(sumPriceArr[0], style: TextStyle(fontSize: 32 * rpx, fontWeight: FontWeight.w500)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 3 * rpx),
+                    child: Text(sumPriceArr.length == 1 ? '' : "." + sumPriceArr[1].toString(), style: TextStyle(fontSize: 25 * rpx, fontWeight: FontWeight.w600)),
+                  )
+                ],
+              ),
             )
           ],
         ),
@@ -360,8 +382,9 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
     print('_buildOrderInfoBottom identifyAddress ' + identifyAddress.toString());
 
     Map orderInfoMap = LocalOrderInfo.getLocalOrderInfo().orderInfoMap;
-    int sumPrice = orderInfoMap['groupPrice'] * orderInfoMap['num'];
+    double sumPrice = double.parse(orderInfoMap['groupPrice']) * orderInfoMap['num'];
 
+    var sumPriceArr = sumPrice.toString().split(".");
     return Container(
         padding: EdgeInsets.only(
             left: 40 * rpx, right: 40 * rpx, top: 15 * rpx, bottom: Platform.isIOS ? 30 * rpx * rpx : 10 * rpx),
@@ -373,21 +396,28 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
               children: <Widget>[
                 Container(
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        '总计金额：￥',
-                        style: TextStyle(
-                            fontSize: 26 * rpx, fontWeight: FontWeight.w600),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 3 * rpx),
+                        child: Text(
+                          '总计金额：￥',
+                          style: TextStyle(
+                              fontSize: 26 * rpx, fontWeight: FontWeight.w600),
+                        ),
                       ),
                       Text(
-                        sumPrice.toString(),
+                        sumPriceArr[0],
                         style: TextStyle(
                             fontSize: 36 * rpx, fontWeight: FontWeight.w600),
                       ),
-                      Text(
-                        '.00',
-                        style: TextStyle(
-                            fontSize: 26 * rpx, fontWeight: FontWeight.w600),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 3 * rpx),
+                        child: Text(
+                          sumPriceArr.length == 1 ? '' : "." + sumPriceArr[1].toString(),
+                          style: TextStyle(
+                              fontSize: 26 * rpx, fontWeight: FontWeight.w600),
+                        ),
                       )
                     ],
                   ),

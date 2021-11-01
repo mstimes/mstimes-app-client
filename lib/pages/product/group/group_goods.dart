@@ -1144,11 +1144,8 @@ class _GroupGoodsState extends State<GroupGoods> {
       width: 150 * rpx,
       height: 80 * rpx,
       decoration: new BoxDecoration(
-        //背景
         color: Colors.black,
-        //设置四周圆角 角度
         borderRadius: BorderRadius.all(Radius.circular(30.0 * rpx)),
-        //设置四周边框
         border: new Border.all(width: 1 * rpx, color: Colors.white),
       ),
       child: Row(
@@ -1173,6 +1170,7 @@ class _GroupGoodsState extends State<GroupGoods> {
   }
 
   Widget _buildPrice(val) {
+    var groupPriceArr = val['groupPrice'].toString().split(".");
     return Container(
       width: 400 * rpx,
       height: 40 * rpx,
@@ -1186,18 +1184,30 @@ class _GroupGoodsState extends State<GroupGoods> {
             child: Row(
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('￥',
-                        style: TextStyle(
-                            color: goodsFontColor,
-                            fontSize: 24.0 * rpx,
-                            fontWeight: FontWeight.w600)),
+                    Container(
+                        margin: EdgeInsets.only(bottom: 2 * rpx),
+                      child: Text('￥',
+                          style: TextStyle(
+                              color: goodsFontColor,
+                              fontSize: 24.0 * rpx,
+                              fontWeight: FontWeight.w600))
+                    ),
                     Text(
-                      '${val['groupPrice']}',
+                      groupPriceArr[0],
                       style: TextStyle(
                           color: goodsFontColor,
                           fontSize: 35.0 * rpx,
                           fontWeight: FontWeight.w600),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 2 * rpx),
+                      child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(),
+                          style: TextStyle(
+                              color: goodsFontColor,
+                              fontSize: 24.0 * rpx,
+                              fontWeight: FontWeight.w800)),
                     ),
                   ],
                 ),
@@ -1209,7 +1219,7 @@ class _GroupGoodsState extends State<GroupGoods> {
                         color: Colors.grey,
                         decoration: TextDecoration.lineThrough,
                         fontSize: 25 * rpx,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
               ],

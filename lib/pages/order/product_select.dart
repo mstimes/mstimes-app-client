@@ -34,8 +34,8 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   int typeValue = 1;
   int specValue = 1;
   double rpx;
-  int groupPrice = 0;
-  int oriPrice = 0;
+  var groupPrice = '0.00';
+  var oriPrice = '0.00';
 
   @override
   void initState() {
@@ -397,6 +397,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
   }
 
   Widget _buildTopRow(goodInfo, context) {
+    var groupPriceArr = this.groupPrice.split(".");
     return Row(
       children: [
         Container(
@@ -422,7 +423,6 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   margin: EdgeInsets.only(left: 5 * rpx),
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    // '¥${goodInfo.oriPrice}',
                     '¥' + this.oriPrice.toString(),
                     style: TextStyle(
                         color: Colors.black26,
@@ -434,20 +434,27 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Container(
+                      margin: EdgeInsets.only(bottom: 3 * rpx),
                       child: Text(
                         '蜜糖价 ¥',
                         style: TextStyle(
-                            fontSize: 25.0 * rpx, fontWeight: FontWeight.bold),
+                            fontSize: 25 * rpx, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
                       child: Text(
-                        // '${goodInfo.groupPrice}',
-                        this.groupPrice.toString(),
+                        groupPriceArr[0],
                         style: TextStyle(
                             fontSize: 35.0 * rpx, fontWeight: FontWeight.bold),
                       ),
                     ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 3 * rpx),
+                      child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(),
+                          style: TextStyle(
+                              fontSize: 26 * rpx,
+                              fontWeight: FontWeight.w800)),
+                    )
                   ],
                 ),
               ],
