@@ -118,44 +118,81 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
         margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 50 * rpx, bottom: 10 * rpx),
         child: Row(
           children: [
-            Text(' + 请填写收获地址', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400),)
+            Container(
+              alignment: Alignment.topCenter,
+              // width: 60 * rpx,
+              // height: 60 * rpx,
+              child: Container(
+                child: ClipOval(
+                    child: Image.asset(
+                      "lib/images/add.png",
+                      width: 30 * rpx,
+                      height: 30 * rpx,
+                    )
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10 * rpx),
+              child: Text('请填写收获地址', style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400)
+            ))
           ],
         ),
       );
     }
 
     return Container(
-      alignment: Alignment.center,
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        border: new Border.all(width: 1, color: Colors.white),
-      ),
-      padding: EdgeInsets.all(30 * rpx),
-      margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 50 * rpx, bottom: 10 * rpx),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-              margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx),
-              child: Row(
-              children: [
-                Container(
-                  child: Text(addressModel.person, style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400),),
+        alignment: Alignment.center,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          border: new Border.all(width: 1, color: Colors.white),
+        ),
+        padding: EdgeInsets.all(30 * rpx),
+        margin: EdgeInsets.only(left: 20 * rpx, right: 20 * rpx, top: 50 * rpx, bottom: 10 * rpx),
+        child: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 20 * rpx),
+              alignment: Alignment.center,
+              child: Container(
+                child: ClipOval(
+                    child: Image.asset(
+                      "lib/images/address_position.png",
+                      width: 50 * rpx,
+                      height: 50 * rpx,
+                    )
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 20 * rpx),
-                  child: Text(addressModel.phonenum, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
-                )
-              ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(left: 10 * rpx, bottom: 10 * rpx),
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 10 * rpx),
+                            child: Text(addressModel.person, style: TextStyle(fontSize: 28 * rpx, fontWeight: FontWeight.w400),),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20 * rpx),
+                            child: Text(addressModel.phonenum, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
+                          )
+                        ],
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx, top: 6 * rpx),
+                    child:  Text(addressModel.province + addressModel.city + addressModel.town + addressModel.detail, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
+                  )
+                ],
+              )
             )
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx, top: 6 * rpx),
-            child:  Text(addressModel.province + addressModel.city + addressModel.town + addressModel.detail, style: TextStyle(fontSize: 26 * rpx, fontWeight: FontWeight.w400),),
-          )
-        ],
-      ),
+          ],
+        )
     );
   }
 
@@ -229,7 +266,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                             child: Text(groupPriceArr[0], style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30 * rpx)),
                           ),
                           Container(
-                            child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(), style: TextStyle(fontWeight: FontWeight.w700, fontSize: 23 * rpx)),
+                            child: Text(groupPriceArr.length == 2 && groupPriceArr[1] != '0' ? "." + groupPriceArr[1].toString() : '' , style: TextStyle(fontWeight: FontWeight.w700, fontSize: 23 * rpx)),
                           ),
                           Container(
                             child: Text('/件', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18 * rpx)),
@@ -358,11 +395,11 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                     child: Text('¥ ', style: TextStyle(fontSize: 23 * rpx, fontWeight: FontWeight.w500)),
                   ),
                   Container(
-                    child: Text(sumPriceArr[0], style: TextStyle(fontSize: 32 * rpx, fontWeight: FontWeight.w500)),
+                    child: Text(sumPriceArr[0], style: TextStyle(fontSize: 30 * rpx, fontWeight: FontWeight.w400)),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 3 * rpx),
-                    child: Text(sumPriceArr.length == 1 ? '' : "." + sumPriceArr[1].toString(), style: TextStyle(fontSize: 25 * rpx, fontWeight: FontWeight.w600)),
+                    child: Text(sumPriceArr.length == 2 && sumPriceArr[1] != '0' ? "." + sumPriceArr[1].toString() : '', style: TextStyle(fontSize: 25 * rpx, fontWeight: FontWeight.w500)),
                   )
                 ],
               ),
@@ -414,7 +451,7 @@ class _OrderInfoPageState extends State<OrderInfoPage> {
                       Container(
                         margin: EdgeInsets.only(bottom: 3 * rpx),
                         child: Text(
-                          sumPriceArr.length == 1 ? '' : "." + sumPriceArr[1].toString(),
+                          sumPriceArr.length == 2 && sumPriceArr[1] != '0' ? "." + sumPriceArr[1].toString() : '',
                           style: TextStyle(
                               fontSize: 26 * rpx, fontWeight: FontWeight.w600),
                         ),

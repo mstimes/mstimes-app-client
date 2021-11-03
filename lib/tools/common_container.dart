@@ -8,7 +8,7 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
   if (fund == null || fund.isEmpty) {
     return Container(
       width: 240 * rpx,
-      margin: EdgeInsets.only(top: 5 * rpx, left: 0 * rpx),
+      margin: EdgeInsets.only(top: 10 * rpx, left: 0 * rpx),
       child: Row(
         mainAxisAlignment: mainAxisAlignment,
         children: [
@@ -39,16 +39,19 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
   } else {
     return Container(
       width: 300 * rpx,
-      margin: EdgeInsets.only(top: 5 * rpx, left: 10 * rpx),
+      margin: EdgeInsets.only(top: 10 * rpx, left: 0 * rpx),
       child: Row(
         mainAxisAlignment: mainAxisAlignment,
         children: [
-          Text(
-            '¥ ',
-            style: TextStyle(
-                fontSize: smallSize * rpx,
-                fontWeight: FontWeight.w600,
-                color: fontColor),
+          Container(
+            margin: EdgeInsets.only(top: 10 * rpx),
+            child: Text(
+              '¥ ',
+              style: TextStyle(
+                  fontSize: smallSize * rpx,
+                  fontWeight: FontWeight.w600,
+                  color: fontColor),
+            ),
           ),
           Text(
             int.parse(price.substring(0, price.length - 3)) > 1000
@@ -63,7 +66,8 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
                 color: fontColor),
           ),
           Container(
-            alignment: Alignment.bottomCenter,
+            // alignment: Alignment.bottomCenter,
+            margin: EdgeInsets.only(top: 10 * rpx),
             child: Text(
               remainDecimal == true
                   ? price.substring(price.length - 3, price.length)

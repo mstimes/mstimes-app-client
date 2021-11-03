@@ -1278,9 +1278,7 @@ class _MyPageState extends State<MyPage> {
             right: 10 * rpx,
             top: userInfo.isAgent() ? 10 * rpx : 0 * rpx),
         decoration: new BoxDecoration(
-          //背景
           color: Colors.white,
-          //设置四周圆角 角度
           borderRadius: BorderRadius.all(Radius.circular(20.0 * rpx)),
         ),
         margin: EdgeInsets.only(top: 15 * rpx, left: 10 * rpx, right: 10 * rpx),
@@ -1365,7 +1363,7 @@ class _MyPageState extends State<MyPage> {
                                   accountOrderSummary,
                                   accountOrderSummary.isEmpty
                                       ? null
-                                      : accountOrderSummary[0].sumPrice + ".00",
+                                      : accountOrderSummary[0].sumPrice,
                                   25,
                                   45,
                                   myIncomeColor,

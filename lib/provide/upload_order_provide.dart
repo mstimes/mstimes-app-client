@@ -18,7 +18,7 @@ class UploadOrderProvide with ChangeNotifier {
         LocalOrderInfo.getLocalOrderInfo().setTotalFee(totalFee);
         doWechatRepay(data['dataList'][0], goodName, totalFee);
       } else {
-        showAlertDialog(context, data['msg'], 160, rpx);
+        showAlertDialog(context, data['msg'], 210, rpx);
       }
     });
   }

@@ -113,6 +113,7 @@ class _RegistryPageState extends State<RegistryPage> {
 
             },
             child: Container(
+              padding: EdgeInsets.only(left: 10 * rpx, right: 10 * rpx, top: 5 * rpx, bottom: 5 * rpx),
               child: Text('跳过', style: TextStyle(color: Colors.grey[500], fontSize: 26 * rpx),),
             ),
           )
@@ -383,13 +384,15 @@ class _RegistryPageState extends State<RegistryPage> {
               onPressed: () {
                 // phone number 设置默认值
                 UserInfo.getUserInfo().phone = '0';
-                if(UserInfo.getUserInfo().userType == null){
-                  UserInfo.getUserInfo().setUserType(1);
+                if(UserInfo.getUserInfo().userNumber == null){
+                  if(UserInfo.getUserInfo().userType == null){
+                    UserInfo.getUserInfo().setUserType(1);
+                  }
                   Navigator.pop(context);
                   Navigator.pop(context);
                   RouterHome.flutoRouter
                       .navigateTo(context, RouterConfig.invitePagePath);
-                }else{
+                }else {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   RouterHome.flutoRouter
