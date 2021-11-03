@@ -121,7 +121,7 @@ class PayResultPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(right: 40 * rpx),
                 child: Text(
-                  '¥' + LocalOrderInfo.getLocalOrderInfo().totalFee + '.00',
+                  '¥' + LocalOrderInfo.getLocalOrderInfo().totalFee,
                   style: TextStyle(
                       fontSize: 30 * rpx, fontWeight: FontWeight.w500),
                 ),
@@ -131,21 +131,6 @@ class PayResultPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Container(
-              //   margin: EdgeInsets.only(
-              //       left: 20 * rpx, right: 50 * rpx, top: 70 * rpx),
-              //   height: 60 * rpx,
-              //   width: 260 * rpx,
-              //   color: Colors.red[900],
-              //   child: OutlineButton(
-              //       onPressed: () {
-              //         RouterHome.flutoRouter
-              //             .navigateTo(context, RouterConfig.groupGoodsPath);
-              //       },
-              //       child: Text('查看订单',
-              //           style: TextStyle(
-              //               fontSize: 25 * rpx, color: Colors.white))),
-              // ),
               Container(
                 margin: EdgeInsets.only(top: 70 * rpx),
                 height: 60 * rpx,

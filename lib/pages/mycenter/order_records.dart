@@ -414,14 +414,14 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              buildOrderNumber(val),
-              makeImageArea(val),
-              buildOrderButtomInfo(val)
-            ],
-          ),
+              mainAxisAlignment: MainAxisAlignment.start,
+              // mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                buildOrderNumber(val),
+                makeImageArea(val),
+                buildOrderButtomInfo(val)
+              ],
+            ),
         );
       }).toList();
 
@@ -596,30 +596,19 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
   }
 
   Widget buildClassify(val) {
-    // List<dynamic> goodCategories = jsonDecode(val['goodCategories']);
-    // List<dynamic> goodSpecifics = jsonDecode(val['goodSpecifics']);
-    // print('goodCategories goodSpecifics ' +
-    //     goodCategories.toString() +
-    //     "," +
-    //     goodSpecifics.toString());
     return Container(
-      margin: EdgeInsets.only(left: 50 * rpx, bottom: 10 * rpx, top: 20 * rpx),
+      margin: EdgeInsets.only(left: 30 * rpx, bottom: 10 * rpx, top: 20 * rpx),
       child: Row(
         children: [
           Container(
-            // alignment: Alignment.topLeft,
             margin: EdgeInsets.only(right: 20 * rpx),
             child: Text(
-              // goodCategories[val['classify'] - 1].toString() +
-              //     " " +
-              //     goodSpecifics[val['specification']],
               val['classify'].toString() + " " +  val['specification'].toString(),
               style: TextStyle(
                   color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
             ),
           ),
           Container(
-            // alignment: Alignment.topLeft,
             margin: EdgeInsets.only(right: 30 * rpx),
             child: Text(
               '   x' + val['orderCount'].toString(),
@@ -637,6 +626,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       return Container(
         margin: EdgeInsets.only(bottom: 5 * rpx),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
               // alignment: Alignment.bottomRight,
@@ -668,7 +658,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             ),
             Container(
               // alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(right: 10 * rpx),
+              margin: EdgeInsets.only(right: 10 * rpx, top: 6 * rpx),
               child: Text(
                 val['income'].toString(),
                 style: TextStyle(
@@ -677,7 +667,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             ),
             Container(
               // alignment: Alignment.bottomRight,
-              margin: EdgeInsets.only(right: 10 * rpx),
+              margin: EdgeInsets.only(right: 10 * rpx, top: 6 * rpx),
               child: Text(
                 val['equalLevelIncome'] > 0
                     ? '[同级 ' + val['equalLevelIncome'].toString() + "]"
@@ -690,7 +680,31 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
         ),
       );
     } else {
-      return Container();
+      return Container(
+        margin: EdgeInsets.only(bottom: 5 * rpx),
+        child: Row(
+          children: [
+            Container(
+              // alignment: Alignment.bottomRight,
+              margin: EdgeInsets.only(left: 20 * rpx),
+              child: Text(
+                '实付金额 ',
+                style: TextStyle(
+                    color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
+              ),
+            ),
+            Container(
+              // alignment: Alignment.bottomRight,
+              margin: EdgeInsets.only(right: 20 * rpx),
+              child: Text(
+                (val['realPrice'] * val['orderCount']).toString() + '元',
+                style: TextStyle(
+                    color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
+              ),
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -732,27 +746,29 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
               child: Image.network(imageUrl),
             ),
           ),
-          Container(
-            width: 530 * rpx,
-            height: 180 * rpx,
-            alignment: Alignment.topLeft,
-            margin:
-                EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx, left: 10 * rpx),
-            child: Column(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    val['title'],
-                    style: TextStyle(
-                        color: Color.fromRGBO(77, 99, 104, 1),
-                        fontSize: 25 * rpx),
+          Expanded(
+            child: Container(
+              width: 530 * rpx,
+              height: 180 * rpx,
+              alignment: Alignment.topLeft,
+              margin:
+              EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx, left: 20 * rpx),
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      val['title'],
+                      style: TextStyle(
+                          color: Color.fromRGBO(77, 99, 104, 1),
+                          fontSize: 25 * rpx),
+                    ),
                   ),
-                ),
-                buildClassify(val),
-                Expanded(child: Container()),
-                buildIncomeAndPrice(val)
-              ],
+                  buildClassify(val),
+                  Expanded(child: Container()),
+                  buildIncomeAndPrice(val)
+                ],
+              ),
             ),
           )
         ],

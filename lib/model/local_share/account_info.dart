@@ -32,7 +32,7 @@ class UserInfo {
   }
 
   bool isLogin(){
-    return phone != null;
+    return userNumber != null;
   }
 
   static UserInfo getUserInfo() {

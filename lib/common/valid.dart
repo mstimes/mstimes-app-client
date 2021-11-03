@@ -36,7 +36,7 @@ bool isAlphabetOrNumber(value) {
 
 bool checkIsLogin(context) {
   UserInfo agent = UserInfo.getUserInfo();
-  if (agent.phone == null) {
+  if (agent.userNumber == null) {
     RouterHome.flutoRouter.navigateTo(context, RouterConfig.loginPagePath);
     return false;
   } else {

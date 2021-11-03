@@ -313,8 +313,8 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
 
   void _refreshDiffPrice(goodInfo, key){
     if(goodInfo.diffPriceInfoMap[key] != null){
-      var newGroupPrice = goodInfo.diffPriceInfoMap[key]['groupPrice'];
-      var newOriPrice = goodInfo.diffPriceInfoMap[key]['oriPrice'];
+      var newGroupPrice = goodInfo.diffPriceInfoMap[key]['groupPrice'].toString();
+      var newOriPrice = goodInfo.diffPriceInfoMap[key]['oriPrice'].toString();
       LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('groupPrice', newGroupPrice);
       LocalOrderInfo.getLocalOrderInfo().setOrderInfoKV('oriPrice', newOriPrice);
 
@@ -450,7 +450,7 @@ class _ProductSelectItemPageState extends State<ProductSelectItemPage> {
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 3 * rpx),
-                      child: Text(groupPriceArr.length == 1 ? '' : "." + groupPriceArr[1].toString(),
+                      child: Text(groupPriceArr.length == 2 && groupPriceArr[1] != '0' ? "." + groupPriceArr[1].toString() : '',
                           style: TextStyle(
                               fontSize: 26 * rpx,
                               fontWeight: FontWeight.w800)),
