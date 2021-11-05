@@ -667,7 +667,7 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 120 * rpx),
+            margin: EdgeInsets.only(left: 100 * rpx),
             child: _buildChangeButton('全部', null, -1, null, -1),
           ),
           Container(
@@ -791,12 +791,12 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
     requestDataByUrl('queryAgentRelations', formData: formData).then((val) {
       var data = json.decode(val.toString());
       List<Map> agentList = (data['dataList'] as List).cast();
-      if (debug) {
+      // if (debug) {
         print("queryAgentRelations agentList : " +
             agentList.toString() +
             ",agentList length" +
             agentList.length.toString());
-      }
+      // }
 
       if (agentList.isNotEmpty && agentList.length > 0) {
         setState(() {

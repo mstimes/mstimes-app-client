@@ -37,6 +37,7 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
       ),
     );
   } else {
+    var priceArr = price.toString().split(".");
     return Container(
       width: 300 * rpx,
       margin: EdgeInsets.only(top: 10 * rpx, left: 0 * rpx),
@@ -54,12 +55,13 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
             ),
           ),
           Text(
-            int.parse(price.substring(0, price.length - 3)) > 1000
+            // int.parse(priceArr[0]) > 1000
                 // ? moneyFormat
                 //     .format(int.parse(price.substring(0, price.length - 3)))
 
-              ? price.substring(0, price.length - 3)
-                : price.substring(0, price.length - 3),
+              // ? price.substring(0, price.length - 3)
+              //   : price.substring(0, price.length - 3),
+              priceArr[0],
             style: TextStyle(
                 fontSize: largeSize * rpx,
                 fontWeight: FontWeight.w600,
@@ -70,8 +72,7 @@ Widget buildCommonPrice(fund, price, smallSize, largeSize, fontColor, rpx,
             margin: EdgeInsets.only(top: 10 * rpx),
             child: Text(
               remainDecimal == true
-                  ? price.substring(price.length - 3, price.length)
-                  : '',
+                  ? (int.parse(priceArr[1]) == 0 ? '.00' : "." + priceArr[1].toString()) : '',
               style: TextStyle(
                   fontSize: smallSize * rpx,
                   fontWeight: FontWeight.w600,

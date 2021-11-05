@@ -141,25 +141,22 @@ class _MyFunsPageState extends State<MyFunsPage> {
           height: 310 * rpx,
           margin: EdgeInsets.only(
               left: 6 * rpx, top: 6 * rpx, right: 6 * rpx, bottom: 6 * rpx),
-          //设置 child 居中
-          alignment: Alignment(0, 0),
-          //边框设置
+          // alignment: Alignment(0, 0),
           decoration: new BoxDecoration(
-            //背景
             color: Colors.white,
-            //设置四周圆角 角度
             borderRadius: BorderRadius.all(Radius.circular(15.0 * rpx)),
-            //设置四周边框
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: Row(
+            // mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _buildPersonInfoRow(val),
-              _buildSaleInfoRow(val),
-              Expanded(child: Container()),
-              _createJoinDateRow(val)
-              // _buildIntrRelationInfoRow(val)
+              // _buildPersonInfoRow(val),
+              // _buildSaleInfoRow(val),
+              // Expanded(child: Container()),
+              // _createJoinDateRow(val)
+              _createImageColumn(val),
+              _createFunsInfos(val)
             ],
           ),
         );
@@ -229,8 +226,7 @@ class _MyFunsPageState extends State<MyFunsPage> {
                       funsSummaryData == null ||
                               funsSummaryData[0]['realPriceSum'] == null
                           ? '0.00'
-                          : funsSummaryData[0]['realPriceSum'].toString() +
-                              ".00",
+                          : funsSummaryData[0]['realPriceSum'].toString(),
                       25,
                       50,
                       Colors.white,
@@ -249,6 +245,7 @@ class _MyFunsPageState extends State<MyFunsPage> {
                     child: Container(
                       margin: EdgeInsets.only(left: 30 * rpx, bottom: 10 * rpx),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             child: Text('粉丝总数',
@@ -261,10 +258,10 @@ class _MyFunsPageState extends State<MyFunsPage> {
                               margin: EdgeInsets.only(left: 20 * rpx),
                               child: Text(
                                 funsSummaryData == null ||
-                                        funsSummaryData[0]['orderCounts'] ==
+                                        funsSummaryData[0]['funsCount'] ==
                                             null
                                     ? '0'
-                                    : funsSummaryData[0]['orderCounts']
+                                    : funsSummaryData[0]['funsCount']
                                         .toString(),
                                 style: TextStyle(
                                   fontSize: 23 * rpx,
@@ -282,6 +279,7 @@ class _MyFunsPageState extends State<MyFunsPage> {
                     margin: EdgeInsets.only(
                         left: 30 * rpx, bottom: 10 * rpx, right: 30 * rpx),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Container(
                           child: Text('今日新增',
@@ -310,32 +308,34 @@ class _MyFunsPageState extends State<MyFunsPage> {
         ));
   }
 
+  Widget _createFunsInfos(val){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildPersonInfoRow(val),
+        _buildSaleInfoRow(val),
+        _createJoinDateRow(val)
+      ],
+    );
+  }
+
   Widget _buildPersonInfoRow(val) {
     return Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 10 * rpx, left: 20 * rpx),
-      width: 730 * rpx,
+      margin: EdgeInsets.only(top: 20 * rpx, left: 30 * rpx, right: 20 * rpx),
       height: 100 * rpx,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _createImageColumn(val),
-          _createNameColumn(val),
-          Expanded(child: Container()),
-          _createUserNumberColumn(val),
-        ],
-      ),
+          children: [
+            _createNameColumn(val),
+            _createUserNumberColumn(val),
+          ],
+        )
     );
   }
 
   Widget _buildSaleInfoRow(val) {
     return Container(
-      alignment: Alignment.topCenter,
-      padding: EdgeInsets.only(top: 30 * rpx, left: 30 * rpx),
-      width: 730 * rpx,
-      height: 120 * rpx,
+      margin: EdgeInsets.only(top: 15 * rpx, left: 30 * rpx, right: 40 * rpx),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           _createMySaleColumn(val),
           _createMyIncomeColumn(val),
@@ -347,25 +347,24 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createJoinDateRow(val) {
     return Container(
-      width: 700 * rpx,
-      margin: EdgeInsets.only(left: 60 * rpx, bottom: 20 * rpx),
+      margin: EdgeInsets.only(left: 30 * rpx, bottom: 20 * rpx, top: 15 * rpx),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 35 * rpx),
             child: Text(
               '注册日期',
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.grey,
-                  fontSize: 23 * rpx),
+                  fontSize: 26 * rpx),
             ),
           ),
           Container(
             margin: EdgeInsets.only(left: 20 * rpx),
             child: Text(
               val['createTime'],
-              style: TextStyle(color: Colors.grey, fontSize: 23 * rpx),
+              style: TextStyle(color: Colors.grey, fontSize: 26 * rpx),
             ),
           )
         ],
@@ -407,23 +406,22 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createOrderCountsColumn(val) {
     return Container(
-      width: 220 * rpx,
       height: 100 * rpx,
+      margin: EdgeInsets.only(left: 120 * rpx),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10 * rpx),
             child: Text(
               '订单数',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   color: Color.fromRGBO(77, 99, 104, 1),
                   fontSize: 28 * rpx),
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 10 * rpx),
-            margin: EdgeInsets.only(left: 10 * rpx),
+            // padding: EdgeInsets.only(top: 10 * rpx),
+            margin: EdgeInsets.only(left: 10 * rpx, top: 15 * rpx),
             child: Text(
               val['orderCounts'].toString(),
               style: TextStyle(
@@ -437,23 +435,21 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createMySaleColumn(val) {
     return Container(
-      width: 220 * rpx,
       height: 100 * rpx,
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10 * rpx),
             child: Text(
               '消费金额',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   color: Color.fromRGBO(77, 99, 104, 1),
                   fontSize: 28 * rpx),
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 10 * rpx),
-            margin: EdgeInsets.only(left: 10 * rpx),
+            // padding: EdgeInsets.only(top: 10 * rpx),
+            margin: EdgeInsets.only(left: 10 * rpx, top: 15 * rpx),
             child: Text(
               val['realPriceSum'].toString(),
               style: TextStyle(
@@ -467,23 +463,22 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createMyIncomeColumn(val) {
     return Container(
-      width: 220 * rpx,
       height: 100 * rpx,
+      margin: EdgeInsets.only(left: 120 * rpx),
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10 * rpx),
             child: Text(
               '收益',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   color: Color.fromRGBO(77, 99, 104, 1),
                   fontSize: 28 * rpx),
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 10 * rpx),
-            margin: EdgeInsets.only(left: 10 * rpx),
+            // padding: EdgeInsets.only(top: 10 * rpx),
+            margin: EdgeInsets.only(left: 10 * rpx, top: 15 * rpx),
             child: Text(
               val['myIncomeSum'].toString(),
               style: TextStyle(
@@ -497,21 +492,20 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createUserNumberColumn(val) {
     return Container(
-      height: 130 * rpx,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 20 * rpx),
             child: Text(
               '用户编号',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   color: Color.fromRGBO(77, 99, 104, 1),
                   fontSize: 28 * rpx),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 10 * rpx, right: 20 * rpx),
+            margin: EdgeInsets.only(left: 15 * rpx, right: 20 * rpx),
             child: Text(
               val['userNumber'].toString(),
               style: TextStyle(
@@ -525,8 +519,9 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createImageColumn(val) {
     return Container(
-      width: 80 * rpx,
-      height: 80 * rpx,
+      width: 100 * rpx,
+      height: 100 * rpx,
+      margin: EdgeInsets.only(left: 30 * rpx, top: 80 * rpx, right: 30 * rpx),
       child: ClipOval(
         child: val['imageUrl'] == null
             ? Image.asset(
@@ -545,23 +540,24 @@ class _MyFunsPageState extends State<MyFunsPage> {
 
   Widget _createNameColumn(val) {
     return Container(
-      height: 130 * rpx,
+      margin: EdgeInsets.only(right: 10 * rpx),
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 40 * rpx),
             child: Text(
               '昵称',
               style: TextStyle(
                   color: Color.fromRGBO(77, 99, 104, 1),
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   fontSize: 28 * rpx),
             ),
           ),
           Container(
+            width: 140 * rpx,
             margin: EdgeInsets.only(left: 10 * rpx),
             child: Text(
               val['userName'],
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Color.fromRGBO(77, 99, 104, 1), fontSize: 28 * rpx),
             ),
