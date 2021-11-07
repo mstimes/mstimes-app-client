@@ -170,36 +170,27 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
       List<Widget> listWidget = _fundOrderList.map((val) {
         return Container(
           width: 720 * rpx,
-          height: 420 * rpx,
+          height: 440 * rpx,
           margin: EdgeInsets.only(
               left: 6 * rpx, top: 6 * rpx, right: 6 * rpx, bottom: 6 * rpx),
-          //设置 child 居中
-          // alignment: Alignment(0, 0),
-          //边框设置
           decoration: new BoxDecoration(
-            //背景
             color: Colors.white,
-            //设置四周圆角 角度
             borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
-            //设置四周边框
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
-          child: Column(
-            // mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildIncomeRemindRow(val),
-              _buildIncomeTypeRow(val),
-              _buildIncomePriceRow(val),
-              _buildGoodNameRow(val),
-              // _buildRealPriceRow(val),
-              _buildOrderNumberRow(val),
-              _buildOrderTimeRow(val)
-              // _buildPersonInfoRow(val),
-              // _buildSaleInfoRow(val),
-              // _createJoinDateRow(val)
-            ],
-          ),
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _buildIncomeRemindRow(val),
+                _buildIncomeTypeRow(val),
+                _buildIncomePriceRow(val),
+                _buildGoodNameRow(val),
+                _buildOrderNumberRow(val),
+                _buildOrderTimeRow(val)
+              ],
+            ),
+          )
         );
       }).toList();
 
@@ -292,13 +283,15 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
             style: TextStyle(color: Colors.black),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(left: 40 * rpx, top: 10 * rpx),
-          child: Text(
-            val['goodName'].toString(),
-            style: TextStyle(color: Colors.black),
-          ),
-        )
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.only(left: 40 * rpx, top: 10 * rpx, right: 10 * rpx),
+            child: Text(
+              val['goodName'].toString(),
+              style: TextStyle(color: Colors.black),
+            ),
+          )
+        ),
       ],
     );
   }

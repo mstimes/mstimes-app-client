@@ -545,7 +545,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(top: 6 * rpx),
+          margin: EdgeInsets.only(top: 10 * rpx),
           child: Row(
             children: [
               buildPerson(val),
@@ -567,18 +567,6 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             ],
           ),
         ),
-        // Container(
-        //   margin: EdgeInsets.only(left: 20 * rpx, top: 6 * rpx),
-        //   child: Container(
-        //     child: Text(
-        //       '收件地址：' + val['orderAddress'],
-        //       style: TextStyle(
-        //           color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
-        //       textAlign: TextAlign.left,
-        //       maxLines: 1,
-        //     ),
-        //   ),
-        // )
       ],
     );
   }
@@ -711,7 +699,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
   Widget buildOrderNumber(val) {
     return Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx, top: 10 * rpx),
+      margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx, top: 20 * rpx),
       child: Text(
         '订单编号 ' + val['orderNumber'],
         style: TextStyle(

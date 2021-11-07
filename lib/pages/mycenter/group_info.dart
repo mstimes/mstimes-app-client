@@ -205,6 +205,7 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
                     child: Container(
                       margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             child: Text('团队人数',
@@ -230,8 +231,9 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
                   Container(
                     height: 60 * rpx,
                     margin: EdgeInsets.only(
-                        left: 20 * rpx, bottom: 10 * rpx, right: 20 * rpx),
+                        left: 20 * rpx, bottom: 15 * rpx, right: 20 * rpx),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Container(
                           child: Text('直属人数',
@@ -782,8 +784,6 @@ class _GroupInfoPageState extends State<GroupInfoPage> {
       "relationType": relationType,
       "startDate": formatDate(startDate, ymdFormat),
       "endDate": formatDate(endDate, ymdFormat),
-      // "startDate": DateFormat("yyyy-MM-dd").format(startDate),
-      // "endDate": DateFormat("yyyy-MM-dd").format(endDate),
       "pageNum": pageNum,
       "pageSize": pageSize
     });
