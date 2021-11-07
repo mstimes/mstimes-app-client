@@ -703,12 +703,12 @@ class _MyFunsPageState extends State<MyFunsPage> {
     requestDataByUrl('queryMyFuns', formData: formData).then((val) {
       var data = json.decode(val.toString());
       List<Map> funsInfoList = (data['dataList'] as List).cast();
-      if (debug) {
+      // if (debug) {
         print("_getFunsInfoList : " +
             funsInfoList.toString() +
             ",funsInfoList length" +
             funsInfoList.length.toString());
-      }
+      // }
 
       if (funsInfoList.isNotEmpty && funsInfoList.length > 0) {
         setState(() {
