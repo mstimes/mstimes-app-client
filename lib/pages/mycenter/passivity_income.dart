@@ -403,49 +403,39 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
             ),
             Expanded(child: Container()),
             Container(
+              margin: EdgeInsets.only(left: 40 * rpx, right: 35 * rpx, bottom: 20 * rpx),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     height: 60 * rpx,
-                    child: Container(
-                      margin: EdgeInsets.only(left: 30 * rpx, bottom: 10 * rpx),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: Text('总笔数',
-                                style: TextStyle(
-                                  fontSize: 23 * rpx,
-                                  color: Colors.white,
-                                )),
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(left: 20 * rpx),
-                              child: Text(
-                                passivityIncomeCounts.toString(),
-                                style: TextStyle(
-                                  fontSize: 23 * rpx,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          child: Text('总笔数',
+                              style: TextStyle(
+                                fontSize: 23 * rpx,
+                                color: Colors.white,
                               )),
-                          Container(
-                            margin: EdgeInsets.only(left: 10 * rpx),
-                            child: Text('笔',
-                                style: TextStyle(
-                                  fontSize: 20 * rpx,
-                                  color: Colors.white,
-                                )),
-                          ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10 * rpx),
+                          child: Text(
+                              passivityIncomeCounts.toString(),
+                              style: TextStyle(
+                                fontSize: 23 * rpx,
+                                color: Colors.white,
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                   Expanded(child: Container()),
                   Container(
                     height: 60 * rpx,
-                    margin: EdgeInsets.only(
-                        left: 30 * rpx, bottom: 10 * rpx, right: 30 * rpx),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Container(
                           child: Text('本月收益',
@@ -471,9 +461,8 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
                   Expanded(child: Container()),
                   Container(
                     height: 60 * rpx,
-                    margin: EdgeInsets.only(
-                        left: 30 * rpx, bottom: 10 * rpx, right: 30 * rpx),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Container(
                           child: Text('今日收益',

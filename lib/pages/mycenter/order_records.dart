@@ -274,59 +274,44 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             ),
             Expanded(child: Container()),
             Container(
+              margin: EdgeInsets.only(left: 40 * rpx, right: 35 * rpx, bottom: 20 * rpx),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Container(
                     height: 60 * rpx,
-                    margin: EdgeInsets.only(
-                        left: 30 * rpx,
-                        bottom: 10 * rpx,
-                        right: 30 * rpx,
-                        top: 5 * rpx),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text('订单数',
-                              style: TextStyle(
-                                fontSize: 23 * rpx,
-                                color: Colors.white,
-                              )),
-                        ),
-                        Container(
+                    child: Container(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            child: Text('订单数',
+                                style: TextStyle(
+                                  fontSize: 23 * rpx,
+                                  color: Colors.white,
+                                )),
+                          ),
+                          Container(
                             margin: EdgeInsets.only(left: 10 * rpx),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  (myOrderCounts + funsOrderCounts).toString(),
-                                  style: TextStyle(
-                                    fontSize: 23 * rpx,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            )),
-                        Container(
-                          margin: EdgeInsets.only(left: 10 * rpx),
-                          child: Text('笔',
-                              style: TextStyle(
-                                fontSize: 20 * rpx,
-                                color: Colors.white,
-                              )),
-                        ),
-                      ],
+                            child: Text(
+                                (myOrderCounts + funsOrderCounts).toString(),
+                                style: TextStyle(
+                                  fontSize: 23 * rpx,
+                                  color: Colors.white,
+                                )),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(child: Container()),
                   Container(
                     height: 60 * rpx,
                     child: Container(
-                      margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(top: 5 * rpx),
                             width: 100 * rpx,
                             child: Text('本月收益',
                                 style: TextStyle(
@@ -335,8 +320,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
                                 )),
                           ),
                           Container(
-                            margin:
-                                EdgeInsets.only(top: 5 * rpx, left: 10 * rpx),
+                            margin: EdgeInsets.only(left: 10 * rpx),
                             child: Text(
                                 fundMonthSummary.isEmpty
                                     ? '0.00'
@@ -354,12 +338,10 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
                   Container(
                     height: 60 * rpx,
                     child: Container(
-                      margin: EdgeInsets.only(left: 20 * rpx, bottom: 10 * rpx),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(top: 5 * rpx),
-                            width: 100 * rpx,
                             child: Text('今日收益',
                                 style: TextStyle(
                                   fontSize: 23 * rpx,
@@ -367,10 +349,7 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
                                 )),
                           ),
                           Container(
-                              margin: EdgeInsets.only(
-                                  left: 10 * rpx,
-                                  right: 20 * rpx,
-                                  top: 5 * rpx),
+                              margin: EdgeInsets.only(left: 10 * rpx),
                               child: Text(
                                   fundTodaySummary.isEmpty
                                       ? '0.00'
