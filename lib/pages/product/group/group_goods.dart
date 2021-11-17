@@ -40,6 +40,7 @@ class _GroupGoodsState extends State<GroupGoods> {
   int pageCount = 1;
   List<Map> _todayGoodList = [];
   List<Map> _yesterdayGoodList = [];
+  List<Map> _mondayGoodList = [];
   double rpx;
   List<Widget> todayTotalWrapList = new List();
   List<Widget> tommorrowWrapList = new List();
@@ -70,6 +71,7 @@ class _GroupGoodsState extends State<GroupGoods> {
 
     getTodayGroupGoods();
     getYesterdayGroupGoods();
+    getMondayGroupGoods();
 
     LocalOrderInfo.getLocalOrderInfo().clear();
   }
@@ -502,7 +504,7 @@ class _GroupGoodsState extends State<GroupGoods> {
 
       todayTotalWrapList.add(
         _buildProductListHeaderContainer('PICK SUPER LIST', '甄选超榜',
-            '#今日上新# 每日20:00准时更新甄选榜单', _needSaveLongImageForBlack()),
+            '#今日上新# 每日20:00准时更新甄选榜单', _needSaveLongImageForBlack(), 80),
       );
 
       List<Widget> listWidget = _todayGoodList.map((val) {
@@ -521,7 +523,7 @@ class _GroupGoodsState extends State<GroupGoods> {
                     "?id=${val['goodId']}&showPay=true",
               );
             },
-            child: _buildSingleProductContainer(val, true));
+            child: _buildSingleProductContainer(val, 1));
       }).toList();
       todayTotalWrapList.addAll(listWidget);
 
@@ -530,7 +532,7 @@ class _GroupGoodsState extends State<GroupGoods> {
             'TIMEKEEPING LIST',
             '计时榜单',
             '#即将下架# 明日20:00即将下架产品',
-            _needSaveLongImageForBlack()));
+            _needSaveLongImageForBlack(), 80));
 
         List<Widget> yesterdayListWidget = _yesterdayGoodList.map((val) {
           return InkWell(
@@ -541,10 +543,32 @@ class _GroupGoodsState extends State<GroupGoods> {
                       "?id=${val['goodId']}&showPay=true",
                 );
               },
-              child: _buildSingleProductContainer(val, false));
+              child: _buildSingleProductContainer(val, 2));
         }).toList();
 
         todayTotalWrapList.addAll(yesterdayListWidget);
+      }
+
+      if (_mondayGoodList.length != 0) {
+        todayTotalWrapList.add(_buildProductListHeaderContainer(
+            '',
+            '好生活 没那么贵',
+            '#每周更新# 每周一10:00准时上架产品',
+            _needSaveLongImageForBlack(), 0));
+
+        List<Widget> mondayListWidget = _mondayGoodList.map((val) {
+          return InkWell(
+              onTap: () {
+                RouterHome.flutoRouter.navigateTo(
+                  context,
+                  RouterConfig.detailsPath +
+                      "?id=${val['goodId']}&showPay=true",
+                );
+              },
+              child: _buildSingleProductContainer(val, 3));
+        }).toList();
+
+        todayTotalWrapList.addAll(mondayListWidget);
       }
 
       todayTotalWrapList.add(buildCommonBottom(
@@ -592,7 +616,7 @@ class _GroupGoodsState extends State<GroupGoods> {
     );
   }
 
-  Widget _buildSingleProductContainer(val, today) {
+  Widget _buildSingleProductContainer(val, type) {
     return Container(
       width: 700 * rpx,
       height: 360 * rpx,
@@ -608,14 +632,26 @@ class _GroupGoodsState extends State<GroupGoods> {
         onLongPressStart: (details) {
           print('group_goods ... ' + val['goodId'].toString());
           context.read<SelectedGoodInfoProvide>().getGoodInfosById(val['goodId']);
-          if (!today) {
+          if (type == 1) {
             downloadStartDate =
-                formatDate(DateTime.now().add(Duration(days: -1)), mdFormat);
-            downloadEndDate = formatDate(DateTime.now(), mdFormat);
+                formatDate(DateTime.now().add(Duration(days: 0)), mdFormat) + ' 20:00';
+            downloadEndDate = formatDate(DateTime.now().add(Duration(days: 2)), mdFormat) + ' 20:00';
+          }else if(type == 2){
+            downloadStartDate =
+                formatDate(DateTime.now().add(Duration(days: -1)), mdFormat) + ' 20:00';
+            downloadEndDate = formatDate(DateTime.now().add(Duration(days: 1)), mdFormat) + ' 20:00';
+          }else if(type == 3){
+            var nowDayOfWeek = DateTime.now().weekday;
+            downloadStartDate =
+                formatDate(DateTime.now().add(Duration(days: 1 - nowDayOfWeek)), mdFormat) + ' 10:00';
+            print('downloadStartDate ' + downloadStartDate.toString());
+
+            downloadEndDate =
+                formatDate(DateTime.now().add(Duration(days: 8 - nowDayOfWeek)), mdFormat) + ' 10:00';
+            print('downloadEndDate ' + downloadEndDate.toString());
+
           }
 
-          downloadStartDate += ' 20:00';
-          downloadEndDate += ' 20:00';
         },
         child: Row(
           children: <Widget>[
@@ -844,11 +880,11 @@ class _GroupGoodsState extends State<GroupGoods> {
     );
   }
 
-  Widget _buildProductListHeaderContainer(top, title, bottom, needForBlack) {
+  Widget _buildProductListHeaderContainer(top, title, bottom, needForBlack, topSize) {
     return Container(
         height: 180 * rpx,
         width: 450 * rpx,
-        margin: EdgeInsets.only(top: 80 * rpx, bottom: 30 * rpx),
+        margin: EdgeInsets.only(top: topSize * rpx, bottom: 30 * rpx),
         child: _buildProductListHeader(top, title, bottom, needForBlack));
   }
 
@@ -1477,13 +1513,7 @@ class _GroupGoodsState extends State<GroupGoods> {
                     hotImages.add(val['hotSaleImage'].toString()),
                     hotGoodIds.add(val['goodId'].toString())
                   },
-
-              print('sale out  ' + val['saleOut'].toString())
-      })
-          .toList();
-
-      print('hotImages ' + hotImages.toString());
-      print('hotGoodIds ' + hotGoodIds.toString());
+      }).toList();
 
       setState(() {
         _todayGoodList.addAll(newGoodList);
@@ -1515,6 +1545,33 @@ class _GroupGoodsState extends State<GroupGoods> {
 
       setState(() {
         _yesterdayGoodList.addAll(newGoodList);
+      });
+    });
+  }
+
+  void getMondayGroupGoods() {
+    FormData formData = new FormData.fromMap(
+        {
+          "type" : 4
+        });
+
+    requestDataByUrl('queryGoodsListByType', formData: formData).then((val) {
+      var data = json.decode(val.toString());
+      List<Map> mondayGoodList = (data['dataList'] as List).cast();
+      print('mondayGoodList data ' + mondayGoodList.toString());
+
+      mondayGoodList
+          .map((val) => {
+        if (val['hotSale'].toString() == '1')
+          {
+            hotImages.add(val['hotSaleImage'].toString()),
+            hotGoodIds.add(val['goodId'].toString())
+          },
+
+      }).toList();
+
+      setState(() {
+        _mondayGoodList.addAll(mondayGoodList);
       });
     });
   }
