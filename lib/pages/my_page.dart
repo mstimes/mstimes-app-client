@@ -48,6 +48,7 @@ class _MyPageState extends State<MyPage> {
   int groupSumOrderCounts = 0;
   int groupMonthOrderCounts = 0;
   int groupTodayOrderCounts = 0;
+  bool currentPageLogin = false;
 
   MBeans mbeansSummary = new MBeans();
 
@@ -73,7 +74,6 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     rpx = MediaQuery.of(context).size.width / 750;
-    // final drawingRecordProvide = Provide.value<DrawingRecordProvide>(context);
     context.read<DrawingRecordProvide>().getLastByAgentId();
 
     return Scaffold(
@@ -452,10 +452,19 @@ class _MyPageState extends State<MyPage> {
   Widget _topHeader() {
     final loginProvide = context.watch<LoginProvide>();
     if(loginProvide.isLogin){
-      setState(() {
-        userInfo = UserInfo.getUserInfo();
-      });
+      if(!currentPageLogin){
+        setState(() {
+          userInfo = UserInfo.getUserInfo();
+          currentPageLogin = true;
+          _getFundSummary(userInfo.userId);
+        });
+      }
+
+      // Navigator.pop(context);
+      // RouterHome.flutoRouter
+      //     .navigateTo(context, RouterConfig.myPagePath);
     }
+
 
     if(!userInfo.isLogin()){
       return Container(

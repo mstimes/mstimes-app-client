@@ -178,8 +178,7 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
             borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
-          child: Expanded(
-            child: Column(
+          child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 _buildIncomeRemindRow(val),
@@ -189,7 +188,6 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
                 _buildOrderNumberRow(val),
                 _buildOrderTimeRow(val)
               ],
-            ),
           )
         );
       }).toList();
@@ -214,9 +212,7 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
   Widget _buildIncomeRemindRow(val) {
     var title = "恭喜你获得由 " + val['userName'].toString() + " 产生的一笔订单，获得一笔被动收益奖励！";
     return Expanded(
-        child: Column(
-      children: [
-        Container(
+        child: Container(
           margin:
               EdgeInsets.only(left: 20 * rpx, top: 30 * rpx, right: 40 * rpx),
           child: Text(
@@ -227,8 +223,7 @@ class _PassivityIncomeState extends State<PassivityIncomePage> {
                 fontWeight: FontWeight.w600),
           ),
         ),
-      ],
-    ));
+    );
   }
 
   Widget _buildIncomeTypeRow(val) {

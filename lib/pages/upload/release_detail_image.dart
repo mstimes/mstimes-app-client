@@ -143,15 +143,15 @@ class _ProductReleaseDetailState extends State<ProductReleaseDetail> {
   }
 
   Future _getImageByGallery(keyType, imageName, number) async {
-    // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    // uploadImage(keyType, imageName, number, pickedFile.path, context);
-    // setState(() {
-    //   if (pickedFile != null) {
-    //     imageMap[imageName] = File(pickedFile.path);
-    //   } else {
-    //     print('No image selected.');
-    //   }
-    // });
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    uploadImage(keyType, imageName, number, pickedFile.path, context);
+    setState(() {
+      if (pickedFile != null) {
+        imageMap[imageName] = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   Widget _buildReceiverButton() {

@@ -312,16 +312,16 @@ class _UploadMainImagesState extends State<UploadMainImages> {
   }
 
   Future _getImageByGallery(keyType, number, imageName) async {
-    // var pickedFile = await picker.getImage(source: ImageSource.gallery);
-    // uploadImage(keyType, imageName, number, pickedFile.path, context);
-    //
-    // setState(() {
-    //   if (pickedFile != null) {
-    //     imageMap[imageName] = File(pickedFile.path);
-    //   } else {
-    //     print('No image selected.');
-    //   }
-    // });
+    var pickedFile = await picker.getImage(source: ImageSource.gallery);
+    uploadImage(keyType, imageName, number, pickedFile.path, context);
+
+    setState(() {
+      if (pickedFile != null) {
+        imageMap[imageName] = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   Widget _buildNextToProductDetail(context) {

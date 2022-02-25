@@ -67,7 +67,7 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
                 _buildProductSpecifics(),
                 _showGroupStartDateTitle(),
                 _buildGroupStartDate(),
-                _buildNextBottom(context),
+                _buildNextBottom(),
               ],
             )),
       ],
@@ -964,11 +964,7 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
     );
   }
 
-  Widget _buildNextBottom(context) {
-    // final uploadGoodInfosProvide =
-    //     Provide.value<UploadGoodInfosProvide>(context);
-
-    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
+  Widget _buildNextBottom() {
     return Container(
         padding: EdgeInsets.only(left: 0, right: 0, top: 6, bottom: 10),
         width: 750 * rpx,
@@ -993,8 +989,8 @@ class _ReleaseGoodInfosState extends State<ReleaseGoodInfos> {
                           _specifyForm.validate()) {
                         //
                         // 先清空keytype再保存
-                        uploadGoodInfosProvide.clearByKeytype(categoryType);
-                        uploadGoodInfosProvide.clearByKeytype(specificType);
+                        context.read<UploadGoodInfosProvide>().clearByKeytype(categoryType);
+                        context.read<UploadGoodInfosProvide>().clearByKeytype(specificType);
 
                         _goodTitleForm.save();
                         _priceForm.save();

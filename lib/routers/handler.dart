@@ -27,7 +27,7 @@ import 'package:mstimes/pages/my_page.dart';
 import 'package:mstimes/pages/order/receiver_infos.dart';
 import 'package:mstimes/pages/order/receiver_widgets/add_receiver.dart';
 import 'package:mstimes/pages/product/detail_goods.dart';
-import 'package:mstimes/pages/product/group/group_goods.dart';
+import 'package:mstimes/pages/product/group/main_page.dart';
 import 'package:mstimes/pages/product/group/new_goods.dart';
 import 'package:mstimes/result_pages/drawing_result.dart';
 import 'package:mstimes/result_pages/pay_result.dart';

@@ -56,6 +56,8 @@ const servicePath = {
   // 微信服务
   'wechatAccessToken': WECHAT_OPEN_URL + '/sns/oauth2/access_token',
   'wechatUserInfo': WECHAT_OPEN_URL + '/sns/userinfo',
+  "queryAppletCodeToken": GHOME_SERVER_URL + '/wechat/queryAppletCodeToken',
+  "queryAppletCode": 'https://api.weixin.qq.com/wxa/getwxacodeunlimit',
 
   // 登录
   'login': GHOME_SERVER_URL + '/user/login',
@@ -86,6 +88,7 @@ const servicePath = {
   // 蜜豆
   'queryMBeans': GHOME_SERVER_URL + '/mbeans/queryMBeans',
   'queryMyMBeanRecords': GHOME_SERVER_URL + '/mbeans/queryMyMBeanRecords',
+
 };
 
 Future requestDataByUrl(urlPath, {formData, paramsMap}) async {

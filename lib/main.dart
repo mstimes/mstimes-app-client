@@ -8,7 +8,7 @@ import 'package:mstimes/provide/drawing_record_provide.dart';
 import 'package:mstimes/provide/login_provide.dart';
 import 'package:mstimes/provide/select_discount.dart';
 import 'package:mstimes/provide/select_good_provider.dart';
-import 'package:mstimes/pages/product/group/group_goods.dart';
+import 'package:mstimes/pages/product/group/main_page.dart';
 import 'package:mstimes/provide/order_info_add.dart';
 import 'package:mstimes/provide/reveiver_address_provide.dart';
 import 'package:mstimes/provide/upload_order_provide.dart';

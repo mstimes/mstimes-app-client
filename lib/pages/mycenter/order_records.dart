@@ -82,13 +82,14 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             loadFailedText: "网络遇到问题，无法加载更多...",
             noMoreText: "到底喽～",
           ),
-          onRefresh: () async {},
+          // onRefresh: () async {},
           onLoad: () async {
-            if (totalOrderCounts > pageSize + pageNum * pageSize) {
-              ++pageNum;
-              _getOrderInfos();
+              if (totalOrderCounts > pageSize + pageNum * pageSize) {
+                ++pageNum;
+                _getOrderInfos();
+              }
             }
-          }),
+          ),
     );
   }
 
@@ -393,14 +394,14 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
             border: new Border.all(width: 1 * rpx, color: Colors.grey),
           ),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                buildOrderNumber(val),
-                makeImageArea(val),
-                buildOrderButtomInfo(val)
-              ],
-            ),
+            mainAxisAlignment: MainAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              buildOrderNumber(val),
+              makeImageArea(val),
+              buildOrderButtomInfo(val)
+            ],
+          ),
         );
       }).toList();
 
@@ -564,27 +565,31 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
 
   Widget buildClassify(val) {
     return Container(
-      margin: EdgeInsets.only(left: 30 * rpx, bottom: 10 * rpx, top: 20 * rpx),
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: 20 * rpx),
-            child: Text(
-              val['classify'].toString() + " " +  val['specification'].toString(),
-              style: TextStyle(
-                  color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
+        margin: EdgeInsets.only(left: 30 * rpx, bottom: 10 * rpx, top: 20 * rpx),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(right: 20 * rpx),
+                child: Text(
+                  val['classify'].toString() + " " +  val['specification'].toString() + '   x' + val['orderCount'].toString(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
+                ),
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 30 * rpx),
-            child: Text(
-              '   x' + val['orderCount'].toString(),
-              style: TextStyle(
-                  color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
-            ),
-          ),
-        ],
-      ),
+            // Container(
+            //   margin: EdgeInsets.only(right: 30 * rpx),
+            //   child: Text(
+            //     '   x' + val['orderCount'].toString(),
+            //     style: TextStyle(
+            //         color: Color.fromRGBO(77, 99, 104, 1), fontSize: 25 * rpx),
+            //   ),
+            // ),
+          ],
+        ),
     );
   }
 
@@ -692,54 +697,54 @@ class _OrderRecordsPageState extends State<OrderRecordsPage> {
     String imageUrl = QINIU_OBJECT_STORAGE_URL + val['mainImage'];
 
     return Container(
-      width: 720 * rpx,
-      height: 200 * rpx,
-      margin: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
-      decoration: new BoxDecoration(
-        //背景
-        color: Colors.grey[100],
-        //设置四周圆角 角度
-        borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
-        //设置四周边框
-        border: new Border.all(width: 1 * rpx, color: Colors.white),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 170 * rpx,
-            height: 180 * rpx,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20 * rpx),
-              child: Image.network(imageUrl),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: 530 * rpx,
-              height: 180 * rpx,
-              alignment: Alignment.topLeft,
-              margin:
-              EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx, left: 20 * rpx),
-              child: Column(
-                children: [
-                  Container(
+        width: 720 * rpx,
+        height: 200 * rpx,
+        margin: EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx),
+        decoration: new BoxDecoration(
+          //背景
+          color: Colors.grey[100],
+          //设置四周圆角 角度
+          borderRadius: BorderRadius.all(Radius.circular(5.0 * rpx)),
+          //设置四周边框
+          border: new Border.all(width: 1 * rpx, color: Colors.white),
+        ),
+        child: Row(
+              children: [
+                Container(
+                  width: 170 * rpx,
+                  height: 180 * rpx,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20 * rpx),
+                    child: Image.network(imageUrl),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: 530 * rpx,
+                    height: 180 * rpx,
                     alignment: Alignment.topLeft,
-                    child: Text(
-                      val['title'],
-                      style: TextStyle(
-                          color: Color.fromRGBO(77, 99, 104, 1),
-                          fontSize: 25 * rpx),
+                    margin:
+                    EdgeInsets.only(top: 5 * rpx, bottom: 5 * rpx, left: 20 * rpx),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            val['title'],
+                            style: TextStyle(
+                                color: Color.fromRGBO(77, 99, 104, 1),
+                                fontSize: 25 * rpx),
+                          ),
+                        ),
+                        buildClassify(val),
+                        Expanded(child: Container()),
+                        buildIncomeAndPrice(val)
+                      ],
                     ),
                   ),
-                  buildClassify(val),
-                  Expanded(child: Container()),
-                  buildIncomeAndPrice(val)
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+                ),
+              ],
+        ),
     );
   }
 

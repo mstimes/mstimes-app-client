@@ -88,6 +88,7 @@ class DataList {
   Map diffPriceInfoMap;
   String groupPriceDotBefore;
   String groupPriceDotAfter;
+  String titleDesc;
 
   DataList(
       {this.goodId,
@@ -123,6 +124,7 @@ class DataList {
       this.thirdProfit,
       this.saleOut,
       this.diffType,
+      this.titleDesc,
       this.diffPriceInfo,
         this.groupPriceDotBefore,
         this.groupPriceDotAfter
@@ -165,6 +167,7 @@ class DataList {
     diffPriceInfo = json['diffPriceInfo'];
     groupPriceDotBefore = json['groupPriceDotBefore'];
     groupPriceDotAfter = json['groupPriceDotAfter'];
+    titleDesc = json['titleDesc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -205,6 +208,7 @@ class DataList {
     data['diffPriceInfo'] = this.diffPriceInfo;
     data['groupPriceDotBefore'] = this.groupPriceDotBefore;
     data['groupPriceDotAfter'] = this.groupPriceDotAfter;
+    data['titleDesc'] = this.titleDesc;
     return data;
   }
 }

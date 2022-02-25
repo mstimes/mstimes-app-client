@@ -20,7 +20,9 @@ class GroupGoodsImageSwiper extends StatelessWidget {
       height: 750 * rpx,
       width: 750 * rpx,
       child: Swiper(
+        autoplayDelay: 5000,
         autoplay: true,
+        loop: false,
         itemCount: totateImages.length,
         itemBuilder: (context, index) {
           String swiperImageUrl =

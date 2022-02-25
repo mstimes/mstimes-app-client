@@ -51,7 +51,7 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
         Positioned(
           bottom: 0,
           left: 0,
-          child: _buildUploadImageBottom(context),
+          child: _buildUploadImageBottom(),
         )
       ],
     );
@@ -578,8 +578,8 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
     );
   }
 
-  Widget _buildUploadImageBottom(context) {
-    final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
+  Widget _buildUploadImageBottom() {
+    // final uploadGoodInfosProvide = context.read<UploadGoodInfosProvide>();
     return Container(
         padding: EdgeInsets.only(left: 0, right: 0, top: 6, bottom: 26),
         width: 750 * rpx,
@@ -590,8 +590,8 @@ class _ReleaseGoodDetailsState extends State<ReleaseGoodDetails> {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      uploadGoodInfosProvide.postUploadGoodInfos();
-                      uploadGoodInfosProvide.clear();
+                      context.read<UploadGoodInfosProvide>().postUploadGoodInfos();
+                      context.read<UploadGoodInfosProvide>().clear();
                       LocalReleaseImages.getImagesMap().localImagesMap.clear();
                       RouterHome.flutoRouter
                           .navigateTo(context, RouterConfig.myPagePath);

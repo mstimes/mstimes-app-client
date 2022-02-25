@@ -144,7 +144,7 @@ Widget buildCommonBottom(colorStyle, rpx) {
       alignment: Alignment.center,
       margin: EdgeInsets.only(top: 5 * rpx),
       child: Text(
-        '她时代  ·  正如闺蜜般懂你',
+        'MS时代  ·  正如闺蜜般懂你',
         style: TextStyle(
             color: colorStyle, fontSize: 28 * rpx, fontWeight: FontWeight.w600),
       ),
